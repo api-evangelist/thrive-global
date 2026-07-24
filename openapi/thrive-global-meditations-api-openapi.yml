@@ -1,0 +1,397 @@
+openapi: 3.0.0
+info:
+  title: Thrive Global Partner audio experiences meditations API
+  description: 'API for accessing Thrive Global content and features. All content endpoints require a Bearer token obtained via the authentication endpoint.
+
+
+    Response envelopes follow the pattern `{ message, valid, data }` where `data` contains the response payload. Collection endpoints nest items at a resource-specific path (e.g. `data.data.reset.thrive.get.items`).'
+  version: 1.7.0
+  contact:
+    name: Thrive Global
+    url: https://thriveglobal.com/contact/sales
+servers:
+- url: https://partners-api.thriveglobal.com
+  description: Production server
+- url: https://partners-api-stag.thriveglobal.com
+  description: Staging server
+tags:
+- name: meditations
+  description: Guided meditations — video sessions for relaxation, sleep, and stress management
+paths:
+  /v1/meditations:
+    get:
+      operationId: listMeditations
+      tags:
+      - meditations
+      summary: List meditations
+      description: Returns a paginated list of meditations — guided video sessions for relaxation, sleep, and stress management. Each meditation includes its playable video, duration, imagery, captions where available, and tags.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Zero-based item offset
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        description: Page size. Values above 100 are clamped to 100, not rejected; `meta.pagination` reports the applied value.
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+          default: en-US
+        description: Locale, forwarded as the thrive-locale header
+      responses:
+        '200':
+          description: A page of meditations
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - data
+                - meta
+                - links
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MeditationItem'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+                  links:
+                    $ref: '#/components/schemas/PaginationLinks'
+        '401':
+          description: Unauthorized — missing, invalid, or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '422':
+          description: Invalid query parameters (e.g. negative offset, zero limit)
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                  status:
+                    type: integer
+                    example: 422
+                  errors:
+                    type: array
+                    items:
+                      type: object
+        '502':
+          description: Service temporarily unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Service temporarily unavailable
+  /v1/meditations/{id}:
+    get:
+      operationId: getMeditationById
+      tags:
+      - meditations
+      summary: Get a meditation by id
+      description: Returns a single meditation by its id, including its playable video, duration, imagery, captions where available, and tags. Returns `404` when no meditation exists for the id and `422` when the id is not a UUID.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Meditation id
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+          default: en-US
+        description: Locale, forwarded as the thrive-locale header
+      responses:
+        '200':
+          description: The meditation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/MeditationItem'
+        '401':
+          description: Unauthorized — missing, invalid, or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '404':
+          description: No meditation exists for the id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not found
+        '422':
+          description: Invalid id (must be a UUID) or query parameters
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                  status:
+                    type: integer
+                    example: 422
+                  errors:
+                    type: array
+                    items:
+                      type: object
+        '502':
+          description: Service temporarily unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Service temporarily unavailable
+components:
+  schemas:
+    PaginationMeta:
+      type: object
+      description: Applied pagination values — after defaulting and clamping, not what was requested.
+      required:
+      - pagination
+      properties:
+        pagination:
+          type: object
+          required:
+          - offset
+          - limit
+          - total
+          properties:
+            offset:
+              type: integer
+              example: 0
+            limit:
+              type: integer
+              example: 10
+            total:
+              type: integer
+              nullable: true
+              description: Best-effort display data; null when a total is not available. `links.next != null` is the authoritative "more results exist" signal.
+    AssetEntry:
+      type: object
+      description: 'A supporting file: images, thumbnails, captions, transcripts.'
+      required:
+      - role
+      - contentType
+      - url
+      - alt
+      properties:
+        role:
+          type: string
+          enum:
+          - captions
+          - transcript
+          - image-landscape
+          - image-portrait
+          - thumbnail-landscape
+          - thumbnail-portrait
+          - image-featured
+        contentType:
+          type: string
+          nullable: true
+          example: image/jpeg
+        url:
+          type: string
+          format: uri
+        alt:
+          type: string
+          nullable: true
+        sizes:
+          type: object
+          additionalProperties:
+            type: string
+          description: Explicit size-variant URLs where they exist. Never derive variants by transforming URLs.
+    TaxonomyTerm:
+      type: object
+      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
+      required:
+      - id
+      - slug
+      - name
+      properties:
+        id:
+          type: string
+          nullable: true
+          description: Stable identifier for the term; null where none exists
+        slug:
+          type: string
+          example: sleep
+        name:
+          type: string
+          nullable: true
+          example: Sleep
+    PaginationLinks:
+      type: object
+      description: Opaque pagination URLs — follow `next` until it is null; do not parse them. All three attributes are always present (null when there is no such page).
+      required:
+      - self
+      - next
+      - prev
+      properties:
+        self:
+          type: string
+          example: /v1/soundscapes?offset=0&limit=10
+        next:
+          type: string
+          nullable: true
+          example: /v1/soundscapes?offset=10&limit=10
+        prev:
+          type: string
+          nullable: true
+          example: null
+    MeditationItem:
+      type: object
+      description: A meditation — a guided video session for relaxation, sleep, and stress management.
+      required:
+      - id
+      - type
+      - name
+      - description
+      - createdAt
+      - updatedAt
+      - locale
+      - tags
+      - conditions
+      - coreHealthBehaviors
+      - durationInSeconds
+      - media
+      - assets
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - meditation
+        name:
+          type: string
+          example: Body Scan for Deep Rest
+        description:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+        locale:
+          type: string
+          nullable: true
+          description: Served locale, not request echo
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        durationInSeconds:
+          type: integer
+          example: 540
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaEntry'
+          description: Playable renditions of the meditation video, keyed by `kind`.
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetEntry'
+          description: Supporting files — captions and imagery
+    MediaEntry:
+      type: object
+      description: A playable rendition. No entry means the rendition does not exist — never null placeholders.
+      required:
+      - kind
+      - orientation
+      - contentType
+      - url
+      properties:
+        kind:
+          type: string
+          enum:
+          - file
+          - manifest
+          - embed
+        orientation:
+          type: string
+          enum:
+          - landscape
+          - portrait
+          nullable: true
+        contentType:
+          type: string
+          nullable: true
+          example: audio/mpeg
+          description: MIME type where known
+        url:
+          type: string
+          format: uri
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

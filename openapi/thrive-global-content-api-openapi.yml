@@ -1,0 +1,952 @@
+openapi: 3.0.0
+info:
+  title: Thrive Global Partner audio experiences content API
+  description: 'API for accessing Thrive Global content and features. All content endpoints require a Bearer token obtained via the authentication endpoint.
+
+
+    Response envelopes follow the pattern `{ message, valid, data }` where `data` contains the response payload. Collection endpoints nest items at a resource-specific path (e.g. `data.data.reset.thrive.get.items`).'
+  version: 1.7.0
+  contact:
+    name: Thrive Global
+    url: https://thriveglobal.com/contact/sales
+servers:
+- url: https://partners-api.thriveglobal.com
+  description: Production server
+- url: https://partners-api-stag.thriveglobal.com
+  description: Staging server
+tags:
+- name: content
+  description: Microsteps, challenges, courses, podcasts, and journey videos
+paths:
+  /v1/microsteps:
+    get:
+      operationId: getDailyMicrosteps
+      tags:
+      - content
+      summary: Get all microsteps with optional client-side filtering
+      description: Items at `data.data.today.allMicrosteps`. Pagination and filtering are applied client-side by the API.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+        description: Page number (client-side pagination)
+      - name: limit
+        in: query
+        schema:
+          type: integer
+        description: Items per page (client-side pagination)
+      - name: search
+        in: query
+        schema:
+          type: string
+        description: Search by title, body, or action text
+      - name: filter
+        in: query
+        schema:
+          type: string
+        description: 'JSON filter: {"categories":["Sleep","Food"],"pillars":["mindful eating"]}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          today:
+                            type: object
+                            properties:
+                              allMicrosteps:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/MicrostepItem'
+                              pageInfo:
+                                type: object
+                                description: Client-side pagination metadata
+                                properties:
+                                  totalCount:
+                                    type: integer
+                                  currentPage:
+                                    type: integer
+                                  totalPages:
+                                    type: integer
+                                  hasNextPage:
+                                    type: boolean
+                                  hasPreviousPage:
+                                    type: boolean
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/microsteps/{id}:
+    get:
+      operationId: getMicrostepById
+      tags:
+      - content
+      summary: Get a single microstep by ID
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the microstep (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          today:
+                            type: object
+                            properties:
+                              item:
+                                $ref: '#/components/schemas/MicrostepItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/challenges:
+    get:
+      operationId: getAllChallenges
+      tags:
+      - content
+      summary: Get all challenges with daily goals
+      description: Each challenge includes its full set of daily goals. Located at `data.challenges`.
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved challenges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ''
+                  data:
+                    type: object
+                    properties:
+                      challenges:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ChallengeItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/learn:
+    get:
+      operationId: getLearningCourses
+      tags:
+      - content
+      summary: Get learning courses with pagination
+      description: 'Note: uses `pageSize` parameter instead of `limit`.'
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        description: Page number
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+          default: 100
+        description: 'Items per page (note: uses pageSize, not limit)'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              getCourses:
+                                $ref: '#/components/schemas/CourseCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/learn/{id}:
+    get:
+      operationId: getLearningCourseById
+      tags:
+      - content
+      summary: Get a single learning course by ID
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Course ID (numeric string)
+        example: '42'
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              item:
+                                $ref: '#/components/schemas/CourseItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/learn:
+    get:
+      operationId: getLearningCoursesV1
+      tags:
+      - content
+      summary: Get learning courses (v1, legacy format)
+      description: Legacy endpoint that returns a different response structure than v2.
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learn:
+                            type: object
+                            properties:
+                              thrive:
+                                type: object
+                                properties:
+                                  getContent:
+                                    type: object
+                                    properties:
+                                      items:
+                                        type: array
+                                        items:
+                                          type: object
+                                          description: V1 learn content items (legacy format)
+                                      total:
+                                        type: integer
+                                      itemsPerPage:
+                                        type: integer
+                                      page:
+                                        type: integer
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/podcasts:
+    get:
+      operationId: getThrivePodcasts
+      tags:
+      - content
+      summary: Get all Thrive podcasts with seasons and episodes
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              getPodcasts:
+                                type: object
+                                properties:
+                                  items:
+                                    type: array
+                                    items:
+                                      $ref: '#/components/schemas/PodcastItem'
+                                  page:
+                                    type: integer
+                                  pageSize:
+                                    type: integer
+                                  hasMore:
+                                    type: boolean
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/journey/daily-step-videos:
+    get:
+      operationId: getDailyStepVideos
+      tags:
+      - content
+      summary: Get daily step videos for Thrive journeys
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          journeys:
+                            type: object
+                            properties:
+                              getJourneyDailyStepVideos:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/JourneyDailyStepVideo'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    MicrostepJourney:
+      type: object
+      properties:
+        name:
+          type: string
+        shortName:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        image:
+          type: string
+          nullable: true
+        imageUrl:
+          type: string
+          nullable: true
+    CourseResource:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+          nullable: true
+        resourceType:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    PodcastItem:
+      type: object
+      description: A podcast with seasons and episodes.
+      required:
+      - id
+      - title
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+          nullable: true
+        imageUrl:
+          type: string
+          nullable: true
+          format: uri
+        numberOfSeasons:
+          type: integer
+        numberOfEpisodes:
+          type: integer
+        seasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastSeason'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this podcast, as term objects.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this podcast. Currently always empty.
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Core health behaviors associated with this podcast. Currently always empty.
+    MicrostepItem:
+      type: object
+      description: A small, science-backed daily action.
+      required:
+      - id
+      - title
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        body:
+          type: string
+          nullable: true
+        action:
+          type: string
+          nullable: true
+        journeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicrostepJourney'
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicrostepJourney'
+          description: Core health behaviors associated with this microstep; contains the same values as `journeys`.
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this microstep, as term objects.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this microstep. Currently always empty.
+        createdAt:
+          type: string
+          format: date-time
+          description: Omitted when not available
+        updatedAt:
+          type: string
+          format: date-time
+          description: Omitted when not available
+    CourseModule:
+      type: object
+      properties:
+        id:
+          type: string
+        bookmarked:
+          type: boolean
+        byline:
+          type: string
+          nullable: true
+        courseID:
+          type: string
+        displayName:
+          type: string
+          nullable: true
+        hlsVideoLink:
+          type: string
+          nullable: true
+        label:
+          type: string
+          nullable: true
+        lessonID:
+          type: string
+        order:
+          type: integer
+        thumbnail:
+          type: string
+          nullable: true
+        title:
+          type: string
+        type:
+          type: string
+        videoLink:
+          type: string
+          nullable: true
+        videoURL:
+          type: string
+          nullable: true
+          format: uri
+          description: Absolute video URL
+        manifestUrl:
+          type: string
+          nullable: true
+          format: uri
+          description: HLS manifest URL (.m3u8)
+    ChallengeGoal:
+      type: object
+      properties:
+        id:
+          type: string
+        challengeId:
+          type: string
+        day:
+          type: integer
+        position:
+          type: integer
+        goalType:
+          type: string
+        goalSteps:
+          type: integer
+          nullable: true
+        goalWater:
+          type: integer
+          nullable: true
+        goalActivityMinutes:
+          type: integer
+          nullable: true
+        url:
+          type: string
+          nullable: true
+    ErrorResponse:
+      type: object
+      required:
+      - message
+      - valid
+      properties:
+        message:
+          type: string
+        valid:
+          type: boolean
+          example: false
+    TaxonomyTerm:
+      type: object
+      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
+      required:
+      - id
+      - slug
+      - name
+      properties:
+        id:
+          type: string
+          nullable: true
+          description: Stable identifier for the term; null where none exists
+        slug:
+          type: string
+          example: sleep
+        name:
+          type: string
+          nullable: true
+          example: Sleep
+    CourseExpert:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+          nullable: true
+        photoUrl:
+          type: string
+          nullable: true
+        bio:
+          type: string
+          nullable: true
+    JourneyDailyStepVideo:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        url:
+          type: string
+          format: uri
+        thumbnailUrl:
+          type: string
+          nullable: true
+          format: uri
+        manifestUrl:
+          type: string
+          nullable: true
+          format: uri
+          description: HLS manifest URL (.m3u8)
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Currently always empty.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Currently always empty.
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Currently always empty.
+    CourseItem:
+      type: object
+      description: A learning course with lessons and modules.
+      required:
+      - id
+      - title
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        uuid:
+          type: string
+          format: uuid
+        subTitle:
+          type: string
+          nullable: true
+        about:
+          type: string
+          nullable: true
+        thumbnail:
+          type: string
+          nullable: true
+        collection:
+          type: string
+          nullable: true
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this course, as term objects.
+        featuredSubscriptionIds:
+          type: array
+          items:
+            type: string
+        seoDescription:
+          type: string
+          nullable: true
+        seoTitle:
+          type: string
+          nullable: true
+        experts:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseExpert'
+        lessons:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseLesson'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this course, as term objects.
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Core health behaviors associated with this course. Currently always empty.
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        isFeatured:
+          type: boolean
+          description: True when `featuredSubscriptionIds` is non-empty
+    ChallengeItem:
+      type: object
+      description: A challenge with its daily goals.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        duration:
+          type: integer
+        goal:
+          type: string
+        theme:
+          type: string
+        challenge_type:
+          type: string
+        position:
+          type: integer
+        goals:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChallengeGoal'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this challenge. Currently always empty.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this challenge. Currently always empty.
+        coreHealthBehaviors:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              shortName:
+                type: string
+                nullable: true
+          description: Core health behaviors associated with this challenge.
+    PodcastSeason:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        number:
+          type: integer
+        summary:
+          type: string
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastEpisode'
+    PodcastEpisode:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+          nullable: true
+        number:
+          type: integer
+        audioUrl:
+          type: string
+          nullable: true
+          format: uri
+        imageUrl:
+          type: string
+          nullable: true
+          format: uri
+    CourseLesson:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+          nullable: true
+        moduleIds:
+          type: array
+          items:
+            type: string
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseModule'
+        order:
+          type: integer
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseResource'
+    CourseCollection:
+      type: object
+      description: Paginated courses. Located at `data.data.learnV2.getCourses` in the response.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseItem'
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        hasMore:
+          type: boolean
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

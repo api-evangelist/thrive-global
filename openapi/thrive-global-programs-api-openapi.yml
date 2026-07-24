@@ -1,0 +1,151 @@
+openapi: 3.0.0
+info:
+  title: Thrive Global Partner audio experiences programs API
+  description: 'API for accessing Thrive Global content and features. All content endpoints require a Bearer token obtained via the authentication endpoint.
+
+
+    Response envelopes follow the pattern `{ message, valid, data }` where `data` contains the response payload. Collection endpoints nest items at a resource-specific path (e.g. `data.data.reset.thrive.get.items`).'
+  version: 1.7.0
+  contact:
+    name: Thrive Global
+    url: https://thriveglobal.com/contact/sales
+servers:
+- url: https://partners-api.thriveglobal.com
+  description: Production server
+- url: https://partners-api-stag.thriveglobal.com
+  description: Staging server
+tags:
+- name: programs
+  description: Chronic condition programs (e.g. GLP-1 Companion)
+paths:
+  /v1/programs/{programId}:
+    get:
+      operationId: getProgram
+      tags:
+      - programs
+      summary: Get a chronic condition program with weekly content
+      description: Returns the full program structure with weekly content items. Each item has a `contentType` discriminator (article, roleModel, recipe, reset, microstep, lesson). Currently supports the GLP-1 Companion program.
+      security:
+      - BearerAuth: []
+      parameters:
+      - in: path
+        name: programId
+        required: true
+        schema:
+          type: string
+          enum:
+          - glp1
+        description: Program identifier
+        example: glp1
+      - in: query
+        name: locale
+        schema:
+          type: string
+          default: en-US
+        description: Content locale
+      - in: query
+        name: week
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 51
+        description: Return a single week (0-indexed, 0 = welcome). Omit for all 52 weeks.
+        example: 0
+      - in: query
+        name: contentTypes
+        schema:
+          type: string
+        description: Comma-separated content types to include. Omit for all.
+        example: article,reset,microstep
+      responses:
+        '200':
+          description: Program retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ProgramResponse'
+        '404':
+          description: Program not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ProgramResponse:
+      type: object
+      properties:
+        program:
+          type: string
+          description: Program identifier (e.g. "glp1")
+        name:
+          type: string
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        imageUrl:
+          type: string
+        contentTypes:
+          type: array
+          items:
+            type: string
+          example:
+          - article
+          - roleModel
+          - recipe
+          - reset
+          - microstep
+          - lesson
+        weeks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramWeek'
+    ErrorResponse:
+      type: object
+      required:
+      - message
+      - valid
+      properties:
+        message:
+          type: string
+        valid:
+          type: boolean
+          example: false
+    ProgramWeek:
+      type: object
+      properties:
+        week:
+          type: integer
+          description: Week number (0-indexed, 0 = welcome week)
+        imageUrl:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          description: Currently always empty for weeks
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        content:
+          type: array
+          description: Discriminated union by contentType field
+          items:
+            type: object
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

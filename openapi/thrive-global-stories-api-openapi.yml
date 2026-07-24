@@ -1,0 +1,667 @@
+openapi: 3.0.0
+info:
+  title: Thrive Global Partner audio experiences stories API
+  description: 'API for accessing Thrive Global content and features. All content endpoints require a Bearer token obtained via the authentication endpoint.
+
+
+    Response envelopes follow the pattern `{ message, valid, data }` where `data` contains the response payload. Collection endpoints nest items at a resource-specific path (e.g. `data.data.reset.thrive.get.items`).'
+  version: 1.7.0
+  contact:
+    name: Thrive Global
+    url: https://thriveglobal.com/contact/sales
+servers:
+- url: https://partners-api.thriveglobal.com
+  description: Production server
+- url: https://partners-api-stag.thriveglobal.com
+  description: Staging server
+tags:
+- name: stories
+  description: Articles, role model stories, and recipes
+paths:
+  /v3/stories:
+    get:
+      operationId: getThriveStoriesV3
+      tags:
+      - stories
+      summary: Get stories with recipe fields (v3)
+      description: V3 includes `servings`, `ingredients`, and `directions` on recipe-type articles.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        description: Page number
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 500
+        description: Items per page
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      - name: stripExternalLinks
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              getArticlesV2:
+                                $ref: '#/components/schemas/StoryCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/stories:
+    get:
+      operationId: getThriveStoriesV2
+      tags:
+      - stories
+      summary: Get stories and articles with pagination (v2)
+      description: Same as v3 but without recipe-specific fields (servings, ingredients, directions).
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        description: Page number
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 500
+        description: Items per page
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      - name: stripExternalLinks
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              getArticlesV2:
+                                $ref: '#/components/schemas/StoryCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/stories:
+    get:
+      operationId: getThriveStoriesV1
+      tags:
+      - stories
+      summary: Get all stories (v1, static, up to 5000 items)
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      - name: stripExternalLinks
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              getArticlesV2:
+                                $ref: '#/components/schemas/StoryCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v3/stories/{id}:
+    get:
+      operationId: getStoryByIdV3
+      tags:
+      - stories
+      summary: Get a single story by ID with recipe fields (v3)
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the story (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      - name: stripExternalLinks
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept.
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              item:
+                                $ref: '#/components/schemas/StoryItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/stories/{id}:
+    get:
+      operationId: getStoryByIdV2
+      tags:
+      - stories
+      summary: Get a single story by ID (v2)
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the story (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              item:
+                                $ref: '#/components/schemas/StoryItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/stories/{id}:
+    get:
+      operationId: getStoryByIdV1
+      tags:
+      - stories
+      summary: Get a single story by ID (v1)
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the story (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              item:
+                                $ref: '#/components/schemas/StoryItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ArticleAuthor:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          type: string
+          nullable: true
+        bio:
+          type: string
+          nullable: true
+        photoUrl:
+          type: string
+          nullable: true
+          format: uri
+    ErrorResponse:
+      type: object
+      required:
+      - message
+      - valid
+      properties:
+        message:
+          type: string
+        valid:
+          type: boolean
+          example: false
+    TaxonomyTerm:
+      type: object
+      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
+      required:
+      - id
+      - slug
+      - name
+      properties:
+        id:
+          type: string
+          nullable: true
+          description: Stable identifier for the term; null where none exists
+        slug:
+          type: string
+          example: sleep
+        name:
+          type: string
+          nullable: true
+          example: Sleep
+    StoryCollection:
+      type: object
+      description: Paginated stories. Located at `data.data.learnV2.getArticlesV2` in the response.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoryItem'
+        pageSize:
+          type: integer
+        pageCount:
+          type: integer
+        page:
+          type: integer
+        hasMore:
+          type: boolean
+    StoryItem:
+      type: object
+      description: An article, role model story, or recipe.
+      required:
+      - id
+      - title
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        summary:
+          type: string
+          nullable: true
+        body:
+          type: string
+          nullable: true
+          description: HTML content
+        imageUrl:
+          type: string
+          nullable: true
+        audioUrl:
+          type: string
+          nullable: true
+        contentType:
+          type: string
+          description: 'Discriminator: article, roleModel, or recipe'
+        articleContentType:
+          type: string
+          description: e.g. Text, Video, Audio
+        durationSeconds:
+          type: integer
+          nullable: true
+        language:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+          description: HLS source URL for video articles
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleAuthor'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this story, as term objects.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this story, as term objects.
+        journeyIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        journeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleJourney'
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleJourney'
+          description: Core health behaviors associated with this story; contains the same values as `journeys`.
+        spotlightSubscriptionIds:
+          type: array
+          items:
+            type: string
+        featuredSubscriptionIds:
+          type: array
+          items:
+            type: string
+        seoDescription:
+          type: string
+          nullable: true
+        seoTitle:
+          type: string
+          nullable: true
+        imageAlternativeText:
+          type: string
+          nullable: true
+        collection:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        servings:
+          type: integer
+          nullable: true
+          description: 'Recipe only (v3): number of servings'
+        ingredients:
+          type: string
+          nullable: true
+          description: 'Recipe only (v3): ingredients text'
+        directions:
+          type: string
+          nullable: true
+          description: 'Recipe only (v3): cooking directions'
+        conditionType:
+          type: string
+          description: Comma-separated names of the associated conditions
+        isSpotlight:
+          type: boolean
+          description: Whether the story is spotlighted
+        isFeatured:
+          type: boolean
+          description: True when `featuredSubscriptionIds` is non-empty
+        thumbnailUrl:
+          type: string
+          nullable: true
+          description: Thumbnail image URL; matches `imageUrl`
+        excerpt:
+          type: string
+          nullable: true
+          description: Short excerpt; matches `summary`
+        author:
+          type: string
+          nullable: true
+          description: Name of the first author
+    ArticleJourney:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        shortName:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        imageUrl:
+          type: string
+          nullable: true
+        emoji:
+          type: string
+          nullable: true
+        hasMicrosteps:
+          type: boolean
+        image:
+          type: string
+          nullable: true
+        coreType:
+          type: string
+          nullable: true
+        preferredOrder:
+          type: integer
+          nullable: true
+        thumbnailUrl:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        colorPalette:
+          type: object
+          nullable: true
+          properties:
+            contrastText:
+              type: string
+            dark:
+              type: string
+            light:
+              type: string
+            main:
+              type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
