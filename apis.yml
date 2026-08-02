@@ -1,8 +1,29 @@
 aid: thrive-global
 name: Thrive Global
-description: 'Thrive Global is a company surfaced as a portfolio company of ivp and added to the API Evangelist
-  network as a stub for enrichment. Sector: consumer. This profile is a lead awaiting the enrichment pipeline.'
+description: >-
+  Thrive Global is the behavior-change technology company founded by Arianna
+  Huffington that helps employers and healthcare organizations improve
+  wellbeing through Microsteps across five daily behaviors: Connection, Food,
+  Movement, Sleep, and Stress Management. Its Partner API (documented at
+  developers.thriveglobal.com) serves the Thrive content library - Resets,
+  stories, microsteps, challenges, learning courses, podcasts, meditations,
+  soundscapes, bedtime stories, and chronic-condition programs - and an
+  official MCP server at mcp.thriveglobal.com exposes user wellbeing data and
+  actions to AI assistants.
 url: https://raw.githubusercontent.com/api-evangelist/thrive-global/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://developers.thriveglobal.com/brand-team-leaf-2.svg
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
@@ -11,11 +32,132 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
 - Consumer
-apis: []
+- Wellness
+- Wellbeing
+- Behavior Change
+- Content
+- Healthcare
+- Employee Experience
+apis:
+- aid: thrive-global:thrive-global-audio-experiences-api
+  name: Thrive Global audio experiences API
+  description: >-
+    Ambient soundscapes and narrated bedtime stories — audio for focus, relaxation, and sleep
+  humanURL: https://developers.thriveglobal.com/
+  baseURL: https://partners-api.thriveglobal.com
+  tags:
+  - audio experiences
+  properties:
+  - type: OpenAPI
+    url: openapi/thrive-global-audio-experiences-api-openapi.yml
+  - type: Documentation
+    url: https://developers.thriveglobal.com/api-reference
+  - type: Swagger UI
+    url: https://developers.thriveglobal.com/swagger
+- aid: thrive-global:thrive-global-auth-api
+  name: Thrive Global auth API
+  description: Partner authentication
+  humanURL: https://developers.thriveglobal.com/
+  baseURL: https://partners-api.thriveglobal.com
+  tags:
+  - auth
+  properties:
+  - type: OpenAPI
+    url: openapi/thrive-global-auth-api-openapi.yml
+  - type: Documentation
+    url: https://developers.thriveglobal.com/api-reference
+  - type: Swagger UI
+    url: https://developers.thriveglobal.com/swagger
+- aid: thrive-global:thrive-global-content-api
+  name: Thrive Global content API
+  description: Microsteps, challenges, courses, podcasts, and journey videos
+  humanURL: https://developers.thriveglobal.com/
+  baseURL: https://partners-api.thriveglobal.com
+  tags:
+  - content
+  properties:
+  - type: OpenAPI
+    url: openapi/thrive-global-content-api-openapi.yml
+  - type: Documentation
+    url: https://developers.thriveglobal.com/api-reference
+  - type: Swagger UI
+    url: https://developers.thriveglobal.com/swagger
+- aid: thrive-global:thrive-global-meditations-api
+  name: Thrive Global meditations API
+  description: Guided meditations — video sessions for relaxation, sleep, and stress management
+  humanURL: https://developers.thriveglobal.com/
+  baseURL: https://partners-api.thriveglobal.com
+  tags:
+  - meditations
+  properties:
+  - type: OpenAPI
+    url: openapi/thrive-global-meditations-api-openapi.yml
+  - type: Documentation
+    url: https://developers.thriveglobal.com/api-reference
+  - type: Swagger UI
+    url: https://developers.thriveglobal.com/swagger
+- aid: thrive-global:thrive-global-programs-api
+  name: Thrive Global programs API
+  description: Chronic condition programs (e.g. GLP-1 Companion)
+  humanURL: https://developers.thriveglobal.com/
+  baseURL: https://partners-api.thriveglobal.com
+  tags:
+  - programs
+  properties:
+  - type: OpenAPI
+    url: openapi/thrive-global-programs-api-openapi.yml
+  - type: Documentation
+    url: https://developers.thriveglobal.com/api-reference
+  - type: Swagger UI
+    url: https://developers.thriveglobal.com/swagger
+- aid: thrive-global:thrive-global-resets-api
+  name: Thrive Global resets API
+  description: Thrive Reset video and audio content
+  humanURL: https://developers.thriveglobal.com/
+  baseURL: https://partners-api.thriveglobal.com
+  tags:
+  - resets
+  properties:
+  - type: OpenAPI
+    url: openapi/thrive-global-resets-api-openapi.yml
+  - type: Documentation
+    url: https://developers.thriveglobal.com/api-reference
+  - type: Swagger UI
+    url: https://developers.thriveglobal.com/swagger
+- aid: thrive-global:thrive-global-search-api
+  name: Thrive Global search API
+  description: >-
+    Search the full Thrive content library (premium capability — contact your Thrive Global representative
+    to enable)
+  humanURL: https://developers.thriveglobal.com/
+  baseURL: https://partners-api.thriveglobal.com
+  tags:
+  - search
+  properties:
+  - type: OpenAPI
+    url: openapi/thrive-global-search-api-openapi.yml
+  - type: Documentation
+    url: https://developers.thriveglobal.com/api-reference
+  - type: Swagger UI
+    url: https://developers.thriveglobal.com/swagger
+- aid: thrive-global:thrive-global-stories-api
+  name: Thrive Global stories API
+  description: Articles, role model stories, and recipes
+  humanURL: https://developers.thriveglobal.com/
+  baseURL: https://partners-api.thriveglobal.com
+  tags:
+  - stories
+  properties:
+  - type: OpenAPI
+    url: openapi/thrive-global-stories-api-openapi.yml
+  - type: Documentation
+    url: https://developers.thriveglobal.com/api-reference
+  - type: Swagger UI
+    url: https://developers.thriveglobal.com/swagger
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -24,3 +166,56 @@ maintainers:
 common:
 - type: Website
   url: https://www.thriveglobal.com
+- type: DeveloperPortal
+  url: https://developers.thriveglobal.com/
+- type: Documentation
+  url: https://developers.thriveglobal.com/
+- type: APIReference
+  url: https://developers.thriveglobal.com/api-reference
+- type: GettingStarted
+  url: https://developers.thriveglobal.com/getting-started
+- type: Support
+  url: https://support.thriveglobal.com/hc/en-us
+- type: Blog
+  url: https://thriveglobal.com/articles
+- type: GitHubOrganization
+  url: https://github.com/thriveglobal
+- type: Login
+  url: https://app.thriveglobal.com/
+- type: TermsOfService
+  url: https://thriveglobal.com/terms
+- type: PrivacyPolicy
+  url: https://thriveglobal.com/privacy
+- type: StatusPage
+  url: https://partners-api.thriveglobal.com/status
+- type: Lifecycle
+  url: lifecycle/thrive-global-lifecycle.yml
+- type: MCPServer
+  url: mcp/thrive-global-mcp.yml
+- type: LLMsTxt
+  url: llms/thrive-global-llms.txt
+- type: Authentication
+  url: authentication/thrive-global-authentication.yml
+- type: Conventions
+  url: conventions/thrive-global-conventions.yml
+- type: Sandbox
+  url: sandbox/thrive-global-sandbox.yml
+- type: ErrorCatalog
+  url: errors/thrive-global-problem-types.yml
+- type: DataModel
+  url: data-model/thrive-global-data-model.yml
+- type: Conformance
+  url: conformance/thrive-global-conformance.yml
+- type: Compliance
+  url: https://thriveglobal.com/security
+- type: TrustCenter
+  url: security/thrive-global-trust-center.yml
+- type: DomainSecurity
+  url: security/thrive-global-domain-security.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 18
+  pass: local-v1

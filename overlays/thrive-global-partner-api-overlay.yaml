@@ -1,0 +1,36 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Thrive Global Partner API
+  version: 1.0.0
+extends: openapi/thrive-global-partner-api-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist:
+        provider: thrive-global
+        portal: https://developers.thriveglobal.com/
+        status_page: https://partners-api.thriveglobal.com/status
+        mcp_server: https://mcp.thriveglobal.com/mcp
+        captured: '2026-07-21'
+        source: >-
+          Extracted from the Swagger page bundle of the Thrive Global Partner
+          API Portal (developers.thriveglobal.com/swagger).
+  - target: $.info
+    update:
+      x-token-ttl: 12h
+      x-rate-limits: none (Cloudflare DDoS protection only)
+  - target: $.components.securitySchemes.BearerAuth
+    update:
+      description: >-
+        JWT bearer token obtained from POST /v1/auth (x-api-key exchange);
+        valid 12 hours at data.logMeWith.partner.token.
+  - target: $.paths['/v1/auth'].post
+    update:
+      x-user-id-strategy: >-
+        userId must be unique per user, environment, and locale; recommended
+        pattern {companyname}_{environment}_{actual_user_id}_{locale}. Reused
+        User IDs cause cache cross-contamination.
+  - target: $.paths['/v1/learn'].get
+    update:
+      deprecated: true
+      x-deprecation-note: Portal FAQ marks /v1/learn deprecated in favour of /v2/learn.

@@ -1,0 +1,46 @@
+generated: '2026-07-21'
+method: derived
+source: >-
+  openapi/thrive-global-partner-api-openapi.yml +
+  https://thriveglobal.com/security (published compliance posture)
+standards:
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      Partner API uses apiKey (x-api-key) + JWT bearer, not OAuth2. The MCP
+      server separately authenticates via OAuth 2.0 / OIDC (Keycloak).
+  - id: oidc
+    conforms: false
+    evidence: >-
+      Not used by the Partner API itself; the MCP server
+      (mcp.thriveglobal.com) uses OIDC against Thrive's Keycloak IdP.
+  - id: jwt
+    conforms: true
+    evidence: >-
+      BearerAuth securityScheme declares bearerFormat JWT; tokens are 12-hour
+      JWTs issued by POST /v1/auth.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors use a proprietary { message, valid } application/json envelope,
+      not application/problem+json.
+  - id: pagination
+    conforms: true
+    evidence: >-
+      page/limit query parameters with PaginationMeta and PaginationLinks
+      schemas on v2/v3 collection endpoints.
+  - id: idempotency
+    conforms: false
+    evidence: No idempotency-key mechanism documented; read-only surface.
+  - id: json-api
+    conforms: false
+    evidence: Proprietary { message, valid, data } envelope, not JSON:API.
+  - id: openapi-3
+    conforms: true
+    evidence: Published OpenAPI 3.0.0 rendered by the portal Swagger page.
+compliance:
+  source: https://thriveglobal.com/security
+  programs: [SOC 2, ISO 27001, HIPAA, GDPR]
+  detail: >-
+    Published security page names SOC 2, ISO 27001, HIPAA, and GDPR; see
+    security/thrive-global-trust-center.yml.

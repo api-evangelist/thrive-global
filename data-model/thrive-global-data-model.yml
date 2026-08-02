@@ -1,0 +1,68 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/thrive-global-partner-api-openapi.yml
+description: >-
+  Entity-relationship graph of the Thrive Global Partner API content model,
+  derived from components.schemas $ref links. The catalog is a content
+  library: every content type (resets, stories, microsteps, challenges,
+  courses, podcasts, journey videos, soundscapes, bedtime stories,
+  meditations) is classified by shared TaxonomyTerm facets (tags, conditions,
+  coreHealthBehaviors mapping to the five behaviors: Connection, Food,
+  Movement, Sleep, Stress Management). IDs are UUIDs.
+entities:
+  - TaxonomyTerm
+  - MediaEntry
+  - AssetEntry
+  - ResetItem
+  - AudioResetItem
+  - StoryItem
+  - MicrostepItem
+  - ChallengeItem
+  - CourseItem
+  - PodcastItem
+  - JourneyDailyStepVideo
+  - SoundscapeItem
+  - BedtimeStoryItem
+  - MeditationItem
+  - ProgramResponse
+  - SearchResultItem
+relationships:
+  - {from: ResetItem, to: TaxonomyTerm, kind: has_many, via: "tags, conditions, coreHealthBehaviors"}
+  - {from: ResetItem, to: ResetTheme, kind: has_many, via: themes}
+  - {from: ResetItem, to: ResetKeyword, kind: has_many, via: keywords}
+  - {from: ResetItem, to: ResetOrientation, kind: has_one, via: "portrait, landscape"}
+  - {from: ResetOrientation, to: ResetThumbnails, kind: has_one, via: thumbnails}
+  - {from: ResetCollection, to: ResetItem, kind: has_many, via: items}
+  - {from: AudioResetCollection, to: AudioResetItem, kind: has_many, via: nodes}
+  - {from: StoryItem, to: ArticleAuthor, kind: has_many, via: authors}
+  - {from: StoryItem, to: ArticleJourney, kind: has_many, via: "journeys, coreHealthBehaviors"}
+  - {from: StoryItem, to: TaxonomyTerm, kind: has_many, via: "tags, conditions"}
+  - {from: StoryCollection, to: StoryItem, kind: has_many, via: items}
+  - {from: MicrostepItem, to: MicrostepJourney, kind: has_many, via: "journeys, coreHealthBehaviors"}
+  - {from: MicrostepItem, to: TaxonomyTerm, kind: has_many, via: "tags, conditions"}
+  - {from: ChallengeItem, to: ChallengeGoal, kind: has_many, via: goals}
+  - {from: ChallengeItem, to: TaxonomyTerm, kind: has_many, via: "tags, conditions"}
+  - {from: CourseItem, to: CourseLesson, kind: has_many, via: lessons}
+  - {from: CourseItem, to: CourseExpert, kind: has_many, via: experts}
+  - {from: CourseItem, to: TaxonomyTerm, kind: has_many, via: "tags, conditions, coreHealthBehaviors"}
+  - {from: CourseLesson, to: CourseModule, kind: has_many, via: modules}
+  - {from: CourseLesson, to: CourseResource, kind: has_many, via: resources}
+  - {from: CourseCollection, to: CourseItem, kind: has_many, via: items}
+  - {from: PodcastItem, to: PodcastSeason, kind: has_many, via: seasons}
+  - {from: PodcastSeason, to: PodcastEpisode, kind: has_many, via: episodes}
+  - {from: PodcastItem, to: TaxonomyTerm, kind: has_many, via: "tags, conditions, coreHealthBehaviors"}
+  - {from: JourneyDailyStepVideo, to: TaxonomyTerm, kind: has_many, via: "tags, conditions, coreHealthBehaviors"}
+  - {from: SoundscapeItem, to: MediaEntry, kind: has_many, via: media}
+  - {from: SoundscapeItem, to: AssetEntry, kind: has_many, via: assets}
+  - {from: SoundscapeItem, to: TaxonomyTerm, kind: has_many, via: "tags, conditions, coreHealthBehaviors"}
+  - {from: BedtimeStoryItem, to: MediaEntry, kind: has_many, via: media}
+  - {from: BedtimeStoryItem, to: AssetEntry, kind: has_many, via: assets}
+  - {from: BedtimeStoryItem, to: TaxonomyTerm, kind: has_many, via: "tags, conditions, coreHealthBehaviors"}
+  - {from: MeditationItem, to: MediaEntry, kind: has_many, via: media}
+  - {from: MeditationItem, to: AssetEntry, kind: has_many, via: assets}
+  - {from: MeditationItem, to: TaxonomyTerm, kind: has_many, via: "tags, conditions, coreHealthBehaviors"}
+  - {from: ProgramResponse, to: ProgramWeek, kind: has_many, via: weeks}
+  - {from: SearchResultItem, to: TaxonomyTerm, kind: has_many, via: "tags, conditions, coreHealthBehaviors"}
+id_conventions:
+  format: uuid
+  example: 550e8400-e29b-41d4-a716-446655440000

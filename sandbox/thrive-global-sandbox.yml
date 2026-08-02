@@ -1,0 +1,36 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://developers.thriveglobal.com/ (Playground, Authentication pages) +
+  openapi/thrive-global-partner-api-openapi.yml servers[]
+description: >-
+  Test-vs-live surface published by Thrive Global: a dedicated staging API
+  host, an interactive portal playground and Swagger try-it-out (which store
+  the issued bearer token in session storage), and a documented default test
+  user identity. API keys are environment-specific and issued by Thrive -
+  there is no self-serve sandbox signup.
+environments:
+  - name: production
+    base_url: https://partners-api.thriveglobal.com
+  - name: staging
+    base_url: https://partners-api-stag.thriveglobal.com
+    detail: >-
+      Staging keys differ from production keys, must use different User IDs,
+      and may have access to different content subscriptions (portal FAQ).
+tooling:
+  playground: https://developers.thriveglobal.com/playground
+  swagger_try_it_out: https://developers.thriveglobal.com/swagger
+  detail: >-
+    The portal Authentication page exchanges your API key for a bearer token
+    in the browser (stored as thrive_bearer_token in session storage) and
+    generates a copyable Authorization header.
+test_identities:
+  - name: SmokeTestUser
+    detail: >-
+      Default userId applied by POST /v1/auth when no userId is supplied
+      (documented in the OpenAPI request body).
+  - name: 'thrive:developerPortalTest:1709740800'
+    detail: Example userId shown in the portal auth and reference pages.
+notes:
+  - No public test API keys or magic test values are published; keys come
+    from your Thrive Global contact.

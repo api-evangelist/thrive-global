@@ -1,0 +1,17 @@
+generated: '2026-07-21'
+method: generated
+skills:
+  - file: thrive-global-authenticate-and-browse-resets.md
+    name: Authenticate and browse Thrive Resets
+    api: openapi/thrive-global-partner-api-openapi.yml
+    operations: [authenticatePartner, getThriveResetsV3, getResetByIdV3]
+  - file: thrive-global-search-wellbeing-content.md
+    name: Search the Thrive content library
+    api: openapi/thrive-global-partner-api-openapi.yml
+    operations: [authenticatePartner, searchContent]
+  - file: thrive-global-serve-daily-wellbeing-content.md
+    name: Serve a daily wellbeing content mix
+    api: openapi/thrive-global-partner-api-openapi.yml
+    operations:
+      [authenticatePartner, getDailyMicrosteps, getThriveStoriesV3,
+       getLearningCourses, getThrivePodcasts]

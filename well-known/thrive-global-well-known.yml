@@ -1,0 +1,51 @@
+generated: '2026-07-21'
+method: searched
+description: >-
+  Probe of the /.well-known/ discovery surface across Thrive Global hosts.
+  No real well-known documents were found. developers.thriveglobal.com and
+  app.thriveglobal.com return HTTP 200 for arbitrary paths, but the body is
+  the SPA HTML shell, not the requested document (spa-catch-all), so those
+  are recorded as not-present.
+hosts:
+  - host: https://thriveglobal.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /llms.txt
+        status: 404
+  - host: https://partners-api.thriveglobal.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+  - host: https://developers.thriveglobal.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        note: spa-catch-all - returns portal HTML shell, not a security.txt
+      - path: /llms.txt
+        status: 200
+        note: spa-catch-all - returns portal HTML shell, not an llms.txt
+  - host: https://app.thriveglobal.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        note: spa-catch-all - returns app HTML shell, not a security.txt
+      - path: /.well-known/openid-configuration
+        status: 200
+        note: spa-catch-all - returns app HTML shell, not an OIDC document
+  - host: https://mcp.thriveglobal.com
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404

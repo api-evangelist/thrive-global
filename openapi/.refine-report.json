@@ -1,0 +1,28 @@
+{
+  "provider": "thrive-global",
+  "sources": [
+    "thrive-global-audio-experiences-api-openapi.yml",
+    "thrive-global-auth-api-openapi.yml",
+    "thrive-global-content-api-openapi.yml",
+    "thrive-global-meditations-api-openapi.yml",
+    "thrive-global-programs-api-openapi.yml",
+    "thrive-global-resets-api-openapi.yml",
+    "thrive-global-search-api-openapi.yml",
+    "thrive-global-stories-api-openapi.yml"
+  ],
+  "outputs": [
+    "thrive-global-audio-experiences-api-openapi.yml",
+    "thrive-global-auth-api-openapi.yml",
+    "thrive-global-content-api-openapi.yml",
+    "thrive-global-meditations-api-openapi.yml",
+    "thrive-global-programs-api-openapi.yml",
+    "thrive-global-resets-api-openapi.yml",
+    "thrive-global-search-api-openapi.yml",
+    "thrive-global-stories-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

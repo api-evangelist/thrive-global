@@ -1,0 +1,36 @@
+generated: '2026-07-21'
+method: searched
+source: openapi/thrive-global-partner-api-openapi.yml
+docs: https://developers.thriveglobal.com/authentication
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+flow: >-
+  Two-step: (1) POST /v1/auth with your partner API key in the x-api-key
+  header and a unique userId in the JSON body (defaults to SmokeTestUser when
+  omitted); the JWT bearer token is returned at data.logMeWith.partner.token.
+  (2) Send Authorization: Bearer <token> on every content endpoint. Tokens
+  have a 12-hour TTL - refresh proactively (e.g. after 11 hours) and handle
+  401 responses with an immediate re-auth. API keys are environment-specific
+  (staging vs production) and issued by your Thrive Global contact; there is
+  no self-serve key signup. The separate MCP server authenticates end users
+  via OAuth 2.0 / OIDC against Thrive's Keycloak IdP (client ID
+  thrive-mcp-server, roles user:mcp / user:mcp-rw).
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  detail: Required only on POST /v1/auth (the token exchange).
+  sources:
+  - openapi/thrive-global-partner-api-openapi.yml
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  detail: Required on all content endpoints; 12-hour TTL.
+  sources:
+  - openapi/thrive-global-partner-api-openapi.yml

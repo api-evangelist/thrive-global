@@ -1,0 +1,64 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/thrive-global-partner-api-openapi.yml
+format: json-envelope
+description: >-
+  Error catalog derived from the Thrive Global Partner API OpenAPI 3.0.0
+  4xx/5xx responses. Errors are not RFC 9457 problem+json; every error
+  returns the shared ErrorResponse envelope { message: string, valid: false }
+  as application/json.
+envelope:
+  content_type: application/json
+  schema: '#/components/schemas/ErrorResponse'
+  fields:
+    message: human-readable error description
+    valid: boolean, false on error
+problems:
+  - status: 400
+    title: Missing API key
+    detail: POST /v1/auth called without the x-api-key header.
+    operations: [authenticatePartner]
+  - status: 401
+    title: Unauthorized
+    detail: >-
+      Missing, invalid, or expired token on content endpoints; invalid API key
+      on /v1/auth. Bearer tokens expire after 12 hours - refresh proactively
+      and handle 401 with an immediate re-auth.
+    operations: all 31 operations except one (30 declare 401)
+  - status: 403
+    title: Forbidden
+    detail: >-
+      Company validation failure on /v1/auth, or Thrive Search not enabled for
+      your account on /v1/search (contact your Thrive Global representative to
+      enable it).
+    operations: [authenticatePartner, searchContent]
+  - status: 404
+    title: Item not found
+    detail: >-
+      Returned by all by-id lookups (resets, stories, microsteps, learning
+      courses, programs, soundscapes, bedtime stories, meditations) when no
+      resource exists for the id.
+    operations:
+      [getResetByIdV3, getResetByIdV2, getResetByIdV1, getAudioResetById,
+       getStoryByIdV3, getStoryByIdV2, getStoryByIdV1, getMicrostepById,
+       getLearningCourseById, getProgram, getSoundscapeById,
+       getBedtimeStoryById, getMeditationById]
+  - status: 422
+    title: Invalid parameters
+    detail: >-
+      Invalid query parameters (unknown type, missing query, negative offset,
+      zero limit) or invalid id (must be a UUID) on the soundscapes, bedtime
+      stories, meditations, and search endpoints.
+    operations:
+      [listSoundscapes, getSoundscapeById, listBedtimeStories,
+       getBedtimeStoryById, listMeditations, getMeditationById, searchContent]
+  - status: 500
+    title: Internal server error
+    detail: Declared on 22 of 31 operations with the ErrorResponse envelope.
+  - status: 502
+    title: Service temporarily unavailable
+    detail: >-
+      Declared on the soundscapes, bedtime stories, and meditations endpoints.
+    operations:
+      [listSoundscapes, getSoundscapeById, listBedtimeStories,
+       getBedtimeStoryById, listMeditations, getMeditationById]

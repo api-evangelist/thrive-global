@@ -1,0 +1,3690 @@
+openapi: 3.0.0
+info:
+  title: Thrive Global Partner API
+  description: 'API for accessing Thrive Global content and features. All content endpoints require a
+    Bearer token obtained via the authentication endpoint.
+
+
+    Response envelopes follow the pattern `{ message, valid, data }` where `data` contains the response
+    payload. Collection endpoints nest items at a resource-specific path (e.g. `data.data.reset.thrive.get.items`).'
+  version: 1.7.0
+  contact:
+    name: Thrive Global
+    url: https://thriveglobal.com/contact/sales
+servers:
+- url: https://partners-api.thriveglobal.com
+  description: Production server
+- url: https://partners-api-stag.thriveglobal.com
+  description: Staging server
+tags:
+- name: auth
+  description: Partner authentication
+- name: resets
+  description: Thrive Reset video and audio content
+- name: stories
+  description: Articles, role model stories, and recipes
+- name: content
+  description: Microsteps, challenges, courses, podcasts, and journey videos
+- name: programs
+  description: Chronic condition programs (e.g. GLP-1 Companion)
+- name: search
+  description: Search the full Thrive content library (premium capability — contact your Thrive Global
+    representative to enable)
+- name: audio experiences
+  description: Ambient soundscapes and narrated bedtime stories — audio for focus, relaxation, and sleep
+- name: meditations
+  description: Guided meditations — video sessions for relaxation, sleep, and stress management
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+      - message
+      - valid
+      properties:
+        message:
+          type: string
+        valid:
+          type: boolean
+          example: false
+    SearchResultItem:
+      type: object
+      description: A search result. Items of type `soundscape`, `bedtime-story`, or `meditation` carry
+        the same fields as SoundscapeItem / BedtimeStoryItem / MeditationItem plus `snippet`, without
+        `media` and without the `title`/`mediaType` fields. Other types carry the base fields below; additional
+        fields depend on `type` (e.g. a reset carries manifestUrl/themes, a podcast carries summary).
+        Every result carries the taxonomy fields `tags`/`conditions`/`coreHealthBehaviors` as term objects
+        (empty arrays where no values apply). Search items deliberately omit `createdAt`/`updatedAt` for
+        a consistent shape across types — use the dedicated by-id endpoint when you need timestamps.
+      required:
+      - id
+      - type
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - reset
+          - story
+          - microstep
+          - learnCourse
+          - podcast
+          - journey
+          - challenge
+          - soundscape
+          - bedtime-story
+          - meditation
+        mediaType:
+          type: string
+          enum:
+          - AUDIO
+          - TEXT
+          - VIDEO
+          description: Absent on soundscape, bedtime-story, and meditation items
+        title:
+          type: string
+          description: Absent on soundscape, bedtime-story, and meditation items (use `name`)
+        snippet:
+          type: string
+          nullable: true
+          description: Matched text, highlight markup stripped
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags as term objects; may be empty.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions as term objects; empty for most types today.
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Core health behaviors as term objects; populated for challenges (from journeys),
+            empty for most other types today.
+      additionalProperties: true
+    TaxonomyTerm:
+      type: object
+      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id`
+        is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter
+        filters and may change if the term is renamed. `name` is the display string.
+      required:
+      - id
+      - slug
+      - name
+      properties:
+        id:
+          type: string
+          nullable: true
+          description: Stable identifier for the term; null where none exists
+        slug:
+          type: string
+          example: sleep
+        name:
+          type: string
+          nullable: true
+          example: Sleep
+    MediaEntry:
+      type: object
+      description: A playable rendition. No entry means the rendition does not exist — never null placeholders.
+      required:
+      - kind
+      - orientation
+      - contentType
+      - url
+      properties:
+        kind:
+          type: string
+          enum:
+          - file
+          - manifest
+          - embed
+        orientation:
+          type: string
+          enum:
+          - landscape
+          - portrait
+          nullable: true
+        contentType:
+          type: string
+          nullable: true
+          example: audio/mpeg
+          description: MIME type where known
+        url:
+          type: string
+          format: uri
+    AssetEntry:
+      type: object
+      description: 'A supporting file: images, thumbnails, captions, transcripts.'
+      required:
+      - role
+      - contentType
+      - url
+      - alt
+      properties:
+        role:
+          type: string
+          enum:
+          - captions
+          - transcript
+          - image-landscape
+          - image-portrait
+          - thumbnail-landscape
+          - thumbnail-portrait
+          - image-featured
+        contentType:
+          type: string
+          nullable: true
+          example: image/jpeg
+        url:
+          type: string
+          format: uri
+        alt:
+          type: string
+          nullable: true
+        sizes:
+          type: object
+          additionalProperties:
+            type: string
+          description: Explicit size-variant URLs where they exist. Never derive variants by transforming
+            URLs.
+    PaginationMeta:
+      type: object
+      description: Applied pagination values — after defaulting and clamping, not what was requested.
+      required:
+      - pagination
+      properties:
+        pagination:
+          type: object
+          required:
+          - offset
+          - limit
+          - total
+          properties:
+            offset:
+              type: integer
+              example: 0
+            limit:
+              type: integer
+              example: 10
+            total:
+              type: integer
+              nullable: true
+              description: Best-effort display data; null when a total is not available. `links.next !=
+                null` is the authoritative "more results exist" signal.
+    PaginationLinks:
+      type: object
+      description: Opaque pagination URLs — follow `next` until it is null; do not parse them. All three
+        attributes are always present (null when there is no such page).
+      required:
+      - self
+      - next
+      - prev
+      properties:
+        self:
+          type: string
+          example: /v1/soundscapes?offset=0&limit=10
+        next:
+          type: string
+          nullable: true
+          example: /v1/soundscapes?offset=10&limit=10
+        prev:
+          type: string
+          nullable: true
+          example: null
+    SoundscapeItem:
+      type: object
+      description: A soundscape — an ambient audio track that supports focus, relaxation, and sleep.
+      required:
+      - id
+      - type
+      - name
+      - description
+      - createdAt
+      - updatedAt
+      - locale
+      - tags
+      - conditions
+      - coreHealthBehaviors
+      - durationInSeconds
+      - media
+      - assets
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - soundscape
+        name:
+          type: string
+          example: Forest Rain
+        description:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+        locale:
+          type: string
+          nullable: true
+          description: Served locale, not request echo
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        durationInSeconds:
+          type: integer
+          nullable: true
+          example: 600
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaEntry'
+          description: Playable renditions — the soundscape audio file
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetEntry'
+          description: Supporting files — captions and imagery
+    BedtimeStoryItem:
+      type: object
+      description: A bedtime story — a narrated audio story that helps listeners unwind and fall asleep.
+      required:
+      - id
+      - type
+      - name
+      - description
+      - createdAt
+      - updatedAt
+      - locale
+      - tags
+      - conditions
+      - coreHealthBehaviors
+      - durationInSeconds
+      - media
+      - assets
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - bedtime-story
+        name:
+          type: string
+          example: The Sleepy Lighthouse
+        description:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+        locale:
+          type: string
+          nullable: true
+          description: Served locale, not request echo
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        durationInSeconds:
+          type: integer
+          example: 1200
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaEntry'
+          description: Playable renditions — the bedtime story audio file
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetEntry'
+          description: Supporting files — captions and imagery
+    MeditationItem:
+      type: object
+      description: A meditation — a guided video session for relaxation, sleep, and stress management.
+      required:
+      - id
+      - type
+      - name
+      - description
+      - createdAt
+      - updatedAt
+      - locale
+      - tags
+      - conditions
+      - coreHealthBehaviors
+      - durationInSeconds
+      - media
+      - assets
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - meditation
+        name:
+          type: string
+          example: Body Scan for Deep Rest
+        description:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+        locale:
+          type: string
+          nullable: true
+          description: Served locale, not request echo
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        durationInSeconds:
+          type: integer
+          example: 540
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaEntry'
+          description: Playable renditions of the meditation video, keyed by `kind`.
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetEntry'
+          description: Supporting files — captions and imagery
+    ResetThumbnails:
+      type: object
+      description: Responsive image URLs at multiple sizes.
+      properties:
+        xs:
+          type: string
+          nullable: true
+          format: uri
+        sm:
+          type: string
+          nullable: true
+          format: uri
+        md:
+          type: string
+          nullable: true
+          format: uri
+        lg:
+          type: string
+          nullable: true
+          format: uri
+        xl:
+          type: string
+          nullable: true
+          format: uri
+    ResetOrientation:
+      type: object
+      description: Video orientation (landscape or portrait) with iframe URL, thumbnail, and optional
+        HLS manifest.
+      properties:
+        iframe:
+          type: string
+          nullable: true
+          description: Player embed URL
+        thumbnail:
+          type: string
+          nullable: true
+          description: Thumbnail image URL
+        manifest:
+          type: string
+          nullable: true
+          description: HLS manifest URL (.m3u8)
+        thumbnails:
+          $ref: '#/components/schemas/ResetThumbnails'
+    ResetTheme:
+      type: object
+      properties:
+        theme:
+          type: string
+        localized:
+          type: string
+        toThriveResetTag:
+          type: string
+          nullable: true
+        toLocalizedThriveResetTag:
+          type: object
+          nullable: true
+          properties:
+            localized:
+              type: string
+            value:
+              type: string
+    ResetKeyword:
+      type: object
+      properties:
+        keyword:
+          type: string
+        localized:
+          type: string
+    ResetItem:
+      type: object
+      description: A Thrive Reset video.
+      required:
+      - id
+      - name
+      - resetType
+      - durationInSeconds
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        resetType:
+          type: string
+          description: e.g. THRIVE_RESET_LONG, THRIVE_RESET_SHORT
+        durationInSeconds:
+          type: integer
+        locale:
+          type: string
+        partner:
+          type: string
+          nullable: true
+        landscape:
+          $ref: '#/components/schemas/ResetOrientation'
+        portrait:
+          $ref: '#/components/schemas/ResetOrientation'
+        manifestUrl:
+          type: string
+          nullable: true
+          format: uri
+          description: HLS manifest URL (.m3u8) for the landscape video
+        thumbnail:
+          type: string
+          nullable: true
+          format: uri
+          description: Thumbnail image URL
+        url:
+          type: string
+          nullable: true
+          format: uri
+          description: Embeddable player URL for the landscape video; matches `landscape.iframe`
+        themes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResetTheme'
+        keywords:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResetKeyword'
+        cmsTags:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        tags:
+          type: array
+          items:
+            oneOf:
+            - type: string
+            - $ref: '#/components/schemas/TaxonomyTerm'
+          description: On v2 and v3, always term objects. On v1, plain tag strings for most resets, term
+            objects otherwise. The v1 endpoint also omits `durationInSeconds`/`locale`.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this reset. Currently always empty.
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Core health behaviors associated with this reset. Currently always empty.
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ResetCollection:
+      type: object
+      description: Paginated collection of resets. Located at `data.data.reset.thrive.get` in the response.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResetItem'
+        total:
+          type: integer
+        page:
+          type: integer
+        itemsPerPage:
+          type: integer
+        hasMore:
+          type: boolean
+          description: Present on v2/v3 paginated responses
+    AudioResetItem:
+      type: object
+      description: An audio Thrive Reset.
+      required:
+      - id
+      - title
+      - url
+      - durationInSeconds
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        author:
+          type: string
+        durationInSeconds:
+          type: integer
+        url:
+          type: string
+          format: uri
+          description: Direct MP3 URL
+        order:
+          type: integer
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    AudioResetCollection:
+      type: object
+      description: Paginated audio resets. Located at `data.data.reset.audio.thrive.get` in the response.
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AudioResetItem'
+        pageInfo:
+          type: object
+          properties:
+            endCursor:
+              type: string
+              nullable: true
+            hasNextPage:
+              type: boolean
+            hasPreviousPage:
+              type: boolean
+            startCursor:
+              type: string
+              nullable: true
+    ArticleAuthor:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          type: string
+          nullable: true
+        bio:
+          type: string
+          nullable: true
+        photoUrl:
+          type: string
+          nullable: true
+          format: uri
+    ArticleCondition:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    ArticleJourney:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        shortName:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        imageUrl:
+          type: string
+          nullable: true
+        emoji:
+          type: string
+          nullable: true
+        hasMicrosteps:
+          type: boolean
+        image:
+          type: string
+          nullable: true
+        coreType:
+          type: string
+          nullable: true
+        preferredOrder:
+          type: integer
+          nullable: true
+        thumbnailUrl:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        colorPalette:
+          type: object
+          nullable: true
+          properties:
+            contrastText:
+              type: string
+            dark:
+              type: string
+            light:
+              type: string
+            main:
+              type: string
+    StoryItem:
+      type: object
+      description: An article, role model story, or recipe.
+      required:
+      - id
+      - title
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        summary:
+          type: string
+          nullable: true
+        body:
+          type: string
+          nullable: true
+          description: HTML content
+        imageUrl:
+          type: string
+          nullable: true
+        audioUrl:
+          type: string
+          nullable: true
+        contentType:
+          type: string
+          description: 'Discriminator: article, roleModel, or recipe'
+        articleContentType:
+          type: string
+          description: e.g. Text, Video, Audio
+        durationSeconds:
+          type: integer
+          nullable: true
+        language:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+          description: HLS source URL for video articles
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleAuthor'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this story, as term objects.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this story, as term objects.
+        journeyIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        journeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleJourney'
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleJourney'
+          description: Core health behaviors associated with this story; contains the same values as `journeys`.
+        spotlightSubscriptionIds:
+          type: array
+          items:
+            type: string
+        featuredSubscriptionIds:
+          type: array
+          items:
+            type: string
+        seoDescription:
+          type: string
+          nullable: true
+        seoTitle:
+          type: string
+          nullable: true
+        imageAlternativeText:
+          type: string
+          nullable: true
+        collection:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        servings:
+          type: integer
+          nullable: true
+          description: 'Recipe only (v3): number of servings'
+        ingredients:
+          type: string
+          nullable: true
+          description: 'Recipe only (v3): ingredients text'
+        directions:
+          type: string
+          nullable: true
+          description: 'Recipe only (v3): cooking directions'
+        conditionType:
+          type: string
+          description: Comma-separated names of the associated conditions
+        isSpotlight:
+          type: boolean
+          description: Whether the story is spotlighted
+        isFeatured:
+          type: boolean
+          description: True when `featuredSubscriptionIds` is non-empty
+        thumbnailUrl:
+          type: string
+          nullable: true
+          description: Thumbnail image URL; matches `imageUrl`
+        excerpt:
+          type: string
+          nullable: true
+          description: Short excerpt; matches `summary`
+        author:
+          type: string
+          nullable: true
+          description: Name of the first author
+    StoryCollection:
+      type: object
+      description: Paginated stories. Located at `data.data.learnV2.getArticlesV2` in the response.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoryItem'
+        pageSize:
+          type: integer
+        pageCount:
+          type: integer
+        page:
+          type: integer
+        hasMore:
+          type: boolean
+    MicrostepJourney:
+      type: object
+      properties:
+        name:
+          type: string
+        shortName:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        image:
+          type: string
+          nullable: true
+        imageUrl:
+          type: string
+          nullable: true
+    MicrostepItem:
+      type: object
+      description: A small, science-backed daily action.
+      required:
+      - id
+      - title
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        body:
+          type: string
+          nullable: true
+        action:
+          type: string
+          nullable: true
+        journeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicrostepJourney'
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicrostepJourney'
+          description: Core health behaviors associated with this microstep; contains the same values
+            as `journeys`.
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this microstep, as term objects.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this microstep. Currently always empty.
+        createdAt:
+          type: string
+          format: date-time
+          description: Omitted when not available
+        updatedAt:
+          type: string
+          format: date-time
+          description: Omitted when not available
+    ChallengeGoal:
+      type: object
+      properties:
+        id:
+          type: string
+        challengeId:
+          type: string
+        day:
+          type: integer
+        position:
+          type: integer
+        goalType:
+          type: string
+        goalSteps:
+          type: integer
+          nullable: true
+        goalWater:
+          type: integer
+          nullable: true
+        goalActivityMinutes:
+          type: integer
+          nullable: true
+        url:
+          type: string
+          nullable: true
+    ChallengeItem:
+      type: object
+      description: A challenge with its daily goals.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        duration:
+          type: integer
+        goal:
+          type: string
+        theme:
+          type: string
+        challenge_type:
+          type: string
+        position:
+          type: integer
+        goals:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChallengeGoal'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this challenge. Currently always empty.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this challenge. Currently always empty.
+        coreHealthBehaviors:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              shortName:
+                type: string
+                nullable: true
+          description: Core health behaviors associated with this challenge.
+    CourseExpert:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+          nullable: true
+        photoUrl:
+          type: string
+          nullable: true
+        bio:
+          type: string
+          nullable: true
+    CourseModule:
+      type: object
+      properties:
+        id:
+          type: string
+        bookmarked:
+          type: boolean
+        byline:
+          type: string
+          nullable: true
+        courseID:
+          type: string
+        displayName:
+          type: string
+          nullable: true
+        hlsVideoLink:
+          type: string
+          nullable: true
+        label:
+          type: string
+          nullable: true
+        lessonID:
+          type: string
+        order:
+          type: integer
+        thumbnail:
+          type: string
+          nullable: true
+        title:
+          type: string
+        type:
+          type: string
+        videoLink:
+          type: string
+          nullable: true
+        videoURL:
+          type: string
+          nullable: true
+          format: uri
+          description: Absolute video URL
+        manifestUrl:
+          type: string
+          nullable: true
+          format: uri
+          description: HLS manifest URL (.m3u8)
+    CourseResource:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+          nullable: true
+        resourceType:
+          type: string
+          nullable: true
+        source:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    CourseLesson:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+          nullable: true
+        moduleIds:
+          type: array
+          items:
+            type: string
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseModule'
+        order:
+          type: integer
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseResource'
+    CourseItem:
+      type: object
+      description: A learning course with lessons and modules.
+      required:
+      - id
+      - title
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        uuid:
+          type: string
+          format: uuid
+        subTitle:
+          type: string
+          nullable: true
+        about:
+          type: string
+          nullable: true
+        thumbnail:
+          type: string
+          nullable: true
+        collection:
+          type: string
+          nullable: true
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this course, as term objects.
+        featuredSubscriptionIds:
+          type: array
+          items:
+            type: string
+        seoDescription:
+          type: string
+          nullable: true
+        seoTitle:
+          type: string
+          nullable: true
+        experts:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseExpert'
+        lessons:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseLesson'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this course, as term objects.
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Core health behaviors associated with this course. Currently always empty.
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        isFeatured:
+          type: boolean
+          description: True when `featuredSubscriptionIds` is non-empty
+    CourseCollection:
+      type: object
+      description: Paginated courses. Located at `data.data.learnV2.getCourses` in the response.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseItem'
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        hasMore:
+          type: boolean
+    PodcastEpisode:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+          nullable: true
+        number:
+          type: integer
+        audioUrl:
+          type: string
+          nullable: true
+          format: uri
+        imageUrl:
+          type: string
+          nullable: true
+          format: uri
+    PodcastSeason:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        number:
+          type: integer
+        summary:
+          type: string
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastEpisode'
+    PodcastItem:
+      type: object
+      description: A podcast with seasons and episodes.
+      required:
+      - id
+      - title
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+          nullable: true
+        imageUrl:
+          type: string
+          nullable: true
+          format: uri
+        numberOfSeasons:
+          type: integer
+        numberOfEpisodes:
+          type: integer
+        seasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastSeason'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this podcast, as term objects.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this podcast. Currently always empty.
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Core health behaviors associated with this podcast. Currently always empty.
+    JourneyDailyStepVideo:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        url:
+          type: string
+          format: uri
+        thumbnailUrl:
+          type: string
+          nullable: true
+          format: uri
+        manifestUrl:
+          type: string
+          nullable: true
+          format: uri
+          description: HLS manifest URL (.m3u8)
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Currently always empty.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Currently always empty.
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Currently always empty.
+    ResetContent:
+      type: object
+      description: A reset content item within a program week.
+      properties:
+        contentType:
+          type: string
+          enum:
+          - reset
+        id:
+          type: string
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        resetType:
+          type: string
+        durationInSeconds:
+          type: integer
+        locale:
+          type: string
+        landscape:
+          $ref: '#/components/schemas/ResetOrientation'
+        portrait:
+          $ref: '#/components/schemas/ResetOrientation'
+        manifestUrl:
+          type: string
+          nullable: true
+        thumbnail:
+          type: string
+          nullable: true
+        url:
+          type: string
+          nullable: true
+        themes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResetTheme'
+        keywords:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResetKeyword'
+        cmsTags:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+    MicrostepContent:
+      type: object
+      description: A microstep content item within a program week.
+      properties:
+        contentType:
+          type: string
+          enum:
+          - microstep
+        id:
+          type: string
+        title:
+          type: string
+        body:
+          type: string
+          nullable: true
+        action:
+          type: string
+          nullable: true
+        journeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicrostepJourney'
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        frequency:
+          type: string
+          nullable: true
+    LessonContent:
+      type: object
+      description: A lesson content item within a program week.
+      properties:
+        contentType:
+          type: string
+          enum:
+          - lesson
+        id:
+          type: string
+        title:
+          type: string
+          nullable: true
+        body:
+          type: string
+          nullable: true
+        agendaHeadline:
+          type: string
+          nullable: true
+        agendaBody:
+          type: string
+          nullable: true
+        imageUrl:
+          type: string
+          nullable: true
+        articleId:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        journeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicrostepJourney'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleCondition'
+    ArticleContent:
+      description: 'An article content item within a program. A reduced form of StoryItem: `isSpotlight`/`isFeatured`
+        are always false, and `thumbnailUrl`/`excerpt`/`author`/`conditionType` are not included.'
+      allOf:
+      - type: object
+        properties:
+          contentType:
+            type: string
+            enum:
+            - article
+          manifestUrl:
+            type: string
+            nullable: true
+            format: uri
+            description: HLS manifest URL (.m3u8) for video articles
+      - $ref: '#/components/schemas/StoryItem'
+    RoleModelContent:
+      description: 'A role model story content item within a program. Note: emits the same reduced StoryItem
+        shape as ArticleContent.'
+      allOf:
+      - type: object
+        properties:
+          contentType:
+            type: string
+            enum:
+            - roleModel
+          manifestUrl:
+            type: string
+            nullable: true
+            format: uri
+            description: HLS manifest URL (.m3u8) for video content
+      - $ref: '#/components/schemas/StoryItem'
+    RecipeContent:
+      description: A recipe content item within a program.
+      allOf:
+      - type: object
+        properties:
+          contentType:
+            type: string
+            enum:
+            - recipe
+      - $ref: '#/components/schemas/StoryItem'
+    ProgramWeek:
+      type: object
+      properties:
+        week:
+          type: integer
+          description: Week number (0-indexed, 0 = welcome week)
+        imageUrl:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          description: Currently always empty for weeks
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        content:
+          type: array
+          description: Discriminated union by contentType field
+          items:
+            type: object
+    ProgramResponse:
+      type: object
+      properties:
+        program:
+          type: string
+          description: Program identifier (e.g. "glp1")
+        name:
+          type: string
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        imageUrl:
+          type: string
+        contentTypes:
+          type: array
+          items:
+            type: string
+          example:
+          - article
+          - roleModel
+          - recipe
+          - reset
+          - microstep
+          - lesson
+        weeks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramWeek'
+paths:
+  /v1/auth:
+    post:
+      operationId: authenticatePartner
+      tags:
+      - auth
+      summary: Authenticate and obtain a bearer token
+      description: Exchange your API key for a JWT bearer token. Optionally provide a userId.
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  description: User identifier. Defaults to SmokeTestUser if omitted.
+                  example: thrive:developerPortalTest:1709740800
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      logMeWith:
+                        type: object
+                        properties:
+                          partner:
+                            type: object
+                            properties:
+                              token:
+                                type: string
+                                description: JWT bearer token (valid for 12 hours)
+        '400':
+          description: Missing API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid API key or authentication failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Company validation failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v3/resets:
+    get:
+      operationId: getThriveResetsV3
+      tags:
+      - resets
+      summary: Get Thrive Resets with pagination, locale, search, and filters
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        description: Page number
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 200
+        description: Items per page
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      - name: search
+        in: query
+        schema:
+          type: string
+        description: Search resets by name
+      - name: random
+        in: query
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+        description: Set to "true" for random ordering
+      - name: theme
+        in: query
+        schema:
+          type: string
+        description: Comma-separated theme filter
+      - name: tag
+        in: query
+        schema:
+          type: string
+        description: Comma-separated keyword/tag filter
+      - name: sort
+        in: query
+        schema:
+          type: string
+        description: Sort order
+      - name: filter
+        in: query
+        schema:
+          type: string
+        description: JSON filter object (merged with individual filter params)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          reset:
+                            type: object
+                            properties:
+                              thrive:
+                                type: object
+                                properties:
+                                  get:
+                                    $ref: '#/components/schemas/ResetCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/resets:
+    get:
+      operationId: getAllResetsV2
+      tags:
+      - resets
+      summary: Get all Thrive Resets (v2) with locale support
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          reset:
+                            type: object
+                            properties:
+                              thrive:
+                                type: object
+                                properties:
+                                  get:
+                                    $ref: '#/components/schemas/ResetCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/resets:
+    get:
+      operationId: getAllResetsV1
+      tags:
+      - resets
+      summary: Get all Thrive Resets (v1, static, 200 items)
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          reset:
+                            type: object
+                            properties:
+                              thrive:
+                                type: object
+                                properties:
+                                  get:
+                                    $ref: '#/components/schemas/ResetCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/resets/audio:
+    get:
+      operationId: getAudioThriveResets
+      tags:
+      - resets
+      summary: Get audio Thrive Resets with pagination
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        description: Page number
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 200
+        description: Items per page
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          reset:
+                            type: object
+                            properties:
+                              audio:
+                                type: object
+                                properties:
+                                  thrive:
+                                    type: object
+                                    properties:
+                                      get:
+                                        $ref: '#/components/schemas/AudioResetCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v3/resets/{id}:
+    get:
+      operationId: getResetByIdV3
+      tags:
+      - resets
+      summary: Get a single reset by ID (v3)
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the reset (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          reset:
+                            type: object
+                            properties:
+                              thrive:
+                                type: object
+                                properties:
+                                  item:
+                                    $ref: '#/components/schemas/ResetItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/resets/{id}:
+    get:
+      operationId: getResetByIdV2
+      tags:
+      - resets
+      summary: Get a single reset by ID (v2)
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the reset (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          reset:
+                            type: object
+                            properties:
+                              thrive:
+                                type: object
+                                properties:
+                                  item:
+                                    $ref: '#/components/schemas/ResetItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/resets/{id}:
+    get:
+      operationId: getResetByIdV1
+      tags:
+      - resets
+      summary: Get a single reset by ID (v1)
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the reset (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          reset:
+                            type: object
+                            properties:
+                              thrive:
+                                type: object
+                                properties:
+                                  item:
+                                    $ref: '#/components/schemas/ResetItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/resets/audio/{id}:
+    get:
+      operationId: getAudioResetById
+      tags:
+      - resets
+      summary: Get a single audio reset by ID
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the audio reset (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          reset:
+                            type: object
+                            properties:
+                              audio:
+                                type: object
+                                properties:
+                                  thrive:
+                                    type: object
+                                    properties:
+                                      item:
+                                        $ref: '#/components/schemas/AudioResetItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v3/stories:
+    get:
+      operationId: getThriveStoriesV3
+      tags:
+      - stories
+      summary: Get stories with recipe fields (v3)
+      description: V3 includes `servings`, `ingredients`, and `directions` on recipe-type articles.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        description: Page number
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 500
+        description: Items per page
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      - name: stripExternalLinks
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: When true, links to non-Thrive domains are removed from content fields; the link
+          text is preserved. Links to thriveglobal.com and relative links are kept.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              getArticlesV2:
+                                $ref: '#/components/schemas/StoryCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/stories:
+    get:
+      operationId: getThriveStoriesV2
+      tags:
+      - stories
+      summary: Get stories and articles with pagination (v2)
+      description: Same as v3 but without recipe-specific fields (servings, ingredients, directions).
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        description: Page number
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 500
+        description: Items per page
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      - name: stripExternalLinks
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: When true, links to non-Thrive domains are removed from content fields; the link
+          text is preserved. Links to thriveglobal.com and relative links are kept.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              getArticlesV2:
+                                $ref: '#/components/schemas/StoryCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/stories:
+    get:
+      operationId: getThriveStoriesV1
+      tags:
+      - stories
+      summary: Get all stories (v1, static, up to 5000 items)
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      - name: stripExternalLinks
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: When true, links to non-Thrive domains are removed from content fields; the link
+          text is preserved. Links to thriveglobal.com and relative links are kept.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              getArticlesV2:
+                                $ref: '#/components/schemas/StoryCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v3/stories/{id}:
+    get:
+      operationId: getStoryByIdV3
+      tags:
+      - stories
+      summary: Get a single story by ID with recipe fields (v3)
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the story (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      - name: stripExternalLinks
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: When true, links to non-Thrive domains are removed from content fields; the link
+          text is preserved. Links to thriveglobal.com and relative links are kept.
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              item:
+                                $ref: '#/components/schemas/StoryItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/stories/{id}:
+    get:
+      operationId: getStoryByIdV2
+      tags:
+      - stories
+      summary: Get a single story by ID (v2)
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the story (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              item:
+                                $ref: '#/components/schemas/StoryItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/stories/{id}:
+    get:
+      operationId: getStoryByIdV1
+      tags:
+      - stories
+      summary: Get a single story by ID (v1)
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the story (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      - name: locale
+        in: query
+        schema:
+          type: string
+          default: en
+        description: Language locale (e.g. en, es, en-GB)
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              item:
+                                $ref: '#/components/schemas/StoryItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/microsteps:
+    get:
+      operationId: getDailyMicrosteps
+      tags:
+      - content
+      summary: Get all microsteps with optional client-side filtering
+      description: Items at `data.data.today.allMicrosteps`. Pagination and filtering are applied client-side
+        by the API.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+        description: Page number (client-side pagination)
+      - name: limit
+        in: query
+        schema:
+          type: integer
+        description: Items per page (client-side pagination)
+      - name: search
+        in: query
+        schema:
+          type: string
+        description: Search by title, body, or action text
+      - name: filter
+        in: query
+        schema:
+          type: string
+        description: 'JSON filter: {"categories":["Sleep","Food"],"pillars":["mindful eating"]}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          today:
+                            type: object
+                            properties:
+                              allMicrosteps:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/MicrostepItem'
+                              pageInfo:
+                                type: object
+                                description: Client-side pagination metadata
+                                properties:
+                                  totalCount:
+                                    type: integer
+                                  currentPage:
+                                    type: integer
+                                  totalPages:
+                                    type: integer
+                                  hasNextPage:
+                                    type: boolean
+                                  hasPreviousPage:
+                                    type: boolean
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/microsteps/{id}:
+    get:
+      operationId: getMicrostepById
+      tags:
+      - content
+      summary: Get a single microstep by ID
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Unique identifier of the microstep (UUID)
+        example: 550e8400-e29b-41d4-a716-446655440000
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          today:
+                            type: object
+                            properties:
+                              item:
+                                $ref: '#/components/schemas/MicrostepItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/challenges:
+    get:
+      operationId: getAllChallenges
+      tags:
+      - content
+      summary: Get all challenges with daily goals
+      description: Each challenge includes its full set of daily goals. Located at `data.challenges`.
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved challenges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: ''
+                  data:
+                    type: object
+                    properties:
+                      challenges:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ChallengeItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/learn:
+    get:
+      operationId: getLearningCourses
+      tags:
+      - content
+      summary: Get learning courses with pagination
+      description: 'Note: uses `pageSize` parameter instead of `limit`.'
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          default: 1
+        description: Page number
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+          default: 100
+        description: 'Items per page (note: uses pageSize, not limit)'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              getCourses:
+                                $ref: '#/components/schemas/CourseCollection'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/learn/{id}:
+    get:
+      operationId: getLearningCourseById
+      tags:
+      - content
+      summary: Get a single learning course by ID
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Course ID (numeric string)
+        example: '42'
+      responses:
+        '200':
+          description: Item retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              item:
+                                $ref: '#/components/schemas/CourseItem'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/learn:
+    get:
+      operationId: getLearningCoursesV1
+      tags:
+      - content
+      summary: Get learning courses (v1, legacy format)
+      description: Legacy endpoint that returns a different response structure than v2.
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learn:
+                            type: object
+                            properties:
+                              thrive:
+                                type: object
+                                properties:
+                                  getContent:
+                                    type: object
+                                    properties:
+                                      items:
+                                        type: array
+                                        items:
+                                          type: object
+                                          description: V1 learn content items (legacy format)
+                                      total:
+                                        type: integer
+                                      itemsPerPage:
+                                        type: integer
+                                      page:
+                                        type: integer
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v2/podcasts:
+    get:
+      operationId: getThrivePodcasts
+      tags:
+      - content
+      summary: Get all Thrive podcasts with seasons and episodes
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          learnV2:
+                            type: object
+                            properties:
+                              getPodcasts:
+                                type: object
+                                properties:
+                                  items:
+                                    type: array
+                                    items:
+                                      $ref: '#/components/schemas/PodcastItem'
+                                  page:
+                                    type: integer
+                                  pageSize:
+                                    type: integer
+                                  hasMore:
+                                    type: boolean
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/journey/daily-step-videos:
+    get:
+      operationId: getDailyStepVideos
+      tags:
+      - content
+      summary: Get daily step videos for Thrive journeys
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  valid:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          journeys:
+                            type: object
+                            properties:
+                              getJourneyDailyStepVideos:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/JourneyDailyStepVideo'
+        '401':
+          description: Unauthorized — missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/programs/{programId}:
+    get:
+      operationId: getProgram
+      tags:
+      - programs
+      summary: Get a chronic condition program with weekly content
+      description: Returns the full program structure with weekly content items. Each item has a `contentType`
+        discriminator (article, roleModel, recipe, reset, microstep, lesson). Currently supports the GLP-1
+        Companion program.
+      security:
+      - BearerAuth: []
+      parameters:
+      - in: path
+        name: programId
+        required: true
+        schema:
+          type: string
+          enum:
+          - glp1
+        description: Program identifier
+        example: glp1
+      - in: query
+        name: locale
+        schema:
+          type: string
+          default: en-US
+        description: Content locale
+      - in: query
+        name: week
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 51
+        description: Return a single week (0-indexed, 0 = welcome). Omit for all 52 weeks.
+        example: 0
+      - in: query
+        name: contentTypes
+        schema:
+          type: string
+        description: Comma-separated content types to include. Omit for all.
+        example: article,reset,microstep
+      responses:
+        '200':
+          description: Program retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ProgramResponse'
+        '404':
+          description: Program not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/soundscapes:
+    get:
+      operationId: listSoundscapes
+      tags:
+      - audio experiences
+      summary: List soundscapes
+      description: Returns a paginated list of soundscapes — ambient audio tracks such as rainfall, ocean
+        waves, and forest sounds that support focus, relaxation, and sleep. Each soundscape includes its
+        playable audio, duration, imagery, captions where available, and tags.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Zero-based item offset
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        description: Page size. Values above 100 are clamped to 100, not rejected; `meta.pagination` reports
+          the applied value.
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+          default: en-US
+        description: Locale, forwarded as the thrive-locale header
+      responses:
+        '200':
+          description: A page of soundscapes
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - data
+                - meta
+                - links
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SoundscapeItem'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+                  links:
+                    $ref: '#/components/schemas/PaginationLinks'
+        '401':
+          description: Unauthorized — missing, invalid, or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '422':
+          description: Invalid query parameters (e.g. negative offset, zero limit)
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                  status:
+                    type: integer
+                    example: 422
+                  errors:
+                    type: array
+                    items:
+                      type: object
+        '502':
+          description: Service temporarily unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Service temporarily unavailable
+  /v1/soundscapes/{id}:
+    get:
+      operationId: getSoundscapeById
+      tags:
+      - audio experiences
+      summary: Get a soundscape by id
+      description: Returns a single soundscape by its id, including its playable audio, duration, imagery,
+        captions where available, and tags. Returns `404` when no soundscape exists for the id and `422`
+        when the id is not a UUID.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Soundscape id
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+          default: en-US
+        description: Locale, forwarded as the thrive-locale header
+      responses:
+        '200':
+          description: The soundscape
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/SoundscapeItem'
+        '401':
+          description: Unauthorized — missing, invalid, or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '404':
+          description: No soundscape exists for the id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not found
+        '422':
+          description: Invalid id (must be a UUID) or query parameters
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                  status:
+                    type: integer
+                    example: 422
+                  errors:
+                    type: array
+                    items:
+                      type: object
+        '502':
+          description: Service temporarily unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Service temporarily unavailable
+  /v1/bedtime-stories:
+    get:
+      operationId: listBedtimeStories
+      tags:
+      - audio experiences
+      summary: List bedtime stories
+      description: Returns a paginated list of bedtime stories — narrated audio stories that help listeners
+        unwind and fall asleep. Each bedtime story includes its playable audio, duration, imagery, captions
+        where available, and tags.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Zero-based item offset
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        description: Page size. Values above 100 are clamped to 100, not rejected; `meta.pagination` reports
+          the applied value.
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+          default: en-US
+        description: Locale, forwarded as the thrive-locale header
+      responses:
+        '200':
+          description: A page of bedtime stories
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - data
+                - meta
+                - links
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BedtimeStoryItem'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+                  links:
+                    $ref: '#/components/schemas/PaginationLinks'
+        '401':
+          description: Unauthorized — missing, invalid, or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '422':
+          description: Invalid query parameters (e.g. negative offset, zero limit)
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                  status:
+                    type: integer
+                    example: 422
+                  errors:
+                    type: array
+                    items:
+                      type: object
+        '502':
+          description: Service temporarily unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Service temporarily unavailable
+  /v1/bedtime-stories/{id}:
+    get:
+      operationId: getBedtimeStoryById
+      tags:
+      - audio experiences
+      summary: Get a bedtime story by id
+      description: Returns a single bedtime story by its id, including its playable audio, duration, imagery,
+        captions where available, and tags. Returns `404` when no bedtime story exists for the id and
+        `422` when the id is not a UUID.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Bedtime story id
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+          default: en-US
+        description: Locale, forwarded as the thrive-locale header
+      responses:
+        '200':
+          description: The bedtime story
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/BedtimeStoryItem'
+        '401':
+          description: Unauthorized — missing, invalid, or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '404':
+          description: No bedtime story exists for the id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not found
+        '422':
+          description: Invalid id (must be a UUID) or query parameters
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                  status:
+                    type: integer
+                    example: 422
+                  errors:
+                    type: array
+                    items:
+                      type: object
+        '502':
+          description: Service temporarily unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Service temporarily unavailable
+  /v1/meditations:
+    get:
+      operationId: listMeditations
+      tags:
+      - meditations
+      summary: List meditations
+      description: Returns a paginated list of meditations — guided video sessions for relaxation, sleep,
+        and stress management. Each meditation includes its playable video, duration, imagery, captions
+        where available, and tags.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Zero-based item offset
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        description: Page size. Values above 100 are clamped to 100, not rejected; `meta.pagination` reports
+          the applied value.
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+          default: en-US
+        description: Locale, forwarded as the thrive-locale header
+      responses:
+        '200':
+          description: A page of meditations
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - data
+                - meta
+                - links
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MeditationItem'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+                  links:
+                    $ref: '#/components/schemas/PaginationLinks'
+        '401':
+          description: Unauthorized — missing, invalid, or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '422':
+          description: Invalid query parameters (e.g. negative offset, zero limit)
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                  status:
+                    type: integer
+                    example: 422
+                  errors:
+                    type: array
+                    items:
+                      type: object
+        '502':
+          description: Service temporarily unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Service temporarily unavailable
+  /v1/meditations/{id}:
+    get:
+      operationId: getMeditationById
+      tags:
+      - meditations
+      summary: Get a meditation by id
+      description: Returns a single meditation by its id, including its playable video, duration, imagery,
+        captions where available, and tags. Returns `404` when no meditation exists for the id and `422`
+        when the id is not a UUID.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Meditation id
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+          default: en-US
+        description: Locale, forwarded as the thrive-locale header
+      responses:
+        '200':
+          description: The meditation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/MeditationItem'
+        '401':
+          description: Unauthorized — missing, invalid, or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '404':
+          description: No meditation exists for the id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Not found
+        '422':
+          description: Invalid id (must be a UUID) or query parameters
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                  status:
+                    type: integer
+                    example: 422
+                  errors:
+                    type: array
+                    items:
+                      type: object
+        '502':
+          description: Service temporarily unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Service temporarily unavailable
+  /v1/search:
+    get:
+      operationId: searchContent
+      tags:
+      - search
+      summary: Search the Thrive content library
+      description: 'Search the entire Thrive content library — Resets, Stories, Microsteps, Courses, Podcasts,
+        Journeys, Challenges, Soundscapes, Bedtime Stories, and Meditations — in a single request. Every
+        match is returned as a complete, ready-to-render item, so there are no follow-up by-id calls to
+        make.
+
+
+        **Thrive Search is a premium capability of the Partner API.** To enable it for your organisation,
+        contact your Thrive Global representative. Once enabled, your existing bearer token unlocks this
+        endpoint automatically — no new credentials required. Requests made before Search is enabled return
+        `403 Forbidden`.
+
+
+        Results are returned in relevance order, capped at approximately 20 hits, and are not paginated.
+        This endpoint responds with a bare `{ data: [...] }` array rather than the `{ message, valid,
+        data }` envelope used by the collection endpoints.'
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: query
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 1
+        description: Search text (min length 1)
+        example: sleep
+      - name: types
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Comma-separated content types to search: reset, story, microstep, learnCourse, podcast,
+          journey, challenge, soundscape, bedtime-story, meditation. Omitted = all ten. An unknown value
+          returns 422.'
+        example: reset,podcast,soundscape
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+          default: en-US
+        description: Locale, forwarded as the thrive-locale header
+      responses:
+        '200':
+          description: Search results in relevance order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SearchResultItem'
+        '401':
+          description: Unauthorized — missing, invalid, or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        '403':
+          description: Forbidden — Thrive Search is not enabled for your account. Contact your Thrive
+            Global representative to enable it.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Forbidden
+        '422':
+          description: Invalid query parameters (e.g. unknown type, missing query)
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  title:
+                    type: string
+                  status:
+                    type: integer
+                    example: 422
+                  errors:
+                    type: array
+                    items:
+                      type: object

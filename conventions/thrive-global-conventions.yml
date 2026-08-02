@@ -1,0 +1,66 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://developers.thriveglobal.com/ (FAQ, Authentication, API Reference
+  pages) + derived from openapi/thrive-global-partner-api-openapi.yml
+description: >-
+  Cross-cutting request/response semantics of the Thrive Global Partner API:
+  two-step key-for-token authentication, page/limit pagination, locale
+  parameter, userId-driven caching, a shared { message, valid, data } response
+  envelope, and no rate limiting (Cloudflare fronting only).
+base_url: https://partners-api.thriveglobal.com
+api_style: REST over HTTPS, JSON responses
+authentication:
+  scheme: >-
+    Two-step: POST /v1/auth with x-api-key header (and a userId in the body)
+    returns a JWT at data.logMeWith.partner.token; all content endpoints then
+    require it as Authorization: Bearer <token>.
+  token_ttl: 12 hours
+  artifact: authentication/thrive-global-authentication.yml
+idempotency:
+  supported: false
+  detail: >-
+    No idempotency-key mechanism is documented; the API surface is read-only
+    apart from the auth token exchange.
+pagination:
+  style: page-based
+  request_params: [page, limit]
+  defaults: {page: 1, limit: 200}
+  response_fields: [PaginationMeta, PaginationLinks]
+  detail: >-
+    Paginated on v2/v3 collection endpoints; v1 endpoints return static
+    full-collection responses (stories up to 5000 items, resets 200).
+locale:
+  param: locale
+  format: ISO locale codes (en-US, en-CA, fr-CA, es-US)
+  detail: Most content endpoints accept a locale query parameter.
+content_filtering:
+  stripExternalLinks: >-
+    Boolean query parameter; when true, links to non-Thrive domains are
+    removed from content fields (link text preserved).
+user_identity:
+  userId: >-
+    Mandatory unique identifier passed at auth time; drives user-specific
+    tracking and response caching. Different User IDs invalidate the cache -
+    reuse across users/locales causes cached cross-contamination. Recommended
+    pattern: {companyname}_{environment}_{actual_user_id}_{locale}.
+request_tracing: null
+field_expansion: null
+versioning:
+  style: uri-path (v1/v2/v3 coexist per resource)
+  artifact: lifecycle/thrive-global-lifecycle.yml
+error_envelope:
+  shape: '{ message: string, valid: false }'
+  content_type: application/json
+  artifact: errors/thrive-global-problem-types.yml
+response_envelope:
+  shape: '{ message, valid, data }'
+  detail: >-
+    Collection endpoints nest items at a resource-specific path (e.g.
+    data.data.reset.thrive.get.items).
+rate_limits:
+  enforced: false
+  detail: >-
+    The FAQ states the Partner API does not implement rate limiting; the API
+    is fronted by Cloudflare DDoS protection, so bursty traffic can still
+    trigger Cloudflare security measures.

@@ -1,0 +1,32 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://developers.thriveglobal.com/ (Partner API Portal: FAQ, Status page),
+  https://partners-api.thriveglobal.com/status; deprecation derived from the
+  portal FAQ endpoint-versions answer.
+versioning:
+  scheme: uri-path
+  current: mixed per resource (v1/v2/v3)
+  detail: >-
+    Versions are carried in the URL path and coexist per resource. Higher
+    versions add features: /v1/stories returns all stories in one response
+    (up to 5000), /v2/stories adds pagination, /v3/stories adds recipe
+    fields; /v1 and /v2 resets return up to 200 items, /v3/resets adds
+    pagination, search, and random ordering; /v2/learn is the paginated
+    courses endpoint. API info version 1.7.0 (OpenAPI info.version).
+deprecation:
+  policy_url: null
+  sunset_header: false
+  detail: >-
+    No formal deprecation policy page is published. The portal FAQ marks
+    /v1/learn as deprecated in favour of /v2/learn; older versioned
+    endpoints remain available.
+status_page: https://partners-api.thriveglobal.com/status
+status_page_detail: >-
+  Live "Thrive Partner API Status" page with per-endpoint health checks and
+  system uptime metrics; also rendered at
+  https://developers.thriveglobal.com/status with uptime targets explained
+  (99.9% = 8.77h downtime/year).
+sla: null
+deprecated_operations:
+  - openapi/thrive-global-partner-api-openapi.yml#getLearningCoursesV1
