@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thrive Global Partner audio experiences meditations API",
+    "version": "1.7.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "meditations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List meditations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/meditations",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Zero-based item offset"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Page size. Values above 100 are clamped to 100, not rejected; `meta.pagination` reports the applied value."
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Locale, forwarded as the thrive-locale header"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a paginated list of meditations — guided video sessions for relaxation, sleep, and stress management. Each meditation includes its playable video, duration, imagery, captions where available, and tags."
+        },
+        {
+          "info": {
+            "name": "Get a meditation by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/meditations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Meditation id"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Locale, forwarded as the thrive-locale header"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a single meditation by its id, including its playable video, duration, imagery, captions where available, and tags. Returns `404` when no meditation exists for the id and `422` when the id is not a UUID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

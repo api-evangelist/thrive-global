@@ -1,0 +1,1314 @@
+{
+  "item": [
+    {
+      "id": "1a3b9ddb-fd39-4c46-8bdc-c0d12a139649",
+      "name": "audio experiences",
+      "description": {
+        "content": "Ambient soundscapes and narrated bedtime stories — audio for focus, relaxation, and sleep",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "60908d64-1d43-45f6-92db-1301280106e2",
+          "name": "List soundscapes",
+          "request": {
+            "name": "List soundscapes",
+            "description": {
+              "content": "Returns a paginated list of soundscapes — ambient audio tracks such as rainfall, ocean waves, and forest sounds that support focus, relaxation, and sleep. Each soundscape includes its playable audio, duration, imagery, captions where available, and tags.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "soundscapes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Zero-based item offset"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Page size. Values above 100 are clamped to 100, not rejected; `meta.pagination` reports the applied value."
+                },
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en-US",
+                  "description": "Locale, forwarded as the thrive-locale header"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bac1c989-eb54-4804-85d5-4c5f63cd9642",
+              "name": "A page of soundscapes",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "soundscapes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"f69e082e-d99a-24f6-feeb-7bb4cdb0a651\",\n      \"type\": \"soundscape\",\n      \"name\": \"Forest Rain\",\n      \"description\": \"string\",\n      \"createdAt\": \"2014-02-14T21:34:09.923Z\",\n      \"updatedAt\": \"1961-02-27T18:06:01.164Z\",\n      \"locale\": \"string\",\n      \"tags\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"conditions\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"coreHealthBehaviors\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"durationInSeconds\": 600,\n      \"media\": [\n        {\n          \"kind\": \"embed\",\n          \"orientation\": \"landscape\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"http://jRouXzwoQbK.tybxKx3udw\"\n        },\n        {\n          \"kind\": \"embed\",\n          \"orientation\": \"portrait\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"https://DGAfxPJGyGuqJNtxlFIlazhAckgQJruyA.bldDYaQdz2XwE9Tlt+C04TPOqfdQ.lZKq8bJ,\"\n        }\n      ],\n      \"assets\": [\n        {\n          \"role\": \"image-portrait\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"http://CI.tgkV7eC-PwJm+eu8aA6CbnRxotjd8zbBxaH\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\",\n            \"key_2\": \"string\"\n          }\n        },\n        {\n          \"role\": \"image-landscape\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"https://cxhrYCHHfKdyeJRIrGrdCJXcxFIfBqW.aghnGQRMeIf,ByCadYe0Kkg+bIzf1C\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        }\n      ]\n    },\n    {\n      \"id\": \"11435705-23ad-f61e-9091-a9ef37304844\",\n      \"type\": \"soundscape\",\n      \"name\": \"Forest Rain\",\n      \"description\": \"string\",\n      \"createdAt\": \"2019-08-16T20:23:48.039Z\",\n      \"updatedAt\": \"2023-01-26T21:05:14.110Z\",\n      \"locale\": \"string\",\n      \"tags\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"conditions\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"coreHealthBehaviors\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"durationInSeconds\": 600,\n      \"media\": [\n        {\n          \"kind\": \"file\",\n          \"orientation\": \"portrait\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"https://mMXyAkXGhjaMC.iogNBV0WKYGhun4VLGLUidc.\"\n        },\n        {\n          \"kind\": \"file\",\n          \"orientation\": \"landscape\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"http://iyrZKABcDnAIhPhMqrnKqSQhWrc.ekkJ3VhcIDEF6Ya8p6G8pejCMN,T2LmQ64phVkS6ZDyy5qQz0fLXx\"\n        }\n      ],\n      \"assets\": [\n        {\n          \"role\": \"thumbnail-portrait\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"https://BEIb.wcR7gOVc3+WxB2exS7jZjXV6ZPdfcLiBRnpBPng+sGBLSyAtibbvbtz0VuczC.,qcGpOJh3jzC\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        },\n        {\n          \"role\": \"transcript\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"https://mJOUkuxTUSVmuMt.hrfvyucTenn.ZivBYnH.n-Y.hPHuYuaKyWP6+TEGYgpUU8nd\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"offset\": 0,\n      \"limit\": 10,\n      \"total\": 5042\n    }\n  },\n  \"links\": {\n    \"self\": \"/v1/soundscapes?offset=0&limit=10\",\n    \"next\": \"/v1/soundscapes?offset=10&limit=10\",\n    \"prev\": null\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f8c2ed8-2480-44ae-b517-b1eab1730ef3",
+              "name": "Unauthorized — missing, invalid, or expired token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "soundscapes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a420e61-c6cb-43f9-a3ca-20a629f75a29",
+              "name": "Invalid query parameters (e.g. negative offset, zero limit)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "soundscapes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 422\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c32e2b75-cd79-4b9b-b095-90d56aee2c4f",
+              "name": "Service temporarily unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "soundscapes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "20296ef7-78a3-480b-ae31-d77ce53bf0c9",
+          "name": "Get a soundscape by id",
+          "request": {
+            "name": "Get a soundscape by id",
+            "description": {
+              "content": "Returns a single soundscape by its id, including its playable audio, duration, imagery, captions where available, and tags. Returns `404` when no soundscape exists for the id and `422` when the id is not a UUID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "soundscapes",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en-US",
+                  "description": "Locale, forwarded as the thrive-locale header"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Soundscape id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "62af131e-40f1-42d4-8d08-9da26dfa2e5a",
+              "name": "The soundscape",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "soundscapes",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Soundscape id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"9ed0a34e-a689-d4ab-0006-dfc6c61b6d19\",\n    \"type\": \"soundscape\",\n    \"name\": \"Forest Rain\",\n    \"description\": \"string\",\n    \"createdAt\": \"2022-08-03T06:45:13.826Z\",\n    \"updatedAt\": \"1953-05-06T06:22:15.543Z\",\n    \"locale\": \"string\",\n    \"tags\": [\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      },\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      }\n    ],\n    \"conditions\": [\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      },\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      }\n    ],\n    \"coreHealthBehaviors\": [\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      },\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      }\n    ],\n    \"durationInSeconds\": 600,\n    \"media\": [\n      {\n        \"kind\": \"embed\",\n        \"orientation\": \"portrait\",\n        \"contentType\": \"audio/mpeg\",\n        \"url\": \"https://hahdfHGhGa.xogHXPJBzqPeCppKINHGIe6gft54+T6aH45RVwv\"\n      },\n      {\n        \"kind\": \"embed\",\n        \"orientation\": \"landscape\",\n        \"contentType\": \"audio/mpeg\",\n        \"url\": \"https://JoGpNWrXqwtdMw.ppwdl1.U.6nEsC9TD3fS.ivT1G4k1R88nGKCkxGFmgx\"\n      }\n    ],\n    \"assets\": [\n      {\n        \"role\": \"thumbnail-portrait\",\n        \"contentType\": \"image/jpeg\",\n        \"url\": \"http://H.gikozct-g1k7-S9N+xYhKmSquyOcYazn2mhhShHsPpeTe6eutaQ\",\n        \"alt\": \"string\",\n        \"sizes\": {\n          \"key_0\": \"string\"\n        }\n      },\n      {\n        \"role\": \"captions\",\n        \"contentType\": \"image/jpeg\",\n        \"url\": \"https://drCOZaLTIDQYKMPyhhM.utQdEwfVlQZgshdkBUF\",\n        \"alt\": \"string\",\n        \"sizes\": {\n          \"key_0\": \"string\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1dba1f5-5b4b-4bb1-b700-e3dfdaed8afa",
+              "name": "Unauthorized — missing, invalid, or expired token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "soundscapes",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Soundscape id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b70ddff-45ca-4d70-a0a6-7e593afcdd8d",
+              "name": "No soundscape exists for the id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "soundscapes",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Soundscape id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0d3a131-d190-4aad-a65f-a38bf094457b",
+              "name": "Invalid id (must be a UUID) or query parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "soundscapes",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Soundscape id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 422\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe94edcf-03f4-4e02-a85a-c21f1986ee0d",
+              "name": "Service temporarily unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "soundscapes",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Soundscape id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6776e239-cb83-4290-a6b1-c75d30001f9b",
+          "name": "List bedtime stories",
+          "request": {
+            "name": "List bedtime stories",
+            "description": {
+              "content": "Returns a paginated list of bedtime stories — narrated audio stories that help listeners unwind and fall asleep. Each bedtime story includes its playable audio, duration, imagery, captions where available, and tags.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "bedtime-stories"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Zero-based item offset"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Page size. Values above 100 are clamped to 100, not rejected; `meta.pagination` reports the applied value."
+                },
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en-US",
+                  "description": "Locale, forwarded as the thrive-locale header"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "208146a4-e21b-4ead-93e1-3aeb216f51d8",
+              "name": "A page of bedtime stories",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "bedtime-stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"d7fb5f1c-d053-57bb-3ca6-b4a11fc5c3d4\",\n      \"type\": \"bedtime-story\",\n      \"name\": \"The Sleepy Lighthouse\",\n      \"description\": \"string\",\n      \"createdAt\": \"1984-04-23T11:56:22.510Z\",\n      \"updatedAt\": \"1982-04-28T04:57:26.892Z\",\n      \"locale\": \"string\",\n      \"tags\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"conditions\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"coreHealthBehaviors\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"durationInSeconds\": 1200,\n      \"media\": [\n        {\n          \"kind\": \"manifest\",\n          \"orientation\": \"portrait\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"https://zQKQYHC.dhgfV6iBcoXBbPv\"\n        },\n        {\n          \"kind\": \"file\",\n          \"orientation\": \"portrait\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"https://kwPqEWuYevWesw.jyziJ\"\n        }\n      ],\n      \"assets\": [\n        {\n          \"role\": \"image-landscape\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"https://RZtaLXKwNeKwyLIeLqjKrglqrb.ncuvHc+xyEdm3r28iGY4I3jLnExfuxj4zxsTfgAF6Of5x2\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        },\n        {\n          \"role\": \"transcript\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"http://vQhlQIPtMuYmdkuBluZwKPOFNJCeek.qhFmkyTkZBAdZeqBlaf1pHKKtXAnv2GWZrvfqZQank.HO+qLipmN1zGo0K1elc\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\"\n          }\n        }\n      ]\n    },\n    {\n      \"id\": \"109f61ad-88a1-5e06-747e-69db8f5c63fa\",\n      \"type\": \"bedtime-story\",\n      \"name\": \"The Sleepy Lighthouse\",\n      \"description\": \"string\",\n      \"createdAt\": \"2012-07-05T04:07:34.261Z\",\n      \"updatedAt\": \"1989-10-19T22:48:10.329Z\",\n      \"locale\": \"string\",\n      \"tags\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"conditions\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"coreHealthBehaviors\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"durationInSeconds\": 1200,\n      \"media\": [\n        {\n          \"kind\": \"embed\",\n          \"orientation\": \"portrait\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"http://MAGfTUJ.bmvibxAWGaIfB1tkH.nlG\"\n        },\n        {\n          \"kind\": \"embed\",\n          \"orientation\": \"landscape\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"http://YjNqKUMpWiYXyJQAOISDbiWj.wvhbEDbkFNcHi\"\n        }\n      ],\n      \"assets\": [\n        {\n          \"role\": \"transcript\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"https://NEGzumVyHMhyiftQdPTcuXDWH.yhQaiclxDDea\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\"\n          }\n        },\n        {\n          \"role\": \"captions\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"http://uhBTVyMYPMwUcDQTSIW.dpmaiRmo2Pa37-Sf+DwPxUeXXVyqI36iCN4v8nbFRXzuG003\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\"\n          }\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"offset\": 0,\n      \"limit\": 10,\n      \"total\": 7487\n    }\n  },\n  \"links\": {\n    \"self\": \"/v1/soundscapes?offset=0&limit=10\",\n    \"next\": \"/v1/soundscapes?offset=10&limit=10\",\n    \"prev\": null\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "251e7efa-da3e-4b20-86c5-e2502983a930",
+              "name": "Unauthorized — missing, invalid, or expired token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "bedtime-stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc80deb4-5810-4e80-b5e7-05c1eb3982af",
+              "name": "Invalid query parameters (e.g. negative offset, zero limit)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "bedtime-stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 422\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6409206-e4bc-498d-b5ce-39c4cdfb379d",
+              "name": "Service temporarily unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "bedtime-stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e7e693ea-bc2e-4d0c-93e8-7c2a11b3838c",
+          "name": "Get a bedtime story by id",
+          "request": {
+            "name": "Get a bedtime story by id",
+            "description": {
+              "content": "Returns a single bedtime story by its id, including its playable audio, duration, imagery, captions where available, and tags. Returns `404` when no bedtime story exists for the id and `422` when the id is not a UUID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "bedtime-stories",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en-US",
+                  "description": "Locale, forwarded as the thrive-locale header"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Bedtime story id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0feb59b2-a4cc-468d-a3e9-1d807405cdbb",
+              "name": "The bedtime story",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "bedtime-stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Bedtime story id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"a0058710-16a7-7e4c-2812-f9e49f03bd71\",\n    \"type\": \"bedtime-story\",\n    \"name\": \"The Sleepy Lighthouse\",\n    \"description\": \"string\",\n    \"createdAt\": \"1965-09-06T06:15:41.199Z\",\n    \"updatedAt\": \"1981-09-10T00:46:13.163Z\",\n    \"locale\": \"string\",\n    \"tags\": [\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      },\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      }\n    ],\n    \"conditions\": [\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      },\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      }\n    ],\n    \"coreHealthBehaviors\": [\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      },\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      }\n    ],\n    \"durationInSeconds\": 1200,\n    \"media\": [\n      {\n        \"kind\": \"file\",\n        \"orientation\": \"landscape\",\n        \"contentType\": \"audio/mpeg\",\n        \"url\": \"http://uLCawuFaAOwvdlXDZXbSb.sus1.Cwtl.izNa\"\n      },\n      {\n        \"kind\": \"manifest\",\n        \"orientation\": \"landscape\",\n        \"contentType\": \"audio/mpeg\",\n        \"url\": \"http://bcyn.feLscAEEpDQwEwmLdoiprcEhVDk,26RKH\"\n      }\n    ],\n    \"assets\": [\n      {\n        \"role\": \"thumbnail-landscape\",\n        \"contentType\": \"image/jpeg\",\n        \"url\": \"https://mJOQPXbuDjBbxetlZArYUpJ.akiSdU1OW21cZNT+gql5-VpGjlvxord61szsplOjEaRNjsZQeS1Lw+lYiS8KyVqB\",\n        \"alt\": \"string\",\n        \"sizes\": {\n          \"key_0\": \"string\"\n        }\n      },\n      {\n        \"role\": \"thumbnail-portrait\",\n        \"contentType\": \"image/jpeg\",\n        \"url\": \"https://xjPtnOjW.ymGh3X\",\n        \"alt\": \"string\",\n        \"sizes\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9175e447-34e0-43e3-8511-a89608d49c2b",
+              "name": "Unauthorized — missing, invalid, or expired token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "bedtime-stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Bedtime story id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9df0eae5-96b5-43c9-be03-3933527e3f77",
+              "name": "No bedtime story exists for the id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "bedtime-stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Bedtime story id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aae1b0c2-0187-4f55-96f3-7e9ddc80f956",
+              "name": "Invalid id (must be a UUID) or query parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "bedtime-stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Bedtime story id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 422\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b62f3f0-28db-40ae-99be-67d56d25318d",
+              "name": "Service temporarily unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "bedtime-stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Bedtime story id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://partners-api.thriveglobal.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1846c9fc-2926-4fba-a032-be658ffe2739",
+    "name": "Thrive Global Partner audio experiences API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for accessing Thrive Global content and features. All content endpoints require a Bearer token obtained via the authentication endpoint.\n\nResponse envelopes follow the pattern `{ message, valid, data }` where `data` contains the response payload. Collection endpoints nest items at a resource-specific path (e.g. `data.data.reset.thrive.get.items`).\n\nContact Support:\n Name: Thrive Global",
+      "type": "text/plain"
+    }
+  }
+}

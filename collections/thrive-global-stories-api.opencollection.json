@@ -1,0 +1,222 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thrive Global Partner audio experiences stories API",
+    "version": "1.7.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "stories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get stories with recipe fields (v3)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v3/stories",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              },
+              {
+                "name": "stripExternalLinks",
+                "value": "",
+                "type": "query",
+                "description": "When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "V3 includes `servings`, `ingredients`, and `directions` on recipe-type articles."
+        },
+        {
+          "info": {
+            "name": "Get stories and articles with pagination (v2)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v2/stories",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              },
+              {
+                "name": "stripExternalLinks",
+                "value": "",
+                "type": "query",
+                "description": "When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Same as v3 but without recipe-specific fields (servings, ingredients, directions)."
+        },
+        {
+          "info": {
+            "name": "Get all stories (v1, static, up to 5000 items)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/stories",
+            "params": [
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              },
+              {
+                "name": "stripExternalLinks",
+                "value": "",
+                "type": "query",
+                "description": "When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all stories (v1, static, up to 5000 items)"
+        },
+        {
+          "info": {
+            "name": "Get a single story by ID with recipe fields (v3)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v3/stories/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "550e8400-e29b-41d4-a716-446655440000",
+                "type": "path",
+                "description": "Unique identifier of the story (UUID)"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              },
+              {
+                "name": "stripExternalLinks",
+                "value": "",
+                "type": "query",
+                "description": "When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a single story by ID with recipe fields (v3)"
+        },
+        {
+          "info": {
+            "name": "Get a single story by ID (v2)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v2/stories/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "550e8400-e29b-41d4-a716-446655440000",
+                "type": "path",
+                "description": "Unique identifier of the story (UUID)"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a single story by ID (v2)"
+        },
+        {
+          "info": {
+            "name": "Get a single story by ID (v1)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/stories/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "550e8400-e29b-41d4-a716-446655440000",
+                "type": "path",
+                "description": "Unique identifier of the story (UUID)"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a single story by ID (v1)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

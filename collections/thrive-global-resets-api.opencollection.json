@@ -1,0 +1,272 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thrive Global Partner audio experiences resets API",
+    "version": "1.7.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "resets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Thrive Resets with pagination, locale, search, and filters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v3/resets",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search resets by name"
+              },
+              {
+                "name": "random",
+                "value": "",
+                "type": "query",
+                "description": "Set to \"true\" for random ordering"
+              },
+              {
+                "name": "theme",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated theme filter"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated keyword/tag filter"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "JSON filter object (merged with individual filter params)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Thrive Resets with pagination, locale, search, and filters"
+        },
+        {
+          "info": {
+            "name": "Get all Thrive Resets (v2) with locale support",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v2/resets",
+            "params": [
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all Thrive Resets (v2) with locale support"
+        },
+        {
+          "info": {
+            "name": "Get all Thrive Resets (v1, static, 200 items)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/resets",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all Thrive Resets (v1, static, 200 items)"
+        },
+        {
+          "info": {
+            "name": "Get audio Thrive Resets with pagination",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v2/resets/audio",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get audio Thrive Resets with pagination"
+        },
+        {
+          "info": {
+            "name": "Get a single reset by ID (v3)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v3/resets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "550e8400-e29b-41d4-a716-446655440000",
+                "type": "path",
+                "description": "Unique identifier of the reset (UUID)"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a single reset by ID (v3)"
+        },
+        {
+          "info": {
+            "name": "Get a single reset by ID (v2)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v2/resets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "550e8400-e29b-41d4-a716-446655440000",
+                "type": "path",
+                "description": "Unique identifier of the reset (UUID)"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a single reset by ID (v2)"
+        },
+        {
+          "info": {
+            "name": "Get a single reset by ID (v1)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/resets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "550e8400-e29b-41d4-a716-446655440000",
+                "type": "path",
+                "description": "Unique identifier of the reset (UUID)"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Language locale (e.g. en, es, en-GB)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a single reset by ID (v1)"
+        },
+        {
+          "info": {
+            "name": "Get a single audio reset by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v2/resets/audio/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "550e8400-e29b-41d4-a716-446655440000",
+                "type": "path",
+                "description": "Unique identifier of the audio reset (UUID)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a single audio reset by ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,323 @@
+{
+  "item": [
+    {
+      "id": "582b8892-af72-42a6-9039-718800f857b6",
+      "name": "search",
+      "description": {
+        "content": "Search the full Thrive content library (premium capability — contact your Thrive Global representative to enable)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1347e123-a7f3-4f6c-b904-b264113ea8bd",
+          "name": "Search the Thrive content library",
+          "request": {
+            "name": "Search the Thrive content library",
+            "description": {
+              "content": "Search the entire Thrive content library — Resets, Stories, Microsteps, Courses, Podcasts, Journeys, Challenges, Soundscapes, Bedtime Stories, and Meditations — in a single request. Every match is returned as a complete, ready-to-render item, so there are no follow-up by-id calls to make.\n\n**Thrive Search is a premium capability of the Partner API.** To enable it for your organisation, contact your Thrive Global representative. Once enabled, your existing bearer token unlocks this endpoint automatically — no new credentials required. Requests made before Search is enabled return `403 Forbidden`.\n\nResults are returned in relevance order, capped at approximately 20 hits, and are not paginated. This endpoint responds with a bare `{ data: [...] }` array rather than the `{ message, valid, data }` envelope used by the collection endpoints.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "(Required) Search text (min length 1)"
+                },
+                {
+                  "disabled": false,
+                  "key": "types",
+                  "value": "<string>",
+                  "description": "Comma-separated content types to search: reset, story, microstep, learnCourse, podcast, journey, challenge, soundscape, bedtime-story, meditation. Omitted = all ten. An unknown value returns 422."
+                },
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en-US",
+                  "description": "Locale, forwarded as the thrive-locale header"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "741331ff-57e6-492a-8444-77a4f5d24658",
+              "name": "Search results in relevance order",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "sleep"
+                    },
+                    {
+                      "key": "types",
+                      "value": "reset,podcast,soundscape"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"7fb89c84-7748-4c3a-82e1-ff6d043a5f2b\",\n      \"type\": \"microstep\",\n      \"mediaType\": \"AUDIO\",\n      \"title\": \"string\",\n      \"snippet\": \"string\",\n      \"tags\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"conditions\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"coreHealthBehaviors\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ]\n    },\n    {\n      \"id\": \"49b11d1d-7e14-4720-db43-734def7ca543\",\n      \"type\": \"reset\",\n      \"mediaType\": \"VIDEO\",\n      \"title\": \"string\",\n      \"snippet\": \"string\",\n      \"tags\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"conditions\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"coreHealthBehaviors\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4034df3a-cc56-43f3-af7c-010bd827c6a6",
+              "name": "Unauthorized — missing, invalid, or expired token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "sleep"
+                    },
+                    {
+                      "key": "types",
+                      "value": "reset,podcast,soundscape"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25a25e73-8c68-4e0f-8e64-f98fb7768c39",
+              "name": "Forbidden — Thrive Search is not enabled for your account. Contact your Thrive Global representative to enable it.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "sleep"
+                    },
+                    {
+                      "key": "types",
+                      "value": "reset,podcast,soundscape"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "01d14bd5-0544-4540-89ed-7362b033b481",
+              "name": "Invalid query parameters (e.g. unknown type, missing query)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "sleep"
+                    },
+                    {
+                      "key": "types",
+                      "value": "reset,podcast,soundscape"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 422\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://partners-api.thriveglobal.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5523a6d9-9a53-4eb0-beb9-3028d9578011",
+    "name": "Thrive Global Partner audio experiences search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for accessing Thrive Global content and features. All content endpoints require a Bearer token obtained via the authentication endpoint.\n\nResponse envelopes follow the pattern `{ message, valid, data }` where `data` contains the response payload. Collection endpoints nest items at a resource-specific path (e.g. `data.data.reset.thrive.get.items`).\n\nContact Support:\n Name: Thrive Global",
+      "type": "text/plain"
+    }
+  }
+}

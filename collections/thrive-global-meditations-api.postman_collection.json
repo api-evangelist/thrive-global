@@ -1,0 +1,673 @@
+{
+  "item": [
+    {
+      "id": "3cc27623-24be-4e42-a826-f29a30452b7c",
+      "name": "meditations",
+      "description": {
+        "content": "Guided meditations — video sessions for relaxation, sleep, and stress management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "28d83c6a-07b4-4db9-8fce-265b850e843d",
+          "name": "List meditations",
+          "request": {
+            "name": "List meditations",
+            "description": {
+              "content": "Returns a paginated list of meditations — guided video sessions for relaxation, sleep, and stress management. Each meditation includes its playable video, duration, imagery, captions where available, and tags.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "meditations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Zero-based item offset"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Page size. Values above 100 are clamped to 100, not rejected; `meta.pagination` reports the applied value."
+                },
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en-US",
+                  "description": "Locale, forwarded as the thrive-locale header"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "866e36d3-79db-4e68-a871-999ae8016664",
+              "name": "A page of meditations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meditations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"ce900c3f-515d-3982-1ffd-753dd939df5e\",\n      \"type\": \"meditation\",\n      \"name\": \"Body Scan for Deep Rest\",\n      \"description\": \"string\",\n      \"createdAt\": \"1993-02-26T01:43:20.017Z\",\n      \"updatedAt\": \"1994-05-13T17:10:18.948Z\",\n      \"locale\": \"string\",\n      \"tags\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"conditions\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"coreHealthBehaviors\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"durationInSeconds\": 540,\n      \"media\": [\n        {\n          \"kind\": \"embed\",\n          \"orientation\": \"portrait\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"http://iVbrfHmtikiLKfEZMwijcHcWUkBp.fvfyCGowfe7ckY8EaCJpqFOxq4ptQg34Nb44bFGSMKK6Bjzqp.x.V6xHye-GBuLlMi1E3voQ5Z-1\"\n        },\n        {\n          \"kind\": \"embed\",\n          \"orientation\": \"landscape\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"https://KNtPowtiyQtWlzOlkVOmWoavWrNV.ygcmyTEWW-KUWS7FQW7Y7.,ela,E2ZR0eJzPiPideyy+.xALqMI.0iu\"\n        }\n      ],\n      \"assets\": [\n        {\n          \"role\": \"image-portrait\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"http://jr.dorTJS83Vhztnnx7DYZKfoAkRRgotjygDz0xvO9NyFWO0tZ8oHqx\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\",\n            \"key_2\": \"string\"\n          }\n        },\n        {\n          \"role\": \"image-landscape\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"http://diRzjfc.gaeybvahH5F4OI.cz05scQ.vNG,+\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        }\n      ]\n    },\n    {\n      \"id\": \"0110402d-23db-8163-7906-6211e2dc3219\",\n      \"type\": \"meditation\",\n      \"name\": \"Body Scan for Deep Rest\",\n      \"description\": \"string\",\n      \"createdAt\": \"1999-09-05T00:37:52.641Z\",\n      \"updatedAt\": \"1966-12-27T20:38:57.950Z\",\n      \"locale\": \"string\",\n      \"tags\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"conditions\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"coreHealthBehaviors\": [\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        },\n        {\n          \"id\": \"string\",\n          \"slug\": \"sleep\",\n          \"name\": \"Sleep\"\n        }\n      ],\n      \"durationInSeconds\": 540,\n      \"media\": [\n        {\n          \"kind\": \"file\",\n          \"orientation\": \"portrait\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"https://RloUVzucihXlpFdVhfQS.bsmGO1GPt3+kv+U7OEwQr\"\n        },\n        {\n          \"kind\": \"file\",\n          \"orientation\": \"portrait\",\n          \"contentType\": \"audio/mpeg\",\n          \"url\": \"https://wLrKNZGQoWZ.gkfuz5a\"\n        }\n      ],\n      \"assets\": [\n        {\n          \"role\": \"thumbnail-portrait\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"https://MOTIFbGLlpLiucgBuNhZORSOBF.bfwqdWLkDvRAaCzoieV20mMMceVnUXtKRq6zYdp1Lvl3nDEjEBgS8lXybVYy3TBqgFX\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        },\n        {\n          \"role\": \"thumbnail-portrait\",\n          \"contentType\": \"image/jpeg\",\n          \"url\": \"https://lRZwneJpUtrLdbtoITrCB.qsjQzJtKhP6aB5S0dY-JXzAAG60WTpdiQY4LfR-04ukP\",\n          \"alt\": \"string\",\n          \"sizes\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"pagination\": {\n      \"offset\": 0,\n      \"limit\": 10,\n      \"total\": 9608\n    }\n  },\n  \"links\": {\n    \"self\": \"/v1/soundscapes?offset=0&limit=10\",\n    \"next\": \"/v1/soundscapes?offset=10&limit=10\",\n    \"prev\": null\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2b1fe58-bf19-414a-b7a6-10f5e19e60b8",
+              "name": "Unauthorized — missing, invalid, or expired token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meditations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b20c7ca-61fb-471d-8318-28719dc6b0c3",
+              "name": "Invalid query parameters (e.g. negative offset, zero limit)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meditations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 422\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "92982932-eaed-4e3b-81b7-9d65a93286a0",
+              "name": "Service temporarily unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meditations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "81295862-4c46-47ae-9b83-a1467767aed3",
+          "name": "Get a meditation by id",
+          "request": {
+            "name": "Get a meditation by id",
+            "description": {
+              "content": "Returns a single meditation by its id, including its playable video, duration, imagery, captions where available, and tags. Returns `404` when no meditation exists for the id and `422` when the id is not a UUID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "meditations",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en-US",
+                  "description": "Locale, forwarded as the thrive-locale header"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Meditation id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "098c0bdc-b415-4da2-a50a-9bef7d971735",
+              "name": "The meditation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meditations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Meditation id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"2927969e-d814-8d2d-15f6-c8765b879117\",\n    \"type\": \"meditation\",\n    \"name\": \"Body Scan for Deep Rest\",\n    \"description\": \"string\",\n    \"createdAt\": \"1993-04-24T18:18:23.073Z\",\n    \"updatedAt\": \"1951-03-06T15:00:19.644Z\",\n    \"locale\": \"string\",\n    \"tags\": [\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      },\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      }\n    ],\n    \"conditions\": [\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      },\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      }\n    ],\n    \"coreHealthBehaviors\": [\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      },\n      {\n        \"id\": \"string\",\n        \"slug\": \"sleep\",\n        \"name\": \"Sleep\"\n      }\n    ],\n    \"durationInSeconds\": 540,\n    \"media\": [\n      {\n        \"kind\": \"embed\",\n        \"orientation\": \"portrait\",\n        \"contentType\": \"audio/mpeg\",\n        \"url\": \"http://kPgEDVaVwAoolSumIDiESBxEj.urvhPPwdFQBtbDGP0I1rYnLLHJv.P5xl7p4RPU1wqYb-JU.9lR5v81ItqVYMqSzKEb7gxY+Z\"\n      },\n      {\n        \"kind\": \"embed\",\n        \"orientation\": \"landscape\",\n        \"contentType\": \"audio/mpeg\",\n        \"url\": \"https://yyEhmnbPHxfsTycajDLQdvqvDYupXOo.teufBLwevRRxUt4B1Ssza4Uu\"\n      }\n    ],\n    \"assets\": [\n      {\n        \"role\": \"image-landscape\",\n        \"contentType\": \"image/jpeg\",\n        \"url\": \"http://jOLscBipXcBpuJsupXhdJLAVBHlPr.iwjnmQgU7hw6v2fmmv2lVWNpGHs+7eWb544V0-ZnpNDkqL\",\n        \"alt\": \"string\",\n        \"sizes\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      },\n      {\n        \"role\": \"captions\",\n        \"contentType\": \"image/jpeg\",\n        \"url\": \"http://fRewkGxhSBFqLLLhY.kmdHiZbwuJSIGvN9tzkmuAion1sbkygK4EuZQ5g9,+pBWSjwqx\",\n        \"alt\": \"string\",\n        \"sizes\": {\n          \"key_0\": \"string\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3541c6d2-82da-4398-9dcc-07d23f309621",
+              "name": "Unauthorized — missing, invalid, or expired token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meditations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Meditation id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1f101676-d035-4b2a-89cd-20355a8a8dbb",
+              "name": "No meditation exists for the id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meditations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Meditation id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "39b7ea6b-24d5-4021-8c7d-be8a297abc58",
+              "name": "Invalid id (must be a UUID) or query parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meditations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Meditation id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 422\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2cc27399-fbae-4125-ae6b-84b9a72547dc",
+              "name": "Service temporarily unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meditations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Meditation id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Service temporarily unavailable\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://partners-api.thriveglobal.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ba4cab48-85ef-4e55-9161-566354092e17",
+    "name": "Thrive Global Partner audio experiences meditations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for accessing Thrive Global content and features. All content endpoints require a Bearer token obtained via the authentication endpoint.\n\nResponse envelopes follow the pattern `{ message, valid, data }` where `data` contains the response payload. Collection endpoints nest items at a resource-specific path (e.g. `data.data.reset.thrive.get.items`).\n\nContact Support:\n Name: Thrive Global",
+      "type": "text/plain"
+    }
+  }
+}

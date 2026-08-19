@@ -1,0 +1,1638 @@
+{
+  "item": [
+    {
+      "id": "2fbb3088-d427-452f-bdfe-82a1afbf7d5a",
+      "name": "stories",
+      "description": {
+        "content": "Articles, role model stories, and recipes",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ec05f644-73c7-4a8c-899a-3893ba82cbc3",
+          "name": "Get stories with recipe fields (v3)",
+          "request": {
+            "name": "Get stories with recipe fields (v3)",
+            "description": {
+              "content": "V3 includes `servings`, `ingredients`, and `directions` on recipe-type articles.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "stories"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "500",
+                  "description": "Items per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en",
+                  "description": "Language locale (e.g. en, es, en-GB)"
+                },
+                {
+                  "disabled": false,
+                  "key": "stripExternalLinks",
+                  "value": "false",
+                  "description": "When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "87fff4ec-3fb4-4c25-aeb0-dedc22cc80c8",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": true,\n  \"data\": {\n    \"data\": {\n      \"learnV2\": {\n        \"getArticlesV2\": {\n          \"items\": [\n            {\n              \"id\": \"16a7d4fd-0c14-85dc-bb2f-7891307e64b5\",\n              \"title\": \"string\",\n              \"summary\": \"string\",\n              \"body\": \"string\",\n              \"imageUrl\": \"string\",\n              \"audioUrl\": \"string\",\n              \"contentType\": \"string\",\n              \"articleContentType\": \"string\",\n              \"durationSeconds\": 3527,\n              \"language\": \"string\",\n              \"source\": \"string\",\n              \"authors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"tags\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"conditions\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeyIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeys\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"coreHealthBehaviors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"spotlightSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"featuredSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"seoDescription\": \"string\",\n              \"seoTitle\": \"string\",\n              \"imageAlternativeText\": \"string\",\n              \"collection\": \"string\",\n              \"createdAt\": \"2002-05-13T13:25:00.263Z\",\n              \"updatedAt\": \"1969-07-19T12:57:16.181Z\",\n              \"servings\": 4273,\n              \"ingredients\": \"string\",\n              \"directions\": \"string\",\n              \"conditionType\": \"string\",\n              \"isSpotlight\": false,\n              \"isFeatured\": false,\n              \"thumbnailUrl\": \"string\",\n              \"excerpt\": \"string\",\n              \"author\": \"string\"\n            },\n            {\n              \"id\": \"790dbd43-b504-2820-c87b-a13a458bb938\",\n              \"title\": \"string\",\n              \"summary\": \"string\",\n              \"body\": \"string\",\n              \"imageUrl\": \"string\",\n              \"audioUrl\": \"string\",\n              \"contentType\": \"string\",\n              \"articleContentType\": \"string\",\n              \"durationSeconds\": 9234,\n              \"language\": \"string\",\n              \"source\": \"string\",\n              \"authors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"tags\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"conditions\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeyIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeys\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"coreHealthBehaviors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"spotlightSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"featuredSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"seoDescription\": \"string\",\n              \"seoTitle\": \"string\",\n              \"imageAlternativeText\": \"string\",\n              \"collection\": \"string\",\n              \"createdAt\": \"2020-11-24T06:58:41.133Z\",\n              \"updatedAt\": \"1957-11-28T09:27:44.776Z\",\n              \"servings\": 5693,\n              \"ingredients\": \"string\",\n              \"directions\": \"string\",\n              \"conditionType\": \"string\",\n              \"isSpotlight\": true,\n              \"isFeatured\": true,\n              \"thumbnailUrl\": \"string\",\n              \"excerpt\": \"string\",\n              \"author\": \"string\"\n            }\n          ],\n          \"pageSize\": 2678,\n          \"pageCount\": 9497,\n          \"page\": 3761,\n          \"hasMore\": true\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5909fca8-2203-4e15-bcdf-45143c0dbc1f",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ad1c15d-c655-4e4b-8d10-248c15a094c8",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9ae2010a-90d5-48fe-98e1-0331aeb96c71",
+          "name": "Get stories and articles with pagination (v2)",
+          "request": {
+            "name": "Get stories and articles with pagination (v2)",
+            "description": {
+              "content": "Same as v3 but without recipe-specific fields (servings, ingredients, directions).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "stories"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "500",
+                  "description": "Items per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en",
+                  "description": "Language locale (e.g. en, es, en-GB)"
+                },
+                {
+                  "disabled": false,
+                  "key": "stripExternalLinks",
+                  "value": "false",
+                  "description": "When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "461b14e6-d529-46c5-951b-2a0bb2768af5",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false,\n  \"data\": {\n    \"data\": {\n      \"learnV2\": {\n        \"getArticlesV2\": {\n          \"items\": [\n            {\n              \"id\": \"12ffb87c-99f7-1666-a17d-636edf948903\",\n              \"title\": \"string\",\n              \"summary\": \"string\",\n              \"body\": \"string\",\n              \"imageUrl\": \"string\",\n              \"audioUrl\": \"string\",\n              \"contentType\": \"string\",\n              \"articleContentType\": \"string\",\n              \"durationSeconds\": 7053,\n              \"language\": \"string\",\n              \"source\": \"string\",\n              \"authors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"tags\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"conditions\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeyIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeys\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"coreHealthBehaviors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"spotlightSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"featuredSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"seoDescription\": \"string\",\n              \"seoTitle\": \"string\",\n              \"imageAlternativeText\": \"string\",\n              \"collection\": \"string\",\n              \"createdAt\": \"2023-07-08T19:54:23.258Z\",\n              \"updatedAt\": \"1959-01-21T20:56:39.817Z\",\n              \"servings\": 8049,\n              \"ingredients\": \"string\",\n              \"directions\": \"string\",\n              \"conditionType\": \"string\",\n              \"isSpotlight\": false,\n              \"isFeatured\": false,\n              \"thumbnailUrl\": \"string\",\n              \"excerpt\": \"string\",\n              \"author\": \"string\"\n            },\n            {\n              \"id\": \"69f5afd0-aafb-a082-fdfa-8002e70e3419\",\n              \"title\": \"string\",\n              \"summary\": \"string\",\n              \"body\": \"string\",\n              \"imageUrl\": \"string\",\n              \"audioUrl\": \"string\",\n              \"contentType\": \"string\",\n              \"articleContentType\": \"string\",\n              \"durationSeconds\": 2200,\n              \"language\": \"string\",\n              \"source\": \"string\",\n              \"authors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"tags\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"conditions\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeyIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeys\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"coreHealthBehaviors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"spotlightSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"featuredSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"seoDescription\": \"string\",\n              \"seoTitle\": \"string\",\n              \"imageAlternativeText\": \"string\",\n              \"collection\": \"string\",\n              \"createdAt\": \"2004-01-17T16:22:31.105Z\",\n              \"updatedAt\": \"2010-10-30T06:48:59.160Z\",\n              \"servings\": 1868,\n              \"ingredients\": \"string\",\n              \"directions\": \"string\",\n              \"conditionType\": \"string\",\n              \"isSpotlight\": false,\n              \"isFeatured\": true,\n              \"thumbnailUrl\": \"string\",\n              \"excerpt\": \"string\",\n              \"author\": \"string\"\n            }\n          ],\n          \"pageSize\": 1756,\n          \"pageCount\": 7366,\n          \"page\": 3893,\n          \"hasMore\": false\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9651ba9e-cb83-4ed2-9ef2-64237cd88448",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "731c13b9-21f3-47aa-9018-69d0aacda76e",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "500"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eb15c1c4-11e5-4073-a033-b1918a4a4c71",
+          "name": "Get all stories (v1, static, up to 5000 items)",
+          "request": {
+            "name": "Get all stories (v1, static, up to 5000 items)",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "stories"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en",
+                  "description": "Language locale (e.g. en, es, en-GB)"
+                },
+                {
+                  "disabled": false,
+                  "key": "stripExternalLinks",
+                  "value": "false",
+                  "description": "When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "49fa7304-6d78-430b-9e59-6abd9b00a6fe",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false,\n  \"data\": {\n    \"data\": {\n      \"learnV2\": {\n        \"getArticlesV2\": {\n          \"items\": [\n            {\n              \"id\": \"12ffb87c-99f7-1666-a17d-636edf948903\",\n              \"title\": \"string\",\n              \"summary\": \"string\",\n              \"body\": \"string\",\n              \"imageUrl\": \"string\",\n              \"audioUrl\": \"string\",\n              \"contentType\": \"string\",\n              \"articleContentType\": \"string\",\n              \"durationSeconds\": 7053,\n              \"language\": \"string\",\n              \"source\": \"string\",\n              \"authors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"tags\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"conditions\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeyIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeys\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"coreHealthBehaviors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"spotlightSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"featuredSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"seoDescription\": \"string\",\n              \"seoTitle\": \"string\",\n              \"imageAlternativeText\": \"string\",\n              \"collection\": \"string\",\n              \"createdAt\": \"2023-07-08T19:54:23.258Z\",\n              \"updatedAt\": \"1959-01-21T20:56:39.817Z\",\n              \"servings\": 8049,\n              \"ingredients\": \"string\",\n              \"directions\": \"string\",\n              \"conditionType\": \"string\",\n              \"isSpotlight\": false,\n              \"isFeatured\": false,\n              \"thumbnailUrl\": \"string\",\n              \"excerpt\": \"string\",\n              \"author\": \"string\"\n            },\n            {\n              \"id\": \"69f5afd0-aafb-a082-fdfa-8002e70e3419\",\n              \"title\": \"string\",\n              \"summary\": \"string\",\n              \"body\": \"string\",\n              \"imageUrl\": \"string\",\n              \"audioUrl\": \"string\",\n              \"contentType\": \"string\",\n              \"articleContentType\": \"string\",\n              \"durationSeconds\": 2200,\n              \"language\": \"string\",\n              \"source\": \"string\",\n              \"authors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"tags\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"conditions\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeyIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"journeys\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"coreHealthBehaviors\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"spotlightSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"featuredSubscriptionIds\": [\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              ],\n              \"seoDescription\": \"string\",\n              \"seoTitle\": \"string\",\n              \"imageAlternativeText\": \"string\",\n              \"collection\": \"string\",\n              \"createdAt\": \"2004-01-17T16:22:31.105Z\",\n              \"updatedAt\": \"2010-10-30T06:48:59.160Z\",\n              \"servings\": 1868,\n              \"ingredients\": \"string\",\n              \"directions\": \"string\",\n              \"conditionType\": \"string\",\n              \"isSpotlight\": false,\n              \"isFeatured\": true,\n              \"thumbnailUrl\": \"string\",\n              \"excerpt\": \"string\",\n              \"author\": \"string\"\n            }\n          ],\n          \"pageSize\": 1756,\n          \"pageCount\": 7366,\n          \"page\": 3893,\n          \"hasMore\": false\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "095ead2d-3a7f-4ab0-8646-8541ed571516",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9bb04358-a25d-4cdf-ae0f-4c904c1b9051",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "stories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f7a8ca27-f52c-4b07-9d19-e67551248a1b",
+          "name": "Get a single story by ID with recipe fields (v3)",
+          "request": {
+            "name": "Get a single story by ID with recipe fields (v3)",
+            "description": {},
+            "url": {
+              "path": [
+                "v3",
+                "stories",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en",
+                  "description": "Language locale (e.g. en, es, en-GB)"
+                },
+                {
+                  "disabled": false,
+                  "key": "stripExternalLinks",
+                  "value": "false",
+                  "description": "When true, links to non-Thrive domains are removed from content fields; the link text is preserved. Links to thriveglobal.com and relative links are kept."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Unique identifier of the story (UUID)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "90e02817-d6f0-4b15-8cda-d4bb9575b4de",
+              "name": "Item retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": true,\n  \"data\": {\n    \"data\": {\n      \"learnV2\": {\n        \"item\": {\n          \"id\": \"6e04ab62-a423-6faf-e157-5c6f6348f256\",\n          \"title\": \"string\",\n          \"summary\": \"string\",\n          \"body\": \"string\",\n          \"imageUrl\": \"string\",\n          \"audioUrl\": \"string\",\n          \"contentType\": \"string\",\n          \"articleContentType\": \"string\",\n          \"durationSeconds\": 9579,\n          \"language\": \"string\",\n          \"source\": \"string\",\n          \"authors\": [\n            {\n              \"name\": \"string\",\n              \"title\": \"string\",\n              \"bio\": \"string\",\n              \"photoUrl\": \"http://WRtNGlUKVt.xehgmqzRBz4AYDWLRDUtAPDRatDcAlPEIS86gbULWjvNzDn434xg\"\n            },\n            {\n              \"name\": \"string\",\n              \"title\": \"string\",\n              \"bio\": \"string\",\n              \"photoUrl\": \"https://ziPlFSpjdDkpXTLyqnV.ztyEvwkiC,ttWSqCH,jlX.HB9\"\n            }\n          ],\n          \"tags\": [\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            },\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            }\n          ],\n          \"conditions\": [\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            },\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            }\n          ],\n          \"journeyIds\": [\n            \"4d85a11c-02b9-d3be-a61b-a3bc244336eb\",\n            \"1ac0a30c-45b9-9214-9ba2-e335df259bb9\"\n          ],\n          \"journeys\": [\n            {\n              \"id\": \"56b6daac-cc57-658b-5edb-fda6ac94f82e\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 6649,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"1991-02-22T14:53:31.896Z\",\n              \"updatedAt\": \"1971-03-11T06:54:48.228Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"id\": \"1846352d-3b6a-11b9-a357-a67ab6d012ba\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 4831,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"2015-04-21T18:42:14.884Z\",\n              \"updatedAt\": \"1974-12-25T13:11:28.679Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"coreHealthBehaviors\": [\n            {\n              \"id\": \"40f5e0ca-1402-7d71-7bbc-5ed4e0d5a023\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 8179,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"1991-11-08T18:28:11.303Z\",\n              \"updatedAt\": \"1969-01-04T10:57:44.957Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"id\": \"7c76952f-8f57-c54f-19a0-90beed41dbe2\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 5731,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"1967-11-30T09:45:36.317Z\",\n              \"updatedAt\": \"2009-09-10T10:53:18.929Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"spotlightSubscriptionIds\": [\n            \"string\",\n            \"string\"\n          ],\n          \"featuredSubscriptionIds\": [\n            \"string\",\n            \"string\"\n          ],\n          \"seoDescription\": \"string\",\n          \"seoTitle\": \"string\",\n          \"imageAlternativeText\": \"string\",\n          \"collection\": \"string\",\n          \"createdAt\": \"1974-01-24T17:48:58.528Z\",\n          \"updatedAt\": \"1962-07-05T19:56:51.692Z\",\n          \"servings\": 8458,\n          \"ingredients\": \"string\",\n          \"directions\": \"string\",\n          \"conditionType\": \"string\",\n          \"isSpotlight\": false,\n          \"isFeatured\": true,\n          \"thumbnailUrl\": \"string\",\n          \"excerpt\": \"string\",\n          \"author\": \"string\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "491fa9ba-1d3c-45d3-8c41-b9bfe2cadb3b",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c0f7134d-150d-4a9e-9f9b-8327515eb725",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2f0e82d9-230c-4b75-b23e-8271bfffb445",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    },
+                    {
+                      "key": "stripExternalLinks",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fd85eb9b-59ae-4f41-9b09-5ec80fbc5a3d",
+          "name": "Get a single story by ID (v2)",
+          "request": {
+            "name": "Get a single story by ID (v2)",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "stories",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en",
+                  "description": "Language locale (e.g. en, es, en-GB)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Unique identifier of the story (UUID)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2a03465d-29e3-4790-a26c-af246dde7a7e",
+              "name": "Item retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": true,\n  \"data\": {\n    \"data\": {\n      \"learnV2\": {\n        \"item\": {\n          \"id\": \"6e04ab62-a423-6faf-e157-5c6f6348f256\",\n          \"title\": \"string\",\n          \"summary\": \"string\",\n          \"body\": \"string\",\n          \"imageUrl\": \"string\",\n          \"audioUrl\": \"string\",\n          \"contentType\": \"string\",\n          \"articleContentType\": \"string\",\n          \"durationSeconds\": 9579,\n          \"language\": \"string\",\n          \"source\": \"string\",\n          \"authors\": [\n            {\n              \"name\": \"string\",\n              \"title\": \"string\",\n              \"bio\": \"string\",\n              \"photoUrl\": \"http://WRtNGlUKVt.xehgmqzRBz4AYDWLRDUtAPDRatDcAlPEIS86gbULWjvNzDn434xg\"\n            },\n            {\n              \"name\": \"string\",\n              \"title\": \"string\",\n              \"bio\": \"string\",\n              \"photoUrl\": \"https://ziPlFSpjdDkpXTLyqnV.ztyEvwkiC,ttWSqCH,jlX.HB9\"\n            }\n          ],\n          \"tags\": [\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            },\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            }\n          ],\n          \"conditions\": [\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            },\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            }\n          ],\n          \"journeyIds\": [\n            \"4d85a11c-02b9-d3be-a61b-a3bc244336eb\",\n            \"1ac0a30c-45b9-9214-9ba2-e335df259bb9\"\n          ],\n          \"journeys\": [\n            {\n              \"id\": \"56b6daac-cc57-658b-5edb-fda6ac94f82e\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 6649,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"1991-02-22T14:53:31.896Z\",\n              \"updatedAt\": \"1971-03-11T06:54:48.228Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"id\": \"1846352d-3b6a-11b9-a357-a67ab6d012ba\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 4831,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"2015-04-21T18:42:14.884Z\",\n              \"updatedAt\": \"1974-12-25T13:11:28.679Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"coreHealthBehaviors\": [\n            {\n              \"id\": \"40f5e0ca-1402-7d71-7bbc-5ed4e0d5a023\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 8179,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"1991-11-08T18:28:11.303Z\",\n              \"updatedAt\": \"1969-01-04T10:57:44.957Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"id\": \"7c76952f-8f57-c54f-19a0-90beed41dbe2\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 5731,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"1967-11-30T09:45:36.317Z\",\n              \"updatedAt\": \"2009-09-10T10:53:18.929Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"spotlightSubscriptionIds\": [\n            \"string\",\n            \"string\"\n          ],\n          \"featuredSubscriptionIds\": [\n            \"string\",\n            \"string\"\n          ],\n          \"seoDescription\": \"string\",\n          \"seoTitle\": \"string\",\n          \"imageAlternativeText\": \"string\",\n          \"collection\": \"string\",\n          \"createdAt\": \"1974-01-24T17:48:58.528Z\",\n          \"updatedAt\": \"1962-07-05T19:56:51.692Z\",\n          \"servings\": 8458,\n          \"ingredients\": \"string\",\n          \"directions\": \"string\",\n          \"conditionType\": \"string\",\n          \"isSpotlight\": false,\n          \"isFeatured\": true,\n          \"thumbnailUrl\": \"string\",\n          \"excerpt\": \"string\",\n          \"author\": \"string\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80568a19-45e0-4965-a729-a54fb23d0cae",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09a95dc8-9261-49bc-b4bd-c4f79b5fe65b",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b6d00b00-6e4d-4f64-8d4a-45d9de520b76",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6de8a8a3-03b1-4b99-afe3-c0de4688fdcb",
+          "name": "Get a single story by ID (v1)",
+          "request": {
+            "name": "Get a single story by ID (v1)",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "stories",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en",
+                  "description": "Language locale (e.g. en, es, en-GB)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Unique identifier of the story (UUID)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bcf37bbc-b92b-4af4-8f87-80bcc8b547f4",
+              "name": "Item retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": true,\n  \"data\": {\n    \"data\": {\n      \"learnV2\": {\n        \"item\": {\n          \"id\": \"6e04ab62-a423-6faf-e157-5c6f6348f256\",\n          \"title\": \"string\",\n          \"summary\": \"string\",\n          \"body\": \"string\",\n          \"imageUrl\": \"string\",\n          \"audioUrl\": \"string\",\n          \"contentType\": \"string\",\n          \"articleContentType\": \"string\",\n          \"durationSeconds\": 9579,\n          \"language\": \"string\",\n          \"source\": \"string\",\n          \"authors\": [\n            {\n              \"name\": \"string\",\n              \"title\": \"string\",\n              \"bio\": \"string\",\n              \"photoUrl\": \"http://WRtNGlUKVt.xehgmqzRBz4AYDWLRDUtAPDRatDcAlPEIS86gbULWjvNzDn434xg\"\n            },\n            {\n              \"name\": \"string\",\n              \"title\": \"string\",\n              \"bio\": \"string\",\n              \"photoUrl\": \"https://ziPlFSpjdDkpXTLyqnV.ztyEvwkiC,ttWSqCH,jlX.HB9\"\n            }\n          ],\n          \"tags\": [\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            },\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            }\n          ],\n          \"conditions\": [\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            },\n            {\n              \"id\": \"string\",\n              \"slug\": \"sleep\",\n              \"name\": \"Sleep\"\n            }\n          ],\n          \"journeyIds\": [\n            \"4d85a11c-02b9-d3be-a61b-a3bc244336eb\",\n            \"1ac0a30c-45b9-9214-9ba2-e335df259bb9\"\n          ],\n          \"journeys\": [\n            {\n              \"id\": \"56b6daac-cc57-658b-5edb-fda6ac94f82e\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 6649,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"1991-02-22T14:53:31.896Z\",\n              \"updatedAt\": \"1971-03-11T06:54:48.228Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"id\": \"1846352d-3b6a-11b9-a357-a67ab6d012ba\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 4831,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"2015-04-21T18:42:14.884Z\",\n              \"updatedAt\": \"1974-12-25T13:11:28.679Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"coreHealthBehaviors\": [\n            {\n              \"id\": \"40f5e0ca-1402-7d71-7bbc-5ed4e0d5a023\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 8179,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"1991-11-08T18:28:11.303Z\",\n              \"updatedAt\": \"1969-01-04T10:57:44.957Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"id\": \"7c76952f-8f57-c54f-19a0-90beed41dbe2\",\n              \"name\": \"string\",\n              \"shortName\": \"string\",\n              \"description\": \"string\",\n              \"imageUrl\": \"string\",\n              \"emoji\": \"string\",\n              \"hasMicrosteps\": true,\n              \"image\": \"string\",\n              \"coreType\": \"string\",\n              \"preferredOrder\": 5731,\n              \"thumbnailUrl\": \"string\",\n              \"createdAt\": \"1967-11-30T09:45:36.317Z\",\n              \"updatedAt\": \"2009-09-10T10:53:18.929Z\",\n              \"colorPalette\": {\n                \"contrastText\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"dark\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"light\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"main\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"spotlightSubscriptionIds\": [\n            \"string\",\n            \"string\"\n          ],\n          \"featuredSubscriptionIds\": [\n            \"string\",\n            \"string\"\n          ],\n          \"seoDescription\": \"string\",\n          \"seoTitle\": \"string\",\n          \"imageAlternativeText\": \"string\",\n          \"collection\": \"string\",\n          \"createdAt\": \"1974-01-24T17:48:58.528Z\",\n          \"updatedAt\": \"1962-07-05T19:56:51.692Z\",\n          \"servings\": 8458,\n          \"ingredients\": \"string\",\n          \"directions\": \"string\",\n          \"conditionType\": \"string\",\n          \"isSpotlight\": false,\n          \"isFeatured\": true,\n          \"thumbnailUrl\": \"string\",\n          \"excerpt\": \"string\",\n          \"author\": \"string\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "32ff7515-cd7e-4519-8faa-d49e6caed1c8",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9591abd-b902-4c05-86a5-e7a1998a1d4f",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "93e406c2-28c2-4c9a-a805-866f22aef18c",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "stories",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the story (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://partners-api.thriveglobal.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d1886ba1-33d2-45d6-bc61-34c86464c234",
+    "name": "Thrive Global Partner audio experiences stories API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for accessing Thrive Global content and features. All content endpoints require a Bearer token obtained via the authentication endpoint.\n\nResponse envelopes follow the pattern `{ message, valid, data }` where `data` contains the response payload. Collection endpoints nest items at a resource-specific path (e.g. `data.data.reset.thrive.get.items`).\n\nContact Support:\n Name: Thrive Global",
+      "type": "text/plain"
+    }
+  }
+}

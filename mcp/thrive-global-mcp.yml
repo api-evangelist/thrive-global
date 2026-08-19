@@ -2,15 +2,12 @@ generated: '2026-07-21'
 method: searched
 status: published
 source: https://developers.thriveglobal.com/mcp
-description: >-
-  Thrive Global operates an official remote MCP server at
-  https://mcp.thriveglobal.com/mcp (Streamable HTTP with SSE fallback),
-  documented on the Thrive Global Partner API Portal. Each user authenticates
-  individually via OAuth 2.0 / OpenID Connect against Thrive's Keycloak
-  identity provider; MCP clients discover the OAuth endpoints automatically and
-  must identify with the client ID thrive-mcp-server. Read tools require the
-  user:mcp role; the single write tool (checkin_to_microsteps) requires
-  user:mcp-rw. Tool list captured verbatim from the portal's MCP page.
+description: Thrive Global operates an official remote MCP server at https://mcp.thriveglobal.com/mcp
+  (Streamable HTTP with SSE fallback), documented on the Thrive Global Partner API Portal. Each user authenticates
+  individually via OAuth 2.0 / OpenID Connect against Thrive's Keycloak identity provider; MCP clients
+  discover the OAuth endpoints automatically and must identify with the client ID thrive-mcp-server. Read
+  tools require the user:mcp role; the single write tool (checkin_to_microsteps) requires user:mcp-rw.
+  Tool list captured verbatim from the portal's MCP page.
 server:
   name: thrive
   transport: http
@@ -22,75 +19,58 @@ server:
     read: user:mcp
     write: user:mcp-rw
 connect:
-  terminal: |-
-    npx mcp-remote https://mcp.thriveglobal.com/mcp \
-      --static-oauth-client-info '{"client_id": "thrive-mcp-server"}'
-  client_config: |-
-    {
-      "mcpServers": {
-        "thrive": {
-          "command": "npx",
-          "args": [
-            "mcp-remote",
-            "https://mcp.thriveglobal.com/mcp",
-            "--static-oauth-client-info",
-            "{\"client_id\": \"thrive-mcp-server\"}"
-          ]
-        }
-      }
-    }
+  terminal: "npx mcp-remote https://mcp.thriveglobal.com/mcp \\\n  --static-oauth-client-info '{\"client_id\"\
+    : \"thrive-mcp-server\"}'"
+  client_config: "{\n  \"mcpServers\": {\n    \"thrive\": {\n      \"command\": \"npx\",\n      \"args\"\
+    : [\n        \"mcp-remote\",\n        \"https://mcp.thriveglobal.com/mcp\",\n        \"--static-oauth-client-info\"\
+    ,\n        \"{\\\"client_id\\\": \\\"thrive-mcp-server\\\"}\"\n      ]\n    }\n  }\n}"
 tools:
-  - name: get_user_wellbeing_status
-    access: read
-    description: >-
-      Fetch the user's current wellbeing status: their Thrive Score (0-100)
-      with a per-behaviour breakdown, plus sleep and activity signals derived
-      from wearables over the last 7 days.
-  - name: get_intention
-    access: read
-    description: >-
-      Fetch the user's current daily intention. Returns a fallback message
-      object when no intention has been set.
-  - name: get_daily_tasks
-    access: read
-    description: >-
-      Fetch the user's daily task list: the currently active time of day plus
-      each scheduled item with its position, completion state, and associated
-      entity (microstep, check_in, article, thrive_reset, personalized_reset).
-  - name: get_recommended_wellbeing_content
-    access: read
-    description: >-
-      Get wellbeing content recommended for the user - a normalised mix of
-      articles and daily journey steps.
-  - name: get_reset_for_user
-    access: read
-    description: >-
-      Get a Thrive Reset (a short guided video) for the user. Each item
-      includes pre-rendered markdown_content suitable for rich rendering.
-  - name: get_microstep_content
-    access: read
-    description: >-
-      Get microstep recommendations for the user, sorted by popularity. Each
-      microstep carries the journeys it belongs to.
-  - name: get_article_content
-    access: read
-    description: >-
-      Get article recommendations for the user (text and video articles),
-      including like counts and the user's reading/watching progress.
-  - name: checkin_to_microsteps
-    access: write
-    description: >-
-      Check the user in to one or more microsteps. Requires write access (the
-      user:mcp-rw role). Parameters: microstep_ids (string[], required), date
-      (ISO date, optional, defaults to today).
-  - name: search_wellbeing_content
-    access: read
-    description: >-
-      Full-text search across Thrive wellbeing content (articles, microsteps,
-      resets), ranked by relevance. Parameters: query (string, required),
-      limit (number, default 20).
+- name: get_user_wellbeing_status
+  access: read
+  description: 'Fetch the user''s current wellbeing status: their Thrive Score (0-100) with a per-behaviour
+    breakdown, plus sleep and activity signals derived from wearables over the last 7 days.'
+- name: get_intention
+  access: read
+  description: Fetch the user's current daily intention. Returns a fallback message object when no intention
+    has been set.
+- name: get_daily_tasks
+  access: read
+  description: 'Fetch the user''s daily task list: the currently active time of day plus each scheduled
+    item with its position, completion state, and associated entity (microstep, check_in, article, thrive_reset,
+    personalized_reset).'
+- name: get_recommended_wellbeing_content
+  access: read
+  description: Get wellbeing content recommended for the user - a normalised mix of articles and daily
+    journey steps.
+- name: get_reset_for_user
+  access: read
+  description: Get a Thrive Reset (a short guided video) for the user. Each item includes pre-rendered
+    markdown_content suitable for rich rendering.
+- name: get_microstep_content
+  access: read
+  description: Get microstep recommendations for the user, sorted by popularity. Each microstep carries
+    the journeys it belongs to.
+- name: get_article_content
+  access: read
+  description: Get article recommendations for the user (text and video articles), including like counts
+    and the user's reading/watching progress.
+- name: checkin_to_microsteps
+  access: write
+  description: 'Check the user in to one or more microsteps. Requires write access (the user:mcp-rw role).
+    Parameters: microstep_ids (string[], required), date (ISO date, optional, defaults to today).'
+- name: search_wellbeing_content
+  access: read
+  description: 'Full-text search across Thrive wellbeing content (articles, microsteps, resets), ranked
+    by relevance. Parameters: query (string, required), limit (number, default 20).'
 probes:
-  - url: https://mcp.thriveglobal.com/mcp
-    method: GET
-    status: 405
-    note: endpoint live; Streamable HTTP expects POST
+- url: https://mcp.thriveglobal.com/mcp
+  method: GET
+  status: 405
+  note: endpoint live; Streamable HTTP expects POST
+deployment:
+  mode: remote
+  endpoint: https://mcp.thriveglobal.com/mcp
+  verified: probed
+  probe: gated
+  checked: '2026-08-12'
+  source: catalog MCP census

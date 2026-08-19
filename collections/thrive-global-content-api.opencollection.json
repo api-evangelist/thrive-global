@@ -1,0 +1,194 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thrive Global Partner audio experiences content API",
+    "version": "1.7.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "content",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all microsteps with optional client-side filtering",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/microsteps",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (client-side pagination)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items per page (client-side pagination)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search by title, body, or action text"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "JSON filter: {\"categories\":[\"Sleep\",\"Food\"],\"pillars\":[\"mindful eating\"]}"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Items at `data.data.today.allMicrosteps`. Pagination and filtering are applied client-side by the API."
+        },
+        {
+          "info": {
+            "name": "Get a single microstep by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/microsteps/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "550e8400-e29b-41d4-a716-446655440000",
+                "type": "path",
+                "description": "Unique identifier of the microstep (UUID)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a single microstep by ID"
+        },
+        {
+          "info": {
+            "name": "Get all challenges with daily goals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/challenges",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Each challenge includes its full set of daily goals. Located at `data.challenges`."
+        },
+        {
+          "info": {
+            "name": "Get learning courses with pagination",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v2/learn",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Items per page (note: uses pageSize, not limit)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Note: uses `pageSize` parameter instead of `limit`."
+        },
+        {
+          "info": {
+            "name": "Get a single learning course by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v2/learn/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "42",
+                "type": "path",
+                "description": "Course ID (numeric string)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a single learning course by ID"
+        },
+        {
+          "info": {
+            "name": "Get learning courses (v1, legacy format)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/learn",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Legacy endpoint that returns a different response structure than v2."
+        },
+        {
+          "info": {
+            "name": "Get all Thrive podcasts with seasons and episodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v2/podcasts",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all Thrive podcasts with seasons and episodes"
+        },
+        {
+          "info": {
+            "name": "Get daily step videos for Thrive journeys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/journey/daily-step-videos",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get daily step videos for Thrive journeys"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,236 @@
+{
+  "item": [
+    {
+      "id": "16295c45-22d0-4abe-bf75-fe6a67d06b7d",
+      "name": "programs",
+      "description": {
+        "content": "Chronic condition programs (e.g. GLP-1 Companion)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b47f9cc8-97f6-4082-9775-f540b3b2688b",
+          "name": "Get a chronic condition program with weekly content",
+          "request": {
+            "name": "Get a chronic condition program with weekly content",
+            "description": {
+              "content": "Returns the full program structure with weekly content items. Each item has a `contentType` discriminator (article, roleModel, recipe, reset, microstep, lesson). Currently supports the GLP-1 Companion program.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "programs",
+                ":programId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "en-US",
+                  "description": "Content locale"
+                },
+                {
+                  "disabled": false,
+                  "key": "week",
+                  "value": "<integer>",
+                  "description": "Return a single week (0-indexed, 0 = welcome). Omit for all 52 weeks."
+                },
+                {
+                  "disabled": false,
+                  "key": "contentTypes",
+                  "value": "<string>",
+                  "description": "Comma-separated content types to include. Omit for all."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "programId",
+                  "description": "(Required) Program identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6983b2a1-3e5b-4cc3-817f-a6670fd6e04a",
+              "name": "Program retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "programs",
+                    ":programId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    },
+                    {
+                      "key": "week",
+                      "value": "0"
+                    },
+                    {
+                      "key": "contentTypes",
+                      "value": "article,reset,microstep"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "programId",
+                      "description": "(Required) Program identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"program\": \"string\",\n    \"name\": \"string\",\n    \"tags\": [\n      {\n        \"name\": \"string\"\n      },\n      {\n        \"name\": \"string\"\n      }\n    ],\n    \"imageUrl\": \"string\",\n    \"contentTypes\": [\n      \"article\",\n      \"roleModel\",\n      \"recipe\",\n      \"reset\",\n      \"microstep\",\n      \"lesson\"\n    ],\n    \"weeks\": [\n      {\n        \"week\": 9533,\n        \"imageUrl\": \"string\",\n        \"tags\": [\n          {\n            \"name\": \"string\"\n          },\n          {\n            \"name\": \"string\"\n          }\n        ]\n      },\n      {\n        \"week\": 2076,\n        \"imageUrl\": \"string\",\n        \"tags\": [\n          {\n            \"name\": \"string\"\n          },\n          {\n            \"name\": \"string\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2535459-5000-4ac5-8737-a5adabf3c253",
+              "name": "Program not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "programs",
+                    ":programId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "locale",
+                      "value": "en-US"
+                    },
+                    {
+                      "key": "week",
+                      "value": "0"
+                    },
+                    {
+                      "key": "contentTypes",
+                      "value": "article,reset,microstep"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "programId",
+                      "description": "(Required) Program identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"valid\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://partners-api.thriveglobal.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9fe3c887-b838-4849-a6c1-b48593d16d9e",
+    "name": "Thrive Global Partner audio experiences programs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for accessing Thrive Global content and features. All content endpoints require a Bearer token obtained via the authentication endpoint.\n\nResponse envelopes follow the pattern `{ message, valid, data }` where `data` contains the response payload. Collection endpoints nest items at a resource-specific path (e.g. `data.data.reset.thrive.get.items`).\n\nContact Support:\n Name: Thrive Global",
+      "type": "text/plain"
+    }
+  }
+}

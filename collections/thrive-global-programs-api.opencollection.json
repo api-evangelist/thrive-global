@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thrive Global Partner audio experiences programs API",
+    "version": "1.7.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "programs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a chronic condition program with weekly content",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/programs/:programId",
+            "params": [
+              {
+                "name": "programId",
+                "value": "glp1",
+                "type": "path",
+                "description": "Program identifier"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Content locale"
+              },
+              {
+                "name": "week",
+                "value": "0",
+                "type": "query",
+                "description": "Return a single week (0-indexed, 0 = welcome). Omit for all 52 weeks."
+              },
+              {
+                "name": "contentTypes",
+                "value": "article,reset,microstep",
+                "type": "query",
+                "description": "Comma-separated content types to include. Omit for all."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the full program structure with weekly content items. Each item has a `contentType` discriminator (article, roleModel, recipe, reset, microstep, lesson). Currently supports the GLP-1 Companion program."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

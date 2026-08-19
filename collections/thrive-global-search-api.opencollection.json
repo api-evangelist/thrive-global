@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thrive Global Partner audio experiences search API",
+    "version": "1.7.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search the Thrive content library",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/search",
+            "params": [
+              {
+                "name": "query",
+                "value": "sleep",
+                "type": "query",
+                "description": "Search text (min length 1)"
+              },
+              {
+                "name": "types",
+                "value": "reset,podcast,soundscape",
+                "type": "query",
+                "description": "Comma-separated content types to search: reset, story, microstep, learnCourse, podcast, journey, challenge, soundscape, bedtime-story, meditation. Omitted = all ten. An unknown value returns 422."
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Locale, forwarded as the thrive-locale header"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Search the entire Thrive content library — Resets, Stories, Microsteps, Courses, Podcasts, Journeys, Challenges, Soundscapes, Bedtime Stories, and Meditations — in a single request. Every match is returned as a complete, ready-to-render item, so there are no follow-up by-id calls to make.\n\n**Thrive Search is a premium capability of the Partner API.** To enable it for your organisation, contact your Thrive Global representative. Once enabled, your existing bearer token unlocks this endpoint autom"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

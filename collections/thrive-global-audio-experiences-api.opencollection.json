@@ -1,0 +1,146 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thrive Global Partner audio experiences API",
+    "version": "1.7.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "audio experiences",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List soundscapes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/soundscapes",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Zero-based item offset"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Page size. Values above 100 are clamped to 100, not rejected; `meta.pagination` reports the applied value."
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Locale, forwarded as the thrive-locale header"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a paginated list of soundscapes — ambient audio tracks such as rainfall, ocean waves, and forest sounds that support focus, relaxation, and sleep. Each soundscape includes its playable audio, duration, imagery, captions where available, and tags."
+        },
+        {
+          "info": {
+            "name": "Get a soundscape by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/soundscapes/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Soundscape id"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Locale, forwarded as the thrive-locale header"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a single soundscape by its id, including its playable audio, duration, imagery, captions where available, and tags. Returns `404` when no soundscape exists for the id and `422` when the id is not a UUID."
+        },
+        {
+          "info": {
+            "name": "List bedtime stories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/bedtime-stories",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Zero-based item offset"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Page size. Values above 100 are clamped to 100, not rejected; `meta.pagination` reports the applied value."
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Locale, forwarded as the thrive-locale header"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a paginated list of bedtime stories — narrated audio stories that help listeners unwind and fall asleep. Each bedtime story includes its playable audio, duration, imagery, captions where available, and tags."
+        },
+        {
+          "info": {
+            "name": "Get a bedtime story by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://partners-api.thriveglobal.com/v1/bedtime-stories/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Bedtime story id"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "Locale, forwarded as the thrive-locale header"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a single bedtime story by its id, including its playable audio, duration, imagery, captions where available, and tags. Returns `404` when no bedtime story exists for the id and `422` when the id is not a UUID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
