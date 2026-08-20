@@ -64,6 +64,8 @@ apis:
   humanURL: https://developers.thriveglobal.com/
   baseURL: https://partners-api.thriveglobal.com
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -78,6 +80,8 @@ apis:
   humanURL: https://developers.thriveglobal.com/
   baseURL: https://partners-api.thriveglobal.com
   tags:
+  - Content
+  tags_raw:
   - content
   properties:
   - type: OpenAPI
@@ -106,6 +110,8 @@ apis:
   humanURL: https://developers.thriveglobal.com/
   baseURL: https://partners-api.thriveglobal.com
   tags:
+  - Programs
+  tags_raw:
   - programs
   properties:
   - type: OpenAPI
@@ -136,6 +142,8 @@ apis:
   humanURL: https://developers.thriveglobal.com/
   baseURL: https://partners-api.thriveglobal.com
   tags:
+  - Search
+  tags_raw:
   - search
   properties:
   - type: OpenAPI
@@ -150,6 +158,8 @@ apis:
   humanURL: https://developers.thriveglobal.com/
   baseURL: https://partners-api.thriveglobal.com
   tags:
+  - Stories
+  tags_raw:
   - stories
   properties:
   - type: OpenAPI
