@@ -92,7 +92,7 @@ apis:
   humanURL: https://developers.thriveglobal.com/
   baseURL: https://partners-api.thriveglobal.com
   tags:
-  - content
+  - Content
   tags_raw:
   - content
   properties:
@@ -170,7 +170,7 @@ apis:
   humanURL: https://developers.thriveglobal.com/
   baseURL: https://partners-api.thriveglobal.com
   tags:
-  - stories
+  - Stories
   tags_raw:
   - stories
   properties:
