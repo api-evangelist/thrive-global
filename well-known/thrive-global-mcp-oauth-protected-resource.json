@@ -1,0 +1,1 @@
+{"resource":"https://mcp.thriveglobal.com/mcp","authorization_servers":["https://idp.thriveglobal.com/realms/ThriveGlobal"],"scopes_supported":[],"bearer_methods_supported":["header"],"resource_name":"thrive-mcp-server"}

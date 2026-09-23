@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Thrive Global Partner audio experiences meditations API
+  title: Thrive Global Partner Meditations API
   description: 'API for accessing Thrive Global content and features. All content endpoints require a Bearer token obtained via the authentication endpoint.
 
 
@@ -194,29 +194,48 @@ paths:
                     example: Service temporarily unavailable
 components:
   schemas:
-    PaginationMeta:
+    TaxonomyTerm:
       type: object
-      description: Applied pagination values — after defaulting and clamping, not what was requested.
+      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
       required:
-      - pagination
+      - id
+      - slug
+      - name
       properties:
-        pagination:
-          type: object
-          required:
-          - offset
-          - limit
-          - total
-          properties:
-            offset:
-              type: integer
-              example: 0
-            limit:
-              type: integer
-              example: 10
-            total:
-              type: integer
-              nullable: true
-              description: Best-effort display data; null when a total is not available. `links.next != null` is the authoritative "more results exist" signal.
+        id:
+          type:
+          - string
+          - 'null'
+          description: Stable identifier for the term; null where none exists
+        slug:
+          type: string
+          example: sleep
+        name:
+          type:
+          - string
+          - 'null'
+          example: Sleep
+    PaginationLinks:
+      type: object
+      description: Opaque pagination URLs — follow `next` until it is null; do not parse them. All three attributes are always present (null when there is no such page).
+      required:
+      - self
+      - next
+      - prev
+      properties:
+        self:
+          type: string
+          example: /v1/soundscapes?offset=0&limit=10
+        next:
+          type:
+          - string
+          - 'null'
+          example: /v1/soundscapes?offset=10&limit=10
+        prev:
+          type:
+          - string
+          - 'null'
+          example: null
     AssetEntry:
       type: object
       description: 'A supporting file: images, thumbnails, captions, transcripts.'
@@ -237,58 +256,22 @@ components:
           - thumbnail-portrait
           - image-featured
         contentType:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: image/jpeg
         url:
           type: string
           format: uri
         alt:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         sizes:
           type: object
           additionalProperties:
             type: string
           description: Explicit size-variant URLs where they exist. Never derive variants by transforming URLs.
-    TaxonomyTerm:
-      type: object
-      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
-      required:
-      - id
-      - slug
-      - name
-      properties:
-        id:
-          type: string
-          nullable: true
-          description: Stable identifier for the term; null where none exists
-        slug:
-          type: string
-          example: sleep
-        name:
-          type: string
-          nullable: true
-          example: Sleep
-    PaginationLinks:
-      type: object
-      description: Opaque pagination URLs — follow `next` until it is null; do not parse them. All three attributes are always present (null when there is no such page).
-      required:
-      - self
-      - next
-      - prev
-      properties:
-        self:
-          type: string
-          example: /v1/soundscapes?offset=0&limit=10
-        next:
-          type: string
-          nullable: true
-          example: /v1/soundscapes?offset=10&limit=10
-        prev:
-          type: string
-          nullable: true
-          example: null
     MeditationItem:
       type: object
       description: A meditation — a guided video session for relaxation, sleep, and stress management.
@@ -318,19 +301,23 @@ components:
           type: string
           example: Body Scan for Deep Rest
         description:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         createdAt:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
-          nullable: true
         updatedAt:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
-          nullable: true
         locale:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Served locale, not request echo
         tags:
           type: array
@@ -373,19 +360,45 @@ components:
           - manifest
           - embed
         orientation:
-          type: string
+          type:
+          - string
+          - 'null'
           enum:
           - landscape
           - portrait
-          nullable: true
         contentType:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: audio/mpeg
           description: MIME type where known
         url:
           type: string
           format: uri
+    PaginationMeta:
+      type: object
+      description: Applied pagination values — after defaulting and clamping, not what was requested.
+      required:
+      - pagination
+      properties:
+        pagination:
+          type: object
+          required:
+          - offset
+          - limit
+          - total
+          properties:
+            offset:
+              type: integer
+              example: 0
+            limit:
+              type: integer
+              example: 10
+            total:
+              type:
+              - integer
+              - 'null'
+              description: Best-effort display data; null when a total is not available. `links.next != null` is the authoritative "more results exist" signal.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

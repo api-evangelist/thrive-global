@@ -1,14 +1,7 @@
 {
   "provider": "thrive-global",
   "sources": [
-    "thrive-global-audio-experiences-api-openapi.yml",
-    "thrive-global-auth-api-openapi.yml",
-    "thrive-global-content-api-openapi.yml",
-    "thrive-global-meditations-api-openapi.yml",
-    "thrive-global-programs-api-openapi.yml",
-    "thrive-global-resets-api-openapi.yml",
-    "thrive-global-search-api-openapi.yml",
-    "thrive-global-stories-api-openapi.yml"
+    "_original/thrive-global-partner-api-openapi.yml"
   ],
   "outputs": [
     "thrive-global-audio-experiences-api-openapi.yml",
@@ -23,6 +16,19 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "thrive-global-partner-api-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "thrive-global-audio-experiences-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thrive-global-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thrive-global-content-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thrive-global-meditations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thrive-global-programs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thrive-global-resets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thrive-global-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thrive-global-stories-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

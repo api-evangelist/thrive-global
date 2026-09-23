@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Thrive Global Partner audio experiences stories API
+  title: Thrive Global Partner Stories API
   description: 'API for accessing Thrive Global content and features. All content endpoints require a Bearer token obtained via the authentication endpoint.
 
 
@@ -15,14 +15,14 @@ servers:
 - url: https://partners-api-stag.thriveglobal.com
   description: Staging server
 tags:
-- name: stories
+- name: Stories
   description: Articles, role model stories, and recipes
 paths:
   /v3/stories:
     get:
       operationId: getThriveStoriesV3
       tags:
-      - stories
+      - Stories
       summary: Get stories with recipe fields (v3)
       description: V3 includes `servings`, `ingredients`, and `directions` on recipe-type articles.
       security:
@@ -91,7 +91,7 @@ paths:
     get:
       operationId: getThriveStoriesV2
       tags:
-      - stories
+      - Stories
       summary: Get stories and articles with pagination (v2)
       description: Same as v3 but without recipe-specific fields (servings, ingredients, directions).
       security:
@@ -160,7 +160,7 @@ paths:
     get:
       operationId: getThriveStoriesV1
       tags:
-      - stories
+      - Stories
       summary: Get all stories (v1, static, up to 5000 items)
       security:
       - BearerAuth: []
@@ -216,7 +216,7 @@ paths:
     get:
       operationId: getStoryByIdV3
       tags:
-      - stories
+      - Stories
       summary: Get a single story by ID with recipe fields (v3)
       security:
       - BearerAuth: []
@@ -287,7 +287,7 @@ paths:
     get:
       operationId: getStoryByIdV2
       tags:
-      - stories
+      - Stories
       summary: Get a single story by ID (v2)
       security:
       - BearerAuth: []
@@ -352,7 +352,7 @@ paths:
     get:
       operationId: getStoryByIdV1
       tags:
-      - stories
+      - Stories
       summary: Get a single story by ID (v1)
       security:
       - BearerAuth: []
@@ -415,51 +415,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ArticleAuthor:
-      type: object
-      properties:
-        name:
-          type: string
-        title:
-          type: string
-          nullable: true
-        bio:
-          type: string
-          nullable: true
-        photoUrl:
-          type: string
-          nullable: true
-          format: uri
-    ErrorResponse:
-      type: object
-      required:
-      - message
-      - valid
-      properties:
-        message:
-          type: string
-        valid:
-          type: boolean
-          example: false
-    TaxonomyTerm:
-      type: object
-      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
-      required:
-      - id
-      - slug
-      - name
-      properties:
-        id:
-          type: string
-          nullable: true
-          description: Stable identifier for the term; null where none exists
-        slug:
-          type: string
-          example: sleep
-        name:
-          type: string
-          nullable: true
-          example: Sleep
     StoryCollection:
       type: object
       description: Paginated stories. Located at `data.data.learnV2.getArticlesV2` in the response.
@@ -476,6 +431,117 @@ components:
           type: integer
         hasMore:
           type: boolean
+    TaxonomyTerm:
+      type: object
+      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
+      required:
+      - id
+      - slug
+      - name
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Stable identifier for the term; null where none exists
+        slug:
+          type: string
+          example: sleep
+        name:
+          type:
+          - string
+          - 'null'
+          example: Sleep
+    ArticleAuthor:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          type:
+          - string
+          - 'null'
+        bio:
+          type:
+          - string
+          - 'null'
+        photoUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+    ErrorResponse:
+      type: object
+      required:
+      - message
+      - valid
+      properties:
+        message:
+          type: string
+        valid:
+          type: boolean
+          example: false
+    ArticleJourney:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        shortName:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        emoji:
+          type:
+          - string
+          - 'null'
+        hasMicrosteps:
+          type: boolean
+        image:
+          type:
+          - string
+          - 'null'
+        coreType:
+          type:
+          - string
+          - 'null'
+        preferredOrder:
+          type:
+          - integer
+          - 'null'
+        thumbnailUrl:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        colorPalette:
+          type:
+          - object
+          - 'null'
+          properties:
+            contrastText:
+              type: string
+            dark:
+              type: string
+            light:
+              type: string
+            main:
+              type: string
     StoryItem:
       type: object
       description: An article, role model story, or recipe.
@@ -489,18 +555,22 @@ components:
         title:
           type: string
         summary:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         body:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: HTML content
         imageUrl:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         audioUrl:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         contentType:
           type: string
           description: 'Discriminator: article, roleModel, or recipe'
@@ -508,14 +578,17 @@ components:
           type: string
           description: e.g. Text, Video, Audio
         durationSeconds:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
         language:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         source:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: HLS source URL for video articles
         authors:
           type: array
@@ -554,17 +627,21 @@ components:
           items:
             type: string
         seoDescription:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         seoTitle:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         imageAlternativeText:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         collection:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         createdAt:
           type: string
           format: date-time
@@ -572,16 +649,19 @@ components:
           type: string
           format: date-time
         servings:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           description: 'Recipe only (v3): number of servings'
         ingredients:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: 'Recipe only (v3): ingredients text'
         directions:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: 'Recipe only (v3): cooking directions'
         conditionType:
           type: string
@@ -593,69 +673,20 @@ components:
           type: boolean
           description: True when `featuredSubscriptionIds` is non-empty
         thumbnailUrl:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Thumbnail image URL; matches `imageUrl`
         excerpt:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Short excerpt; matches `summary`
         author:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Name of the first author
-    ArticleJourney:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        shortName:
-          type: string
-          nullable: true
-        description:
-          type: string
-          nullable: true
-        imageUrl:
-          type: string
-          nullable: true
-        emoji:
-          type: string
-          nullable: true
-        hasMicrosteps:
-          type: boolean
-        image:
-          type: string
-          nullable: true
-        coreType:
-          type: string
-          nullable: true
-        preferredOrder:
-          type: integer
-          nullable: true
-        thumbnailUrl:
-          type: string
-          nullable: true
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        colorPalette:
-          type: object
-          nullable: true
-          properties:
-            contrastText:
-              type: string
-            dark:
-              type: string
-            light:
-              type: string
-            main:
-              type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
