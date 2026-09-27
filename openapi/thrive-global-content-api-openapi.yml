@@ -475,440 +475,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    TaxonomyTerm:
-      type: object
-      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
-      required:
-      - id
-      - slug
-      - name
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: Stable identifier for the term; null where none exists
-        slug:
-          type: string
-          example: sleep
-        name:
-          type:
-          - string
-          - 'null'
-          example: Sleep
-    JourneyDailyStepVideo:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        url:
-          type: string
-          format: uri
-        thumbnailUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-        manifestUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: HLS manifest URL (.m3u8)
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-          description: Currently always empty.
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-          description: Currently always empty.
-        coreHealthBehaviors:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-          description: Currently always empty.
-    CourseModule:
-      type: object
-      properties:
-        id:
-          type: string
-        bookmarked:
-          type: boolean
-        byline:
-          type:
-          - string
-          - 'null'
-        courseID:
-          type: string
-        displayName:
-          type:
-          - string
-          - 'null'
-        hlsVideoLink:
-          type:
-          - string
-          - 'null'
-        label:
-          type:
-          - string
-          - 'null'
-        lessonID:
-          type: string
-        order:
-          type: integer
-        thumbnail:
-          type:
-          - string
-          - 'null'
-        title:
-          type: string
-        type:
-          type: string
-        videoLink:
-          type:
-          - string
-          - 'null'
-        videoURL:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Absolute video URL
-        manifestUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: HLS manifest URL (.m3u8)
-    PodcastItem:
-      type: object
-      description: A podcast with seasons and episodes.
-      required:
-      - id
-      - title
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        summary:
-          type:
-          - string
-          - 'null'
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-        numberOfSeasons:
-          type: integer
-        numberOfEpisodes:
-          type: integer
-        seasons:
-          type: array
-          items:
-            $ref: '#/components/schemas/PodcastSeason'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-          description: Tags associated with this podcast, as term objects.
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-          description: Health conditions associated with this podcast. Currently always empty.
-        coreHealthBehaviors:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-          description: Core health behaviors associated with this podcast. Currently always empty.
-    MicrostepItem:
-      type: object
-      description: A small, science-backed daily action.
-      required:
-      - id
-      - title
-      properties:
-        id:
-          type: string
-          format: uuid
-        title:
-          type: string
-        body:
-          type:
-          - string
-          - 'null'
-        action:
-          type:
-          - string
-          - 'null'
-        journeys:
-          type: array
-          items:
-            $ref: '#/components/schemas/MicrostepJourney'
-        coreHealthBehaviors:
-          type: array
-          items:
-            $ref: '#/components/schemas/MicrostepJourney'
-          description: Core health behaviors associated with this microstep; contains the same values as `journeys`.
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-          description: Tags associated with this microstep, as term objects.
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-          description: Health conditions associated with this microstep. Currently always empty.
-        createdAt:
-          type: string
-          format: date-time
-          description: Omitted when not available
-        updatedAt:
-          type: string
-          format: date-time
-          description: Omitted when not available
-    PodcastEpisode:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        summary:
-          type:
-          - string
-          - 'null'
-        number:
-          type: integer
-        audioUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-    ChallengeGoal:
-      type: object
-      properties:
-        id:
-          type: string
-        challengeId:
-          type: string
-        day:
-          type: integer
-        position:
-          type: integer
-        goalType:
-          type: string
-        goalSteps:
-          type:
-          - integer
-          - 'null'
-        goalWater:
-          type:
-          - integer
-          - 'null'
-        goalActivityMinutes:
-          type:
-          - integer
-          - 'null'
-        url:
-          type:
-          - string
-          - 'null'
-    ErrorResponse:
-      type: object
-      required:
-      - message
-      - valid
-      properties:
-        message:
-          type: string
-        valid:
-          type: boolean
-          example: false
-    ChallengeItem:
-      type: object
-      description: A challenge with its daily goals.
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        enabled:
-          type: boolean
-        duration:
-          type: integer
-        goal:
-          type: string
-        theme:
-          type: string
-        challenge_type:
-          type: string
-        position:
-          type: integer
-        goals:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChallengeGoal'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-          description: Tags associated with this challenge. Currently always empty.
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-          description: Health conditions associated with this challenge. Currently always empty.
-        coreHealthBehaviors:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              name:
-                type: string
-              shortName:
-                type:
-                - string
-                - 'null'
-          description: Core health behaviors associated with this challenge.
-    CourseExpert:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        title:
-          type:
-          - string
-          - 'null'
-        photoUrl:
-          type:
-          - string
-          - 'null'
-        bio:
-          type:
-          - string
-          - 'null'
-    CourseCollection:
-      type: object
-      description: Paginated courses. Located at `data.data.learnV2.getCourses` in the response.
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/CourseItem'
-        page:
-          type: integer
-        pageSize:
-          type: integer
-        hasMore:
-          type: boolean
-    CourseLesson:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type:
-          - string
-          - 'null'
-        moduleIds:
-          type: array
-          items:
-            type: string
-        modules:
-          type: array
-          items:
-            $ref: '#/components/schemas/CourseModule'
-        order:
-          type: integer
-        resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/CourseResource'
-    MicrostepJourney:
-      type: object
-      properties:
-        name:
-          type: string
-        shortName:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        image:
-          type:
-          - string
-          - 'null'
-        imageUrl:
-          type:
-          - string
-          - 'null'
-    CourseResource:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        summary:
-          type:
-          - string
-          - 'null'
-        resourceType:
-          type:
-          - string
-          - 'null'
-        source:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-    PodcastSeason:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        number:
-          type: integer
-        summary:
-          type: string
-        episodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/PodcastEpisode'
     CourseItem:
       type: object
       description: A learning course with lessons and modules.
@@ -983,6 +549,440 @@ components:
         isFeatured:
           type: boolean
           description: True when `featuredSubscriptionIds` is non-empty
+    ChallengeItem:
+      type: object
+      description: A challenge with its daily goals.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        duration:
+          type: integer
+        goal:
+          type: string
+        theme:
+          type: string
+        challenge_type:
+          type: string
+        position:
+          type: integer
+        goals:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChallengeGoal'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this challenge. Currently always empty.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this challenge. Currently always empty.
+        coreHealthBehaviors:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              shortName:
+                type:
+                - string
+                - 'null'
+          description: Core health behaviors associated with this challenge.
+    CourseCollection:
+      type: object
+      description: Paginated courses. Located at `data.data.learnV2.getCourses` in the response.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseItem'
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        hasMore:
+          type: boolean
+    PodcastItem:
+      type: object
+      description: A podcast with seasons and episodes.
+      required:
+      - id
+      - title
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type:
+          - string
+          - 'null'
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+        numberOfSeasons:
+          type: integer
+        numberOfEpisodes:
+          type: integer
+        seasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastSeason'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this podcast, as term objects.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this podcast. Currently always empty.
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Core health behaviors associated with this podcast. Currently always empty.
+    CourseExpert:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        title:
+          type:
+          - string
+          - 'null'
+        photoUrl:
+          type:
+          - string
+          - 'null'
+        bio:
+          type:
+          - string
+          - 'null'
+    MicrostepJourney:
+      type: object
+      properties:
+        name:
+          type: string
+        shortName:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+        imageUrl:
+          type:
+          - string
+          - 'null'
+    PodcastEpisode:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type:
+          - string
+          - 'null'
+        number:
+          type: integer
+        audioUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+    CourseModule:
+      type: object
+      properties:
+        id:
+          type: string
+        bookmarked:
+          type: boolean
+        byline:
+          type:
+          - string
+          - 'null'
+        courseID:
+          type: string
+        displayName:
+          type:
+          - string
+          - 'null'
+        hlsVideoLink:
+          type:
+          - string
+          - 'null'
+        label:
+          type:
+          - string
+          - 'null'
+        lessonID:
+          type: string
+        order:
+          type: integer
+        thumbnail:
+          type:
+          - string
+          - 'null'
+        title:
+          type: string
+        type:
+          type: string
+        videoLink:
+          type:
+          - string
+          - 'null'
+        videoURL:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Absolute video URL
+        manifestUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: HLS manifest URL (.m3u8)
+    TaxonomyTerm:
+      type: object
+      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
+      required:
+      - id
+      - slug
+      - name
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Stable identifier for the term; null where none exists
+        slug:
+          type: string
+          example: sleep
+        name:
+          type:
+          - string
+          - 'null'
+          example: Sleep
+    PodcastSeason:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        number:
+          type: integer
+        summary:
+          type: string
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastEpisode'
+    ChallengeGoal:
+      type: object
+      properties:
+        id:
+          type: string
+        challengeId:
+          type: string
+        day:
+          type: integer
+        position:
+          type: integer
+        goalType:
+          type: string
+        goalSteps:
+          type:
+          - integer
+          - 'null'
+        goalWater:
+          type:
+          - integer
+          - 'null'
+        goalActivityMinutes:
+          type:
+          - integer
+          - 'null'
+        url:
+          type:
+          - string
+          - 'null'
+    JourneyDailyStepVideo:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        url:
+          type: string
+          format: uri
+        thumbnailUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+        manifestUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: HLS manifest URL (.m3u8)
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Currently always empty.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Currently always empty.
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Currently always empty.
+    CourseLesson:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type:
+          - string
+          - 'null'
+        moduleIds:
+          type: array
+          items:
+            type: string
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseModule'
+        order:
+          type: integer
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseResource'
+    CourseResource:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type:
+          - string
+          - 'null'
+        resourceType:
+          type:
+          - string
+          - 'null'
+        source:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ErrorResponse:
+      type: object
+      required:
+      - message
+      - valid
+      properties:
+        message:
+          type: string
+        valid:
+          type: boolean
+          example: false
+    MicrostepItem:
+      type: object
+      description: A small, science-backed daily action.
+      required:
+      - id
+      - title
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        body:
+          type:
+          - string
+          - 'null'
+        action:
+          type:
+          - string
+          - 'null'
+        journeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicrostepJourney'
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/MicrostepJourney'
+          description: Core health behaviors associated with this microstep; contains the same values as `journeys`.
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Tags associated with this microstep, as term objects.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+          description: Health conditions associated with this microstep. Currently always empty.
+        createdAt:
+          type: string
+          format: date-time
+          description: Omitted when not available
+        updatedAt:
+          type: string
+          format: date-time
+          description: Omitted when not available
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

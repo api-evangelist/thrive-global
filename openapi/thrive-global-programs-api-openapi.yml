@@ -75,29 +75,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ProgramWeek:
-      type: object
-      properties:
-        week:
-          type: integer
-          description: Week number (0-indexed, 0 = welcome week)
-        imageUrl:
-          type:
-          - string
-          - 'null'
-        tags:
-          type: array
-          description: Currently always empty for weeks
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-        content:
-          type: array
-          description: Discriminated union by contentType field
-          items:
-            type: object
     ProgramResponse:
       type: object
       properties:
@@ -141,6 +118,29 @@ components:
         valid:
           type: boolean
           example: false
+    ProgramWeek:
+      type: object
+      properties:
+        week:
+          type: integer
+          description: Week number (0-indexed, 0 = welcome week)
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        tags:
+          type: array
+          description: Currently always empty for weeks
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        content:
+          type: array
+          description: Discriminated union by contentType field
+          items:
+            type: object
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

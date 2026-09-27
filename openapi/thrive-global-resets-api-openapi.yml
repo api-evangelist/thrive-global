@@ -554,27 +554,44 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    TaxonomyTerm:
+    ResetOrientation:
       type: object
-      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
-      required:
-      - id
-      - slug
-      - name
+      description: Video orientation (landscape or portrait) with iframe URL, thumbnail, and optional HLS manifest.
       properties:
-        id:
+        iframe:
           type:
           - string
           - 'null'
-          description: Stable identifier for the term; null where none exists
-        slug:
-          type: string
-          example: sleep
-        name:
+          description: Player embed URL
+        thumbnail:
           type:
           - string
           - 'null'
-          example: Sleep
+          description: Thumbnail image URL
+        manifest:
+          type:
+          - string
+          - 'null'
+          description: HLS manifest URL (.m3u8)
+        thumbnails:
+          $ref: '#/components/schemas/ResetThumbnails'
+    ResetCollection:
+      type: object
+      description: Paginated collection of resets. Located at `data.data.reset.thrive.get` in the response.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResetItem'
+        total:
+          type: integer
+        page:
+          type: integer
+        itemsPerPage:
+          type: integer
+        hasMore:
+          type: boolean
+          description: Present on v2/v3 paginated responses
     ResetItem:
       type: object
       description: A Thrive Reset video.
@@ -662,44 +679,110 @@ components:
         updatedAt:
           type: string
           format: date-time
-    ResetOrientation:
+    TaxonomyTerm:
       type: object
-      description: Video orientation (landscape or portrait) with iframe URL, thumbnail, and optional HLS manifest.
+      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
+      required:
+      - id
+      - slug
+      - name
       properties:
-        iframe:
+        id:
           type:
           - string
           - 'null'
-          description: Player embed URL
-        thumbnail:
+          description: Stable identifier for the term; null where none exists
+        slug:
+          type: string
+          example: sleep
+        name:
           type:
           - string
           - 'null'
-          description: Thumbnail image URL
-        manifest:
-          type:
-          - string
-          - 'null'
-          description: HLS manifest URL (.m3u8)
-        thumbnails:
-          $ref: '#/components/schemas/ResetThumbnails'
-    ResetCollection:
+          example: Sleep
+    ResetThumbnails:
       type: object
-      description: Paginated collection of resets. Located at `data.data.reset.thrive.get` in the response.
+      description: Responsive image URLs at multiple sizes.
       properties:
-        items:
+        xs:
+          type:
+          - string
+          - 'null'
+          format: uri
+        sm:
+          type:
+          - string
+          - 'null'
+          format: uri
+        md:
+          type:
+          - string
+          - 'null'
+          format: uri
+        lg:
+          type:
+          - string
+          - 'null'
+          format: uri
+        xl:
+          type:
+          - string
+          - 'null'
+          format: uri
+    ResetTheme:
+      type: object
+      properties:
+        theme:
+          type: string
+        localized:
+          type: string
+        toThriveResetTag:
+          type:
+          - string
+          - 'null'
+        toLocalizedThriveResetTag:
+          type:
+          - object
+          - 'null'
+          properties:
+            localized:
+              type: string
+            value:
+              type: string
+    AudioResetCollection:
+      type: object
+      description: Paginated audio resets. Located at `data.data.reset.audio.thrive.get` in the response.
+      properties:
+        nodes:
           type: array
           items:
-            $ref: '#/components/schemas/ResetItem'
-        total:
-          type: integer
-        page:
-          type: integer
-        itemsPerPage:
-          type: integer
-        hasMore:
+            $ref: '#/components/schemas/AudioResetItem'
+        pageInfo:
+          type: object
+          properties:
+            endCursor:
+              type:
+              - string
+              - 'null'
+            hasNextPage:
+              type: boolean
+            hasPreviousPage:
+              type: boolean
+            startCursor:
+              type:
+              - string
+              - 'null'
+    ErrorResponse:
+      type: object
+      required:
+      - message
+      - valid
+      properties:
+        message:
+          type: string
+        valid:
           type: boolean
-          description: Present on v2/v3 paginated responses
+          example: false
     AudioResetItem:
       type: object
       description: An audio Thrive Reset.
@@ -732,69 +815,6 @@ components:
         updatedAt:
           type: string
           format: date-time
-    ErrorResponse:
-      type: object
-      required:
-      - message
-      - valid
-      properties:
-        message:
-          type: string
-        valid:
-          type: boolean
-          example: false
-    ResetThumbnails:
-      type: object
-      description: Responsive image URLs at multiple sizes.
-      properties:
-        xs:
-          type:
-          - string
-          - 'null'
-          format: uri
-        sm:
-          type:
-          - string
-          - 'null'
-          format: uri
-        md:
-          type:
-          - string
-          - 'null'
-          format: uri
-        lg:
-          type:
-          - string
-          - 'null'
-          format: uri
-        xl:
-          type:
-          - string
-          - 'null'
-          format: uri
-    AudioResetCollection:
-      type: object
-      description: Paginated audio resets. Located at `data.data.reset.audio.thrive.get` in the response.
-      properties:
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/AudioResetItem'
-        pageInfo:
-          type: object
-          properties:
-            endCursor:
-              type:
-              - string
-              - 'null'
-            hasNextPage:
-              type: boolean
-            hasPreviousPage:
-              type: boolean
-            startCursor:
-              type:
-              - string
-              - 'null'
     ResetKeyword:
       type: object
       properties:
@@ -802,26 +822,6 @@ components:
           type: string
         localized:
           type: string
-    ResetTheme:
-      type: object
-      properties:
-        theme:
-          type: string
-        localized:
-          type: string
-        toThriveResetTag:
-          type:
-          - string
-          - 'null'
-        toLocalizedThriveResetTag:
-          type:
-          - object
-          - 'null'
-          properties:
-            localized:
-              type: string
-            value:
-              type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
