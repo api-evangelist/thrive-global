@@ -194,51 +194,6 @@ paths:
                     example: Service temporarily unavailable
 components:
   schemas:
-    PaginationLinks:
-      type: object
-      description: Opaque pagination URLs — follow `next` until it is null; do not parse them. All three attributes are always present (null when there is no such page).
-      required:
-      - self
-      - next
-      - prev
-      properties:
-        self:
-          type: string
-          example: /v1/soundscapes?offset=0&limit=10
-        next:
-          type:
-          - string
-          - 'null'
-          example: /v1/soundscapes?offset=10&limit=10
-        prev:
-          type:
-          - string
-          - 'null'
-          example: null
-    PaginationMeta:
-      type: object
-      description: Applied pagination values — after defaulting and clamping, not what was requested.
-      required:
-      - pagination
-      properties:
-        pagination:
-          type: object
-          required:
-          - offset
-          - limit
-          - total
-          properties:
-            offset:
-              type: integer
-              example: 0
-            limit:
-              type: integer
-              example: 10
-            total:
-              type:
-              - integer
-              - 'null'
-              description: Best-effort display data; null when a total is not available. `links.next != null` is the authoritative "more results exist" signal.
     MeditationItem:
       type: object
       description: A meditation — a guided video session for relaxation, sleep, and stress management.
@@ -311,27 +266,30 @@ components:
           items:
             $ref: '#/components/schemas/AssetEntry'
           description: Supporting files — captions and imagery
-    TaxonomyTerm:
+    PaginationMeta:
       type: object
-      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
+      description: Applied pagination values — after defaulting and clamping, not what was requested.
       required:
-      - id
-      - slug
-      - name
+      - pagination
       properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: Stable identifier for the term; null where none exists
-        slug:
-          type: string
-          example: sleep
-        name:
-          type:
-          - string
-          - 'null'
-          example: Sleep
+        pagination:
+          type: object
+          required:
+          - offset
+          - limit
+          - total
+          properties:
+            offset:
+              type: integer
+              example: 0
+            limit:
+              type: integer
+              example: 10
+            total:
+              type:
+              - integer
+              - 'null'
+              description: Best-effort display data; null when a total is not available. `links.next != null` is the authoritative "more results exist" signal.
     MediaEntry:
       type: object
       description: A playable rendition. No entry means the rendition does not exist — never null placeholders.
@@ -363,6 +321,27 @@ components:
         url:
           type: string
           format: uri
+    TaxonomyTerm:
+      type: object
+      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
+      required:
+      - id
+      - slug
+      - name
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Stable identifier for the term; null where none exists
+        slug:
+          type: string
+          example: sleep
+        name:
+          type:
+          - string
+          - 'null'
+          example: Sleep
     AssetEntry:
       type: object
       description: 'A supporting file: images, thumbnails, captions, transcripts.'
@@ -399,6 +378,27 @@ components:
           additionalProperties:
             type: string
           description: Explicit size-variant URLs where they exist. Never derive variants by transforming URLs.
+    PaginationLinks:
+      type: object
+      description: Opaque pagination URLs — follow `next` until it is null; do not parse them. All three attributes are always present (null when there is no such page).
+      required:
+      - self
+      - next
+      - prev
+      properties:
+        self:
+          type: string
+          example: /v1/soundscapes?offset=0&limit=10
+        next:
+          type:
+          - string
+          - 'null'
+          example: /v1/soundscapes?offset=10&limit=10
+        prev:
+          type:
+          - string
+          - 'null'
+          example: null
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
