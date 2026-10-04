@@ -554,6 +554,13 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ResetKeyword:
+      type: object
+      properties:
+        keyword:
+          type: string
+        localized:
+          type: string
     ResetCollection:
       type: object
       description: Paginated collection of resets. Located at `data.data.reset.thrive.get` in the response.
@@ -571,57 +578,6 @@ components:
         hasMore:
           type: boolean
           description: Present on v2/v3 paginated responses
-    AudioResetCollection:
-      type: object
-      description: Paginated audio resets. Located at `data.data.reset.audio.thrive.get` in the response.
-      properties:
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/AudioResetItem'
-        pageInfo:
-          type: object
-          properties:
-            endCursor:
-              type:
-              - string
-              - 'null'
-            hasNextPage:
-              type: boolean
-            hasPreviousPage:
-              type: boolean
-            startCursor:
-              type:
-              - string
-              - 'null'
-    ResetKeyword:
-      type: object
-      properties:
-        keyword:
-          type: string
-        localized:
-          type: string
-    ResetOrientation:
-      type: object
-      description: Video orientation (landscape or portrait) with iframe URL, thumbnail, and optional HLS manifest.
-      properties:
-        iframe:
-          type:
-          - string
-          - 'null'
-          description: Player embed URL
-        thumbnail:
-          type:
-          - string
-          - 'null'
-          description: Thumbnail image URL
-        manifest:
-          type:
-          - string
-          - 'null'
-          description: HLS manifest URL (.m3u8)
-        thumbnails:
-          $ref: '#/components/schemas/ResetThumbnails'
     AudioResetItem:
       type: object
       description: An audio Thrive Reset.
@@ -654,37 +610,29 @@ components:
         updatedAt:
           type: string
           format: date-time
-    ErrorResponse:
+    AudioResetCollection:
       type: object
-      required:
-      - message
-      - valid
+      description: Paginated audio resets. Located at `data.data.reset.audio.thrive.get` in the response.
       properties:
-        message:
-          type: string
-        valid:
-          type: boolean
-          example: false
-    ResetTheme:
-      type: object
-      properties:
-        theme:
-          type: string
-        localized:
-          type: string
-        toThriveResetTag:
-          type:
-          - string
-          - 'null'
-        toLocalizedThriveResetTag:
-          type:
-          - object
-          - 'null'
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AudioResetItem'
+        pageInfo:
+          type: object
           properties:
-            localized:
-              type: string
-            value:
-              type: string
+            endCursor:
+              type:
+              - string
+              - 'null'
+            hasNextPage:
+              type: boolean
+            hasPreviousPage:
+              type: boolean
+            startCursor:
+              type:
+              - string
+              - 'null'
     ResetThumbnails:
       type: object
       description: Responsive image URLs at multiple sizes.
@@ -714,27 +662,6 @@ components:
           - string
           - 'null'
           format: uri
-    TaxonomyTerm:
-      type: object
-      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
-      required:
-      - id
-      - slug
-      - name
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: Stable identifier for the term; null where none exists
-        slug:
-          type: string
-          example: sleep
-        name:
-          type:
-          - string
-          - 'null'
-          example: Sleep
     ResetItem:
       type: object
       description: A Thrive Reset video.
@@ -822,6 +749,79 @@ components:
         updatedAt:
           type: string
           format: date-time
+    ResetTheme:
+      type: object
+      properties:
+        theme:
+          type: string
+        localized:
+          type: string
+        toThriveResetTag:
+          type:
+          - string
+          - 'null'
+        toLocalizedThriveResetTag:
+          type:
+          - object
+          - 'null'
+          properties:
+            localized:
+              type: string
+            value:
+              type: string
+    ResetOrientation:
+      type: object
+      description: Video orientation (landscape or portrait) with iframe URL, thumbnail, and optional HLS manifest.
+      properties:
+        iframe:
+          type:
+          - string
+          - 'null'
+          description: Player embed URL
+        thumbnail:
+          type:
+          - string
+          - 'null'
+          description: Thumbnail image URL
+        manifest:
+          type:
+          - string
+          - 'null'
+          description: HLS manifest URL (.m3u8)
+        thumbnails:
+          $ref: '#/components/schemas/ResetThumbnails'
+    ErrorResponse:
+      type: object
+      required:
+      - message
+      - valid
+      properties:
+        message:
+          type: string
+        valid:
+          type: boolean
+          example: false
+    TaxonomyTerm:
+      type: object
+      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
+      required:
+      - id
+      - slug
+      - name
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Stable identifier for the term; null where none exists
+        slug:
+          type: string
+          example: sleep
+        name:
+          type:
+          - string
+          - 'null'
+          example: Sleep
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

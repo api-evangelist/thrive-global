@@ -476,22 +476,24 @@ components:
               type: string
             main:
               type: string
-    StoryCollection:
+    ArticleAuthor:
       type: object
-      description: Paginated stories. Located at `data.data.learnV2.getArticlesV2` in the response.
       properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/StoryItem'
-        pageSize:
-          type: integer
-        pageCount:
-          type: integer
-        page:
-          type: integer
-        hasMore:
-          type: boolean
+        name:
+          type: string
+        title:
+          type:
+          - string
+          - 'null'
+        bio:
+          type:
+          - string
+          - 'null'
+        photoUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
     StoryItem:
       type: object
       description: An article, role model story, or recipe.
@@ -637,6 +639,22 @@ components:
           - string
           - 'null'
           description: Name of the first author
+    StoryCollection:
+      type: object
+      description: Paginated stories. Located at `data.data.learnV2.getArticlesV2` in the response.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoryItem'
+        pageSize:
+          type: integer
+        pageCount:
+          type: integer
+        page:
+          type: integer
+        hasMore:
+          type: boolean
     ErrorResponse:
       type: object
       required:
@@ -669,24 +687,6 @@ components:
           - string
           - 'null'
           example: Sleep
-    ArticleAuthor:
-      type: object
-      properties:
-        name:
-          type: string
-        title:
-          type:
-          - string
-          - 'null'
-        bio:
-          type:
-          - string
-          - 'null'
-        photoUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

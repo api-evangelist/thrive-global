@@ -194,6 +194,42 @@ paths:
                     example: Service temporarily unavailable
 components:
   schemas:
+    AssetEntry:
+      type: object
+      description: 'A supporting file: images, thumbnails, captions, transcripts.'
+      required:
+      - role
+      - contentType
+      - url
+      - alt
+      properties:
+        role:
+          type: string
+          enum:
+          - captions
+          - transcript
+          - image-landscape
+          - image-portrait
+          - thumbnail-landscape
+          - thumbnail-portrait
+          - image-featured
+        contentType:
+          type:
+          - string
+          - 'null'
+          example: image/jpeg
+        url:
+          type: string
+          format: uri
+        alt:
+          type:
+          - string
+          - 'null'
+        sizes:
+          type: object
+          additionalProperties:
+            type: string
+          description: Explicit size-variant URLs where they exist. Never derive variants by transforming URLs.
     MeditationItem:
       type: object
       description: A meditation — a guided video session for relaxation, sleep, and stress management.
@@ -266,30 +302,27 @@ components:
           items:
             $ref: '#/components/schemas/AssetEntry'
           description: Supporting files — captions and imagery
-    PaginationMeta:
+    PaginationLinks:
       type: object
-      description: Applied pagination values — after defaulting and clamping, not what was requested.
+      description: Opaque pagination URLs — follow `next` until it is null; do not parse them. All three attributes are always present (null when there is no such page).
       required:
-      - pagination
+      - self
+      - next
+      - prev
       properties:
-        pagination:
-          type: object
-          required:
-          - offset
-          - limit
-          - total
-          properties:
-            offset:
-              type: integer
-              example: 0
-            limit:
-              type: integer
-              example: 10
-            total:
-              type:
-              - integer
-              - 'null'
-              description: Best-effort display data; null when a total is not available. `links.next != null` is the authoritative "more results exist" signal.
+        self:
+          type: string
+          example: /v1/soundscapes?offset=0&limit=10
+        next:
+          type:
+          - string
+          - 'null'
+          example: /v1/soundscapes?offset=10&limit=10
+        prev:
+          type:
+          - string
+          - 'null'
+          example: null
     MediaEntry:
       type: object
       description: A playable rendition. No entry means the rendition does not exist — never null placeholders.
@@ -321,6 +354,30 @@ components:
         url:
           type: string
           format: uri
+    PaginationMeta:
+      type: object
+      description: Applied pagination values — after defaulting and clamping, not what was requested.
+      required:
+      - pagination
+      properties:
+        pagination:
+          type: object
+          required:
+          - offset
+          - limit
+          - total
+          properties:
+            offset:
+              type: integer
+              example: 0
+            limit:
+              type: integer
+              example: 10
+            total:
+              type:
+              - integer
+              - 'null'
+              description: Best-effort display data; null when a total is not available. `links.next != null` is the authoritative "more results exist" signal.
     TaxonomyTerm:
       type: object
       description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
@@ -342,63 +399,6 @@ components:
           - string
           - 'null'
           example: Sleep
-    AssetEntry:
-      type: object
-      description: 'A supporting file: images, thumbnails, captions, transcripts.'
-      required:
-      - role
-      - contentType
-      - url
-      - alt
-      properties:
-        role:
-          type: string
-          enum:
-          - captions
-          - transcript
-          - image-landscape
-          - image-portrait
-          - thumbnail-landscape
-          - thumbnail-portrait
-          - image-featured
-        contentType:
-          type:
-          - string
-          - 'null'
-          example: image/jpeg
-        url:
-          type: string
-          format: uri
-        alt:
-          type:
-          - string
-          - 'null'
-        sizes:
-          type: object
-          additionalProperties:
-            type: string
-          description: Explicit size-variant URLs where they exist. Never derive variants by transforming URLs.
-    PaginationLinks:
-      type: object
-      description: Opaque pagination URLs — follow `next` until it is null; do not parse them. All three attributes are always present (null when there is no such page).
-      required:
-      - self
-      - next
-      - prev
-      properties:
-        self:
-          type: string
-          example: /v1/soundscapes?offset=0&limit=10
-        next:
-          type:
-          - string
-          - 'null'
-          example: /v1/soundscapes?offset=10&limit=10
-        prev:
-          type:
-          - string
-          - 'null'
-          example: null
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
