@@ -1,0 +1,12 @@
+{
+ "url": "https://developers.thriveglobal.com/api/openapi.json",
+ "requested_url": "https://developers.thriveglobal.com/api/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 184961,
+ "sha256": "55d54049b325ebbd62b4949f99606a8b55f9eef22331b4d83acf9ba61f1522e0",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.939), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
