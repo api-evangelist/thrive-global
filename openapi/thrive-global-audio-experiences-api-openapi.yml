@@ -404,27 +404,6 @@ components:
           additionalProperties:
             type: string
           description: Explicit size-variant URLs where they exist. Never derive variants by transforming URLs.
-    PaginationLinks:
-      type: object
-      description: Opaque pagination URLs — follow `next` until it is null; do not parse them. All three attributes are always present (null when there is no such page).
-      required:
-      - self
-      - next
-      - prev
-      properties:
-        self:
-          type: string
-          example: /v1/soundscapes?offset=0&limit=10
-        next:
-          type:
-          - string
-          - 'null'
-          example: /v1/soundscapes?offset=10&limit=10
-        prev:
-          type:
-          - string
-          - 'null'
-          example: null
     MediaEntry:
       type: object
       description: A playable rendition. No entry means the rendition does not exist — never null placeholders.
@@ -456,102 +435,48 @@ components:
         url:
           type: string
           format: uri
-    PaginationMeta:
+    PaginationLinks:
       type: object
-      description: Applied pagination values — after defaulting and clamping, not what was requested.
+      description: Opaque pagination URLs — follow `next` until it is null; do not parse them. All three attributes are always present (null when there is no such page).
       required:
-      - pagination
+      - self
+      - next
+      - prev
       properties:
-        pagination:
-          type: object
-          required:
-          - offset
-          - limit
-          - total
-          properties:
-            offset:
-              type: integer
-              example: 0
-            limit:
-              type: integer
-              example: 10
-            total:
-              type:
-              - integer
-              - 'null'
-              description: Best-effort display data; null when a total is not available. `links.next != null` is the authoritative "more results exist" signal.
-    BedtimeStoryItem:
+        self:
+          type: string
+          example: /v1/soundscapes?offset=0&limit=10
+        next:
+          type:
+          - string
+          - 'null'
+          example: /v1/soundscapes?offset=10&limit=10
+        prev:
+          type:
+          - string
+          - 'null'
+          example: null
+    TaxonomyTerm:
       type: object
-      description: A bedtime story — a narrated audio story that helps listeners unwind and fall asleep.
+      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
       required:
       - id
-      - type
+      - slug
       - name
-      - description
-      - createdAt
-      - updatedAt
-      - locale
-      - tags
-      - conditions
-      - coreHealthBehaviors
-      - durationInSeconds
-      - media
-      - assets
       properties:
         id:
+          type:
+          - string
+          - 'null'
+          description: Stable identifier for the term; null where none exists
+        slug:
           type: string
-          format: uuid
-        type:
-          type: string
-          enum:
-          - bedtime-story
+          example: sleep
         name:
-          type: string
-          example: The Sleepy Lighthouse
-        description:
           type:
           - string
           - 'null'
-        createdAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        locale:
-          type:
-          - string
-          - 'null'
-          description: Served locale, not request echo
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-        coreHealthBehaviors:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonomyTerm'
-        durationInSeconds:
-          type: integer
-          example: 1200
-        media:
-          type: array
-          items:
-            $ref: '#/components/schemas/MediaEntry'
-          description: Playable renditions — the bedtime story audio file
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetEntry'
-          description: Supporting files — captions and imagery
+          example: Sleep
     SoundscapeItem:
       type: object
       description: A soundscape — an ambient audio track that supports focus, relaxation, and sleep.
@@ -626,27 +551,102 @@ components:
           items:
             $ref: '#/components/schemas/AssetEntry'
           description: Supporting files — captions and imagery
-    TaxonomyTerm:
+    BedtimeStoryItem:
       type: object
-      description: One shape for all taxonomy layers (`tags`, `conditions`, `coreHealthBehaviors`). `id` is the durable key — persist this, not `slug`. `slug` is the kebab-case machine key used in query-parameter filters and may change if the term is renamed. `name` is the display string.
+      description: A bedtime story — a narrated audio story that helps listeners unwind and fall asleep.
       required:
       - id
-      - slug
+      - type
       - name
+      - description
+      - createdAt
+      - updatedAt
+      - locale
+      - tags
+      - conditions
+      - coreHealthBehaviors
+      - durationInSeconds
+      - media
+      - assets
       properties:
         id:
-          type:
-          - string
-          - 'null'
-          description: Stable identifier for the term; null where none exists
-        slug:
           type: string
-          example: sleep
+          format: uuid
+        type:
+          type: string
+          enum:
+          - bedtime-story
         name:
+          type: string
+          example: The Sleepy Lighthouse
+        description:
           type:
           - string
           - 'null'
-          example: Sleep
+        createdAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        locale:
+          type:
+          - string
+          - 'null'
+          description: Served locale, not request echo
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        coreHealthBehaviors:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxonomyTerm'
+        durationInSeconds:
+          type: integer
+          example: 1200
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaEntry'
+          description: Playable renditions — the bedtime story audio file
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetEntry'
+          description: Supporting files — captions and imagery
+    PaginationMeta:
+      type: object
+      description: Applied pagination values — after defaulting and clamping, not what was requested.
+      required:
+      - pagination
+      properties:
+        pagination:
+          type: object
+          required:
+          - offset
+          - limit
+          - total
+          properties:
+            offset:
+              type: integer
+              example: 0
+            limit:
+              type: integer
+              example: 10
+            total:
+              type:
+              - integer
+              - 'null'
+              description: Best-effort display data; null when a total is not available. `links.next != null` is the authoritative "more results exist" signal.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
