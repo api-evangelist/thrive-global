@@ -15,6 +15,19 @@
   relationship: distribution-channel
   status: not-a-workflow
   arazzo: null
+- slug: thrive-global-genesys-own
+  label: Genesys (own)
+  partner: genesys
+  partner_name: Genesys (own)
+  category: businessOptimization|workforceManagement
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://appfoundry.genesys.com/filter/genesyscloud/listing/2c9882a8-6560-4ce4-8851-7012807d6033
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
 - slug: thrive-global-microsoft-teams-own
   label: Microsoft Teams (own)
   partner: microsoft-teams

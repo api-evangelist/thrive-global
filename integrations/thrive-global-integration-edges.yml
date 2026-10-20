@@ -1,6 +1,7 @@
 generated: '2026-10-13'
 method: searched
 checked:
+- genesys/integrations/genesys-integration-edges.yml
 - https://azuremarketplace.microsoft.com/
 - microsoft-teams/integrations/microsoft-teams-integration-edges.yml
 - slack/integrations/slack-integration-edges.yml
@@ -22,6 +23,27 @@ edges:
   seller_name: Thrive Global Holdings Inc.
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
+- partner_name: Genesys (own)
+  partner: genesys
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://appfoundry.genesys.com/filter/genesyscloud/listing/2c9882a8-6560-4ce4-8851-7012807d6033
+  mirror_of: genesys/integrations/genesys-integration-edges.yml
+  apps:
+  - Thrive Reset
+  listing_count: 1
+  detected: '2026-10-20'
+  detected_by: mirror-platform-listings.py
+  category: businessOptimization|workforceManagement
+  publisher_verified:
+  - attestation:gdpr
+  - attestation:hipaa
+  - attestation:soc2
 - partner_name: Microsoft Teams (own)
   partner: microsoft-teams
   partner_match: mirror
