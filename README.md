@@ -64,11 +64,129 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Thrive Global is the behavior-change technology company founded by Arianna Huffington that helps employers and healthcare organizations improve wellbeing through Microsteps across five daily behaviors: Connection, Food, Movement, Sleep, and Stress Management.
+Thrive Global is the behavior-change technology company founded by Arianna Huffington that helps employers and healthcare organizations improve wellbeing through Microsteps across five daily behaviors: Connection, Food, Movement, Sleep, and Stress Management. Its Partner API (documented at developers.thriveglobal.com) serves the Thrive content library - Resets, stories, microsteps, challenges, learning courses, podcasts, meditations, soundscapes, bedtime stories, and chronic-condition programs - and an official MCP server at mcp.thriveglobal.com exposes user wellbeing data and actions to AI assistants.
 
-- Partner API portal: https://developers.thriveglobal.com/ (OpenAPI 3.0.0, 31 operations over the Thrive content library)
-- Base URL: https://partners-api.thriveglobal.com (staging: https://partners-api-stag.thriveglobal.com)
-- Official MCP server: https://mcp.thriveglobal.com/mcp (OAuth 2.0/OIDC, 9 tools)
-- Status: https://partners-api.thriveglobal.com/status
+**Areas:** Company · Consumer · Wellness · Wellbeing · Behavior Change · Content · Healthcare · Employee Experience
 
-Backed by: ivp — https://www.thriveglobal.com
+## Thrive Global on APIs.io
+
+Everything profiled for Thrive Global is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/thrive-global/](https://apis.io/providers/thrive-global/)** — or go straight to one of the APIs or properties below.
+
+### APIs (8)
+
+- [Thrive Global audio experiences API](https://apis.io/apis/thrive-global/thrive-global-audio-experiences-api/) — Ambient soundscapes and narrated bedtime stories — audio for focus, relaxation, and sleep
+- [Thrive Global Auth API](https://apis.io/apis/thrive-global/thrive-global-auth-api/) — Partner authentication
+- [Thrive Global Content API](https://apis.io/apis/thrive-global/thrive-global-content-api/) — Microsteps, challenges, courses, podcasts, and journey videos
+- [Thrive Global Meditations API](https://apis.io/apis/thrive-global/thrive-global-meditations-api/) — Guided meditations — video sessions for relaxation, sleep, and stress management
+- [Thrive Global Programs API](https://apis.io/apis/thrive-global/thrive-global-programs-api/) — Chronic condition programs (e.g. GLP-1 Companion)
+- [Thrive Global Resets API](https://apis.io/apis/thrive-global/thrive-global-resets-api/) — Thrive Reset video and audio content
+- [Thrive Global Search API](https://apis.io/apis/thrive-global/thrive-global-search-api/) — Search the full Thrive content library (premium capability — contact your Thrive Global representative to enable)
+- [Thrive Global Stories API](https://apis.io/apis/thrive-global/thrive-global-stories-api/) — Articles, role model stories, and recipes
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [thrive](https://apis.io/servers/thrive-global/thrive/)
+
+#### Collections (8)
+
+Postman and Open Collection request collections.
+
+- [Thrive Global Partner audio experiences API](https://apis.io/collections/thrive-global/open-thrive-global-audio-experiences-api/)
+- [Thrive Global Partner audio experiences auth API](https://apis.io/collections/thrive-global/open-thrive-global-auth-api/)
+- [Thrive Global Partner audio experiences content API](https://apis.io/collections/thrive-global/open-thrive-global-content-api/)
+- [Thrive Global Partner audio experiences meditations API](https://apis.io/collections/thrive-global/open-thrive-global-meditations-api/)
+- [Thrive Global Partner audio experiences programs API](https://apis.io/collections/thrive-global/open-thrive-global-programs-api/)
+- [Thrive Global Partner audio experiences resets API](https://apis.io/collections/thrive-global/open-thrive-global-resets-api/)
+- [Thrive Global Partner audio experiences search API](https://apis.io/collections/thrive-global/open-thrive-global-search-api/)
+- [Thrive Global Partner audio experiences stories API](https://apis.io/collections/thrive-global/open-thrive-global-stories-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Thrive Global Partner Api Overlay](https://apis.io/overlays/thrive-global/thrive-global-partner-api-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Thrive Global Authentication](https://apis.io/security/thrive-global/thrive-global-authentication/)
+- [Thrive Global Domain Security](https://apis.io/security/thrive-global/thrive-global-domain-security/)
+- [Thrive Global Trust Center](https://apis.io/security/thrive-global/thrive-global-trust-center/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.thriveglobal.com)
+- [Documentation](https://developers.thriveglobal.com/)
+- [Getting started](https://developers.thriveglobal.com/getting-started)
+- [API reference](https://developers.thriveglobal.com/api-reference)
+- [Support](https://support.thriveglobal.com/hc/en-us)
+- [Blog](https://thriveglobal.com/articles)
+- [Compliance](https://thriveglobal.com/security)
+- [Terms of service](https://thriveglobal.com/terms)
+- [Privacy policy](https://thriveglobal.com/privacy)
+- [GitHub](https://github.com/thriveglobal)
+- [Status](https://partners-api.thriveglobal.com/status)
+
+## API Evangelist rating
+
+**Kin Score 38.0** — thin · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 68.3 |
+| Contract quality | 51.9 |
+| Contract governance | 4.5 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 28.0 |
+| Access clarity | 43.4 |
+
+**Agent readiness 52.9** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 23.4** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/thrive-global/](https://apis.io/providers/thrive-global/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Thrive Global: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/thrive-global/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
